@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { ChevronDown, Download, Globe } from "lucide-react";
+import Link from "next/link";
 
 export default function HomePage() {
   const router = useRouter();
@@ -150,6 +151,9 @@ export default function HomePage() {
             </div>
           )}
         </section>
+
+  <Link href='/qr' className='w-full block bg-bg-card rounded-2xl py-3 text-center'>
+  QR 인증</Link>
 
         {/* OISO 추천 관광 코스 */}
         <section className="space-y-2">
