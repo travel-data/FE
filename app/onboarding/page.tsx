@@ -22,7 +22,7 @@ export default function OnboardingPage() {
         </div>
       </div>
 
-      {/* 언어 선택 버튼 — 항상 화면 2/3 지점에 */}
+      {/* 언어 선택 버튼 - 항상 화면 2/3 지점에 */}
       <div className="absolute top-2/3 left-6 right-6">
         <div className="grid grid-cols-2 gap-3">
           {[

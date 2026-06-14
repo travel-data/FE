@@ -2,7 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useState } from "react";
+import { PhoneShell } from "../../components/mobile";
 
 const NO_PLAN_STEPS = ["long", "with-who", "theme", "prefer-vehicle"] as const;
 type NoplanStep = (typeof NO_PLAN_STEPS)[number];
@@ -33,7 +34,7 @@ function OptionButton({
   return (
     <button
       onClick={onClick}
-      className={`w-full text-left px-5 py-5 rounded-2xl text-body2 font-bold border-2 transition-colors ${
+      className={`w-full rounded-[8px] border-2 px-5 py-5 text-left text-body2 font-bold transition-colors ${
         selected
           ? "bg-primary-50 border-brand-primary text-brand-secondary"
           : "bg-bg-card border-transparent text-text-heading"
@@ -56,7 +57,7 @@ function GridOptionButton({
   return (
     <button
       onClick={onClick}
-      className={`py-5 rounded-2xl text-body2 font-bold border-2 transition-colors text-center ${
+      className={`rounded-[8px] border-2 py-5 text-center text-body2 font-bold transition-colors ${
         selected
           ? "bg-primary-50 border-brand-primary text-brand-secondary"
           : "bg-bg-card border-transparent text-text-heading"
@@ -200,49 +201,50 @@ function TravelInfoContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const step = searchParams.get("step") as NoplanStep | null;
-  const [selected, setSelected] = useState<string | null>(null);
-
-  useEffect(() => {
-    setSelected(null);
-  }, [step]);
+  const [selectedByStep, setSelectedByStep] = useState<Partial<Record<NoplanStep, string>>>({});
 
   const goToStep = (s: NoplanStep) => router.push(`/course/traveler-info?step=${s}`);
 
   const goNext = (current: NoplanStep) => {
     const next = getNextStep(current);
     if (next) goToStep(next);
-    else router.push("/course");
+    else router.push("/course?mode=recommended");
   };
 
   const totalSteps = NO_PLAN_STEPS.length;
   const currentIndex = step ? (STEP_META[step]?.index ?? 0) : null;
   const isStepScreen = step !== null && STEP_META[step] !== undefined;
+  const selected = isStepScreen ? (selectedByStep[step] ?? null) : null;
+  const setSelected = (value: string) => {
+    if (!isStepScreen) return;
+    setSelectedByStep((prev) => ({ ...prev, [step]: value }));
+  };
 
   return (
-    <div className="flex flex-col h-screen bg-bg-main">
+    <PhoneShell className="pb-[92px]">
       {/* 헤더 */}
-      <header className="shrink-0 flex items-center px-4 py-3">
-        <button onClick={() => router.back()} className="p-2 -ml-2 text-text-subdued">
+      <header className="sticky top-0 z-20 flex h-16 items-center bg-bg-main px-4">
+        <button onClick={() => router.back()} className="-ml-2 flex h-10 w-10 items-center justify-center text-text-heading">
           <ChevronLeft size={24} />
         </button>
       </header>
 
       {/* 스크롤 콘텐츠 */}
-      <main className="flex-1 overflow-y-auto px-5 pt-2">
+      <main className="px-5 pt-2">
 
         {/* 계획 여부 선택 */}
         {!isStepScreen && (
           <div className="flex flex-col gap-4 mt-4">
             <h1 className="text-title1 text-text-heading">여행 계획이 있으신가요?</h1>
             <button
-              onClick={() => router.push("/course")}
-              className="w-full bg-bg-card text-text-heading text-body2 font-bold py-5 rounded-2xl text-left px-5"
+              onClick={() => router.push("/course?mode=manual")}
+              className="w-full rounded-[8px] bg-bg-card px-5 py-5 text-left text-body2 font-bold text-text-heading"
             >
               계획이 있어요
             </button>
             <button
               onClick={() => goToStep("long")}
-              className="w-full bg-bg-card text-text-heading text-body2 font-bold py-5 rounded-2xl text-left px-5"
+              className="w-full rounded-[8px] bg-bg-card px-5 py-5 text-left text-body2 font-bold text-text-heading"
             >
               아직 계획이 없어요
             </button>
@@ -277,11 +279,11 @@ function TravelInfoContent() {
 
       {/* 하단 다음 버튼 */}
       {isStepScreen && (
-        <div className="shrink-0 px-5 pb-8 pt-3">
+        <div className="absolute bottom-0 left-5 right-5 z-20 bg-bg-main py-4">
           <button
             disabled={selected === null}
             onClick={() => step && goNext(step)}
-            className={`w-full text-body2 font-bold py-4 rounded-2xl transition-colors ${
+            className={`h-[61px] w-full rounded-[8px] text-body2 font-bold transition-colors ${
               selected !== null
                 ? "bg-brand-primary text-white"
                 : "bg-disabled text-text-subdued cursor-not-allowed"
@@ -291,7 +293,7 @@ function TravelInfoContent() {
           </button>
         </div>
       )}
-    </div>
+    </PhoneShell>
   );
 }
 

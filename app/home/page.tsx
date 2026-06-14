@@ -1,13 +1,31 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { ChevronDown, Download, Globe } from "lucide-react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ChevronDown, Download, Globe } from "lucide-react";
+import { Suspense, useState } from "react";
+import { BottomNav, OisoLogo, PhoneShell, Placeholder } from "../components/mobile";
 
-export default function HomePage() {
+const courseCards = [
+  { title: "신라 야경 코스", body: "첨성대, 동궁과 월지, 월정교를 잇는 밤 산책 코스" },
+  { title: "천년 역사 산책", body: "대릉원과 황리단길을 여유롭게 둘러보는 반나절 코스" },
+  { title: "아이와 걷는 경주", body: "이동 부담을 줄인 가족 맞춤 코스" },
+];
+
+const festivals = [
+  { title: "경주 문화유산 야행", body: "밤에 만나는 신라의 문화유산" },
+  { title: "황리단길 버스킹", body: "주말 저녁 골목 공연과 로컬 마켓" },
+  { title: "보문 호수 산책제", body: "호수 주변에서 즐기는 계절 축제" },
+];
+
+type TripState = "before" | "active";
+
+function HomeContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialState = searchParams.get("trip") === "before" ? "before" : "active";
+  const [tripState, setTripState] = useState<TripState>(initialState);
   const [isTourCardOpen, setIsTourCardOpen] = useState(false);
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("KOR");
@@ -36,23 +54,22 @@ export default function HomePage() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-bg-main">
-      {/* 상단 헤더 */}
-      <header className="shrink-0 flex items-center justify-between px-4 py-3 bg-bg-main">
-        <div className="w-10 h-10 bg-brand-primary rounded-xl" />
+    <PhoneShell className="pb-[130px]">
+      <header className="sticky top-0 z-30 flex h-[76px] items-center justify-between bg-bg-main px-4">
+        <OisoLogo compact />
         <div className="relative">
           <button
             type="button"
             aria-label="언어 선택"
             aria-expanded={isLanguageOpen}
             onClick={() => setIsLanguageOpen((isOpen) => !isOpen)}
-            className="p-2 text-text-subdued"
+            className="flex h-10 w-10 items-center justify-center rounded-[8px] text-text-heading active:bg-bg-card"
           >
-            <Globe size={22} />
+            <Globe size={24} />
           </button>
 
           {isLanguageOpen && (
-            <div className="absolute right-0 top-11 z-20 w-36 rounded-2xl border border-border-1 bg-bg-main p-1 shadow-lg">
+            <div className="absolute right-0 top-12 z-40 w-36 rounded-[8px] border border-border-1 bg-bg-main p-1 shadow-lg">
               {languages.map((language) => {
                 const isSelected = selectedLanguage === language.code;
 
@@ -64,10 +81,10 @@ export default function HomePage() {
                       setSelectedLanguage(language.code);
                       setIsLanguageOpen(false);
                     }}
-                    className={`w-full rounded-xl px-3 py-2 text-left text-label font-bold ${
+                    className={`h-10 w-full rounded-[6px] px-3 text-left text-label ${
                       isSelected
-                        ? "bg-bg-card text-text-heading"
-                        : "text-text-subdued"
+                        ? "bg-primary-50 font-bold text-primary-700"
+                        : "text-text-heading"
                     }`}
                   >
                     {language.name}
@@ -79,38 +96,75 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* 스크롤 콘텐츠 */}
-      <main className="flex-1 overflow-y-auto px-4 pb-4 space-y-3">
-
-        {/* 여정 상태 카드 */}
-        <div className="bg-bg-card rounded-2xl p-4">
-          <div className="flex items-start justify-between gap-2">
-            <div>
-              <p className="text-body2 text-text-heading font-bold leading-snug">
-                현재 진행중인 여정이 없어요
-              </p>
-              <p className="text-label text-text-subdued mt-0.5">
-                OISO와 함께 여정을 시작해보세요
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => router.push("/course/traveler-info")}
-            className="mt-4 w-full bg-bg-main border border-border-1 text-text-heading text-label font-bold py-3 rounded-full"
-          >
-            코스 추천 받으러가기
-          </button>
+      <main className="px-4">
+        <div className="mb-3 grid grid-cols-2 rounded-[8px] bg-bg-card p-1">
+          {[
+            ["before", "여행 전"],
+            ["active", "여행 중"],
+          ].map(([value, label]) => (
+            <button
+              key={value}
+              type="button"
+              onClick={() => setTripState(value as TripState)}
+              className={`h-10 rounded-[6px] text-label font-bold ${
+                tripState === value
+                  ? "bg-bg-main text-text-heading shadow-sm"
+                  : "text-text-subdued"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
-        {/* 관광카드 */}
-        <section className="bg-bg-card rounded-2xl overflow-hidden">
+        <section className="rounded-[8px] bg-bg-card p-5">
+          {tripState === "before" ? (
+            <>
+              <h1 className="text-title3 text-text-heading">현재 진행중인 여정이 없어요</h1>
+              <p className="mt-1 text-label text-text-subdued">
+                OISO와 함께 여정을 시작해보세요
+              </p>
+              <button
+                type="button"
+                onClick={() => router.push("/course/traveler-info")}
+                className="mt-5 h-14 w-full rounded-[8px] bg-bg-main text-body2 font-bold text-text-heading active:bg-gray-200"
+              >
+                코스 추천 받으러가기
+              </button>
+            </>
+          ) : (
+            <>
+              <div className="space-y-1">
+                <p className="text-caption text-text-subdued">현재 진행 중인 여정</p>
+                <h1 className="text-title3 text-text-heading">
+                  신라 야경 코스 - 첫번째 여정 진행중
+                </h1>
+              </div>
+              <div className="mt-4 flex items-center gap-2">
+                <strong className="text-title3 text-text-heading">첨성대</strong>
+                <span className="rounded-full bg-primary-50 px-3 py-1 text-caption text-primary-600">
+                  코스 공유중
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => router.push("/details?from=home-active")}
+                className="mt-4 h-14 w-full rounded-[8px] bg-bg-main text-body2 font-bold text-text-heading active:bg-gray-200"
+              >
+                진행중인 여정 보러가기
+              </button>
+            </>
+          )}
+        </section>
+
+        <section className="mt-3 rounded-[8px] bg-bg-card">
           <button
             type="button"
             aria-expanded={isTourCardOpen}
             onClick={() => setIsTourCardOpen((isOpen) => !isOpen)}
-            className="w-full px-4 py-3 flex items-center justify-between"
+            className="flex h-[52px] w-full items-center justify-between px-4"
           >
-            <span className="text-body2 text-text-heading font-bold">관광카드</span>
+            <span className="text-title3 text-text-heading">관광카드</span>
             <ChevronDown
               size={18}
               className={`text-text-subdued transition-transform ${
@@ -120,59 +174,89 @@ export default function HomePage() {
           </button>
 
           {isTourCardOpen && (
-            <div className="px-4 pb-4">
-              <div className="flex items-stretch gap-3">
-                <Image
-                  src={tourCardUrl}
-                  alt="경주 관광카드"
-                  width={112}
-                  height={160}
-                  className="w-28 h-40 shrink-0 rounded-xl object-cover border border-border-1"
-                />
-                <div className="min-w-0 flex-1 flex flex-col justify-between py-1">
-                  <div>
-                    <p className="text-body2 text-text-heading font-bold">
-                      경주 관광카드
-                    </p>
-                    <p className="text-caption text-text-subdued mt-1">
-                      카드 이미지를 저장해 오프라인에서도 확인하세요
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={downloadTourCard}
-                    className="mt-3 w-full bg-brand-primary text-white text-label font-bold py-3 rounded-full flex items-center justify-center gap-2 active:bg-pressed"
-                  >
-                    <Download size={16} />
-                    카드 다운받기
-                  </button>
-                </div>
+            <div className="grid gap-3 px-4 pb-4 sm:grid-cols-[112px_1fr]">
+              <Image
+                src={tourCardUrl}
+                alt="경주 관광카드"
+                width={112}
+                height={160}
+                className="h-40 w-28 rounded-[8px] border border-border-1 object-cover"
+              />
+              <div className="min-w-0">
+                <p className="text-body2 font-bold text-text-heading">경주 관광카드</p>
+                <p className="mt-1 text-caption text-text-subdued">
+                  카드 이미지를 저장해 오프라인에서도 확인하세요
+                </p>
+                <button
+                  type="button"
+                  onClick={downloadTourCard}
+                  className="mt-3 flex h-12 w-full items-center justify-center gap-2 rounded-[8px] bg-brand-primary text-label font-bold text-white active:bg-pressed"
+                >
+                  <Download size={16} />
+                  카드 다운받기
+                </button>
               </div>
             </div>
           )}
         </section>
 
-  <Link href='/qr' className='w-full block bg-bg-card rounded-2xl py-3 text-center'>
-  QR 인증</Link>
+        <Link
+          href="/qr"
+          className="mt-3 flex h-[52px] w-full items-center justify-center rounded-[8px] bg-bg-card text-body2 font-bold text-text-heading active:bg-gray-200"
+        >
+          QR 인증
+        </Link>
 
-        {/* OISO 추천 관광 코스 */}
-        <section className="space-y-2">
-          <h4 className="text-title3 text-text-heading px-1">OISO가 추천하는 관광 코스</h4>
-          <div className="bg-bg-card rounded-2xl aspect-video relative" />
+        <section className="mt-4">
+          <h2 className="text-title3 text-text-heading">OISO가 추천하는 관광 코스</h2>
+          <div className="-mx-4 mt-3 flex snap-x gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {courseCards.map((card) => (
+              <button
+                key={card.title}
+                type="button"
+                onClick={() => router.push("/details?from=recommendation")}
+                className="flex h-[271px] w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-[8px] bg-bg-card text-left"
+              >
+                <Placeholder className="h-[150px] rounded-none text-label">사진</Placeholder>
+                <div className="p-4">
+                  <h3 className="text-body2 font-bold text-text-heading">{card.title}</h3>
+                  <p className="mt-1 text-caption text-text-subdued">{card.body}</p>
+                </div>
+              </button>
+            ))}
+          </div>
         </section>
 
-        {/* 현재 경주에서 열리고 있는 축제 */}
-        <section className="space-y-2">
-          <h4 className="text-title3 text-text-heading px-1">현재 경주에서 열리고 있는 축제</h4>
-          <div className="bg-bg-card rounded-2xl aspect-video" />
+        <section className="mt-4">
+          <h2 className="text-title3 text-text-heading">현재 경주에서 열리고 있는 축제</h2>
+          <div className="-mx-4 mt-3 flex snap-x gap-3 overflow-x-auto px-4 pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {festivals.map((festival) => (
+              <button
+                key={festival.title}
+                type="button"
+                onClick={() => router.push("/details?from=festival")}
+                className="flex h-[271px] w-[260px] shrink-0 snap-start flex-col overflow-hidden rounded-[8px] bg-bg-card text-left"
+              >
+                <Placeholder className="h-[150px] rounded-none text-label">사진</Placeholder>
+                <div className="p-4">
+                  <h3 className="text-body2 font-bold text-text-heading">{festival.title}</h3>
+                  <p className="mt-1 text-caption text-text-subdued">{festival.body}</p>
+                </div>
+              </button>
+            ))}
+          </div>
         </section>
-
       </main>
 
-      {/* 하단 네비게이션 */}
-      <nav className="shrink-0 bg-bg-card px-4 py-4 flex items-center justify-center">
-        <span className="text-label text-text-subdued">네비게이션 영역</span>
-      </nav>
-    </div>
+      <BottomNav />
+    </PhoneShell>
+  );
+}
+
+export default function HomePage() {
+  return (
+    <Suspense>
+      <HomeContent />
+    </Suspense>
   );
 }
