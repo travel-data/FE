@@ -8,6 +8,7 @@ export default function OnboardingPage() {
   const router = useRouter();
 
   const handleSelect = (lang: Language) => {
+    void lang;
     router.push("/login");
   };
 
