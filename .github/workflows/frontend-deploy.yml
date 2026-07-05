@@ -41,6 +41,6 @@ jobs:
           script: |
             cd /home/ec2-user/oiso
 
-            docker compose pull oiso-frontend
+            docker compose pull frontend
 
-            docker compose up -d oiso-frontend
+            docker compose up -d frontend
