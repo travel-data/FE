@@ -31,3 +31,16 @@ jobs:
           tags: |
             dnen14/oiso-frontend:latest
             dnen14/oiso-frontend:${{ github.sha }}
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user/oiso
+
+            docker compose pull oiso-frontend
+
+            docker compose up -d oiso-frontend
