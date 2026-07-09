@@ -1,80 +1,18 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import './styles/color.css';
+@import './styles/typography.css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
   /* ================================
-     Primitive - Primary
+     Radius
   ================================ */
-  --color-primary-50: #fff5f3;
-  --color-primary-100: #fee8e4;
-  --color-primary-200: #fccfc7;
-  --color-primary-300: #f8a89a;
-  --color-primary-400: #f07b66;
-  --color-primary-500: #d95844;
-  --color-primary-600: #be4634;
-  --color-primary-700: #9e392c;
-  --color-primary-800: #7f2e25;
-  --color-primary-900: #5f221c;
-
-  /* ================================
-     Primitive - Gray Scale
-  ================================ */
-  --color-gray-50: #f8f9fa;
-  --color-gray-100: #f1f3f5;
-  --color-gray-200: #e9ecef;
-  --color-gray-300: #dee2e6;
-  --color-gray-400: #ced4da;
-  --color-gray-500: #adb5bd;
-  --color-gray-600: #868e96;
-  --color-gray-700: #495057;
-  --color-gray-800: #343a40;
-  --color-gray-900: #212529;
-
-  /* ================================
-     Semantic - Background
-  ================================ */
-  --color-bg-main: #ffffff;
-  --color-bg-card: var(--color-gray-100);
-
-  /* ================================
-     Semantic - Border
-  ================================ */
-  --color-border-1: var(--color-gray-400);
-  --color-border-2: var(--color-gray-500);
-
-  /* ================================
-     Semantic - Text
-  ================================ */
-  --color-text-heading: var(--color-gray-900);
-  --color-text-default: var(--color-gray-800);
-  --color-text-subdued: var(--color-gray-600);
-
-  /* ================================
-     Semantic - Interaction
-  ================================ */
-  --color-hover: #dd6954;
-  --color-pressed: #c95844;
-  --color-disabled: #e9e6e5;
-
-  /* ================================
-     Semantic - Brand
-  ================================ */
-  --color-brand-primary: var(--color-primary-400);
-  --color-brand-secondary: var(--color-primary-500);
-
-  /* ================================
-     Semantic - Status
-  ================================ */
-  --color-status-success: #59bb88;
-  --color-status-warning: #f0cb66;
-  --color-status-error: #f32b2f;
-
-  /* ================================
-     Typography
-  ================================ */
-  --font-sans: 'Pretendard Variable', Pretendard, sans-serif;
+  --radius-sm: 0.5rem; /* 8px */
+  --radius-md: 0.75rem; /* 12px */
+  --radius-lg: 1rem; /* 16px */
+  --radius-xl: calc(var(--radius-lg) + 0.25rem);
 }
 
 @theme inline {
@@ -96,14 +34,9 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
 }
 
 :root {
-  --radius: 0.625rem;
   --background: var(--color-bg-main);
   --foreground: var(--color-text-default);
   --card: var(--color-bg-main);
@@ -122,72 +55,6 @@
   --border: var(--color-border-1);
   --input: var(--color-border-1);
   --ring: var(--color-brand-primary);
-}
-
-/* ================================
-   Typography Utilities
-================================ */
-@layer utilities {
-  .text-display1 {
-    font-size: 40px;
-    line-height: 140%;
-    letter-spacing: 0;
-    font-weight: 700;
-  }
-  .text-display2 {
-    font-size: 36px;
-    line-height: 140%;
-    letter-spacing: 0;
-    font-weight: 700;
-  }
-  .text-heading1 {
-    font-size: 32px;
-    line-height: 140%;
-    letter-spacing: 0;
-    font-weight: 700;
-  }
-  .text-title1 {
-    font-size: 26px;
-    line-height: 144%;
-    letter-spacing: 0;
-    font-weight: 700;
-  }
-  .text-title2 {
-    font-size: 24px;
-    line-height: 144%;
-    letter-spacing: 0;
-    font-weight: 700;
-  }
-  .text-title3 {
-    font-size: 20px;
-    line-height: 144%;
-    letter-spacing: 0;
-    font-weight: 700;
-  }
-  .text-body1 {
-    font-size: 18px;
-    line-height: 150%;
-    letter-spacing: 0;
-    font-weight: 500;
-  }
-  .text-body2 {
-    font-size: 16px;
-    line-height: 150%;
-    letter-spacing: 0;
-    font-weight: 500;
-  }
-  .text-label {
-    font-size: 14px;
-    line-height: 140%;
-    letter-spacing: 0;
-    font-weight: 500;
-  }
-  .text-caption {
-    font-size: 12px;
-    line-height: 140%;
-    letter-spacing: 0;
-    font-weight: 500;
-  }
 }
 
 body {
@@ -250,65 +117,67 @@ body {
 
 @layer base {
   h1 {
-    font-size: 32px;
-    line-height: 140%;
-    letter-spacing: 0;
-    font-weight: 700;
+    font-size: var(--text-heading1);
+    line-height: var(--text-heading1--line-height);
+    letter-spacing: var(--text-heading1--letter-spacing);
+    font-weight: var(--text-heading1--font-weight);
     color: var(--color-text-heading);
   }
   h2 {
-    font-size: 26px;
-    line-height: 144%;
-    letter-spacing: 0;
-    font-weight: 700;
+    font-size: var(--text-title1);
+    line-height: var(--text-title1--line-height);
+    letter-spacing: var(--text-title1--letter-spacing);
+    font-weight: var(--text-title1--font-weight);
     color: var(--color-text-heading);
   }
   h3 {
-    font-size: 24px;
-    line-height: 144%;
-    letter-spacing: 0;
-    font-weight: 700;
+    font-size: var(--text-title2);
+    line-height: var(--text-title2--line-height);
+    letter-spacing: var(--text-title2--letter-spacing);
+    font-weight: var(--text-title2--font-weight);
     color: var(--color-text-heading);
   }
   h4 {
-    font-size: 20px;
-    line-height: 144%;
-    letter-spacing: 0;
-    font-weight: 700;
+    font-size: var(--text-title3);
+    line-height: var(--text-title3--line-height);
+    letter-spacing: var(--text-title3--letter-spacing);
+    font-weight: var(--text-title3--font-weight);
     color: var(--color-text-heading);
   }
   h5 {
-    font-size: 18px;
-    line-height: 150%;
-    letter-spacing: 0;
+    font-size: var(--text-body1);
+    line-height: var(--text-body1--line-height);
+    letter-spacing: var(--text-body1--letter-spacing);
     font-weight: 700;
     color: var(--color-text-heading);
   }
   h6 {
-    font-size: 16px;
-    line-height: 150%;
-    letter-spacing: 0;
+    font-size: var(--text-body2);
+    line-height: var(--text-body2--line-height);
+    letter-spacing: var(--text-body2--letter-spacing);
     font-weight: 700;
     color: var(--color-text-heading);
   }
   p {
-    font-size: 16px;
-    line-height: 150%;
-    letter-spacing: 0;
-    font-weight: 500;
+    font-size: var(--text-body2);
+    line-height: var(--text-body2--line-height);
+    letter-spacing: var(--text-body2--letter-spacing);
+    font-weight: var(--text-body2--font-weight);
     color: var(--color-text-default);
   }
   label {
-    font-size: 14px;
-    line-height: 140%;
-    font-weight: 500;
+    font-size: var(--text-label);
+    line-height: var(--text-label--line-height);
+    letter-spacing: var(--text-label--letter-spacing);
+    font-weight: var(--text-label--font-weight);
     color: var(--color-text-default);
   }
   small,
   caption {
-    font-size: 12px;
-    line-height: 140%;
-    font-weight: 500;
+    font-size: var(--text-caption);
+    line-height: var(--text-caption--line-height);
+    letter-spacing: var(--text-caption--letter-spacing);
+    font-weight: var(--text-caption--font-weight);
     color: var(--color-text-subdued);
   }
   a {

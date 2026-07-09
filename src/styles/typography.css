@@ -1,0 +1,74 @@
+@theme {
+  /* ================================
+     Font Family
+  ================================ */
+  --font-sans: 'Pretendard Variable', Pretendard, sans-serif;
+
+  /* ================================
+     Display
+  ================================ */
+  --text-display1: 2.5rem; /* 40px */
+  --text-display1--line-height: 1.4;
+  --text-display1--letter-spacing: -0.02em;
+  --text-display1--font-weight: 700;
+
+  --text-display2: 2.25rem; /* 36px */
+  --text-display2--line-height: 1.4;
+  --text-display2--letter-spacing: -0.02em;
+  --text-display2--font-weight: 700;
+
+  /* ================================
+     Heading
+  ================================ */
+  --text-heading1: 2rem; /* 32px */
+  --text-heading1--line-height: 1.4;
+  --text-heading1--letter-spacing: -0.02em;
+  --text-heading1--font-weight: 700;
+
+  /* ================================
+     Title
+  ================================ */
+  --text-title1: 1.75rem; /* 28px */
+  --text-title1--line-height: 1.44;
+  --text-title1--letter-spacing: -0.02em;
+  --text-title1--font-weight: 700;
+
+  --text-title2: 1.5rem; /* 24px */
+  --text-title2--line-height: 1.44;
+  --text-title2--letter-spacing: -0.02em;
+  --text-title2--font-weight: 700;
+
+  --text-title3: 1.25rem; /* 20px */
+  --text-title3--line-height: 1.44;
+  --text-title3--letter-spacing: -0.02em;
+  --text-title3--font-weight: 600;
+
+  /* ================================
+     Body
+  ================================ */
+  --text-body1: 1.125rem; /* 18px */
+  --text-body1--line-height: 1.5;
+  --text-body1--letter-spacing: 0em;
+  --text-body1--font-weight: 500;
+
+  --text-body2: 1rem; /* 16px */
+  --text-body2--line-height: 1.5;
+  --text-body2--letter-spacing: 0em;
+  --text-body2--font-weight: 500;
+
+  /* ================================
+     Label
+  ================================ */
+  --text-label: 0.875rem; /* 14px */
+  --text-label--line-height: 1.4;
+  --text-label--letter-spacing: 0em;
+  --text-label--font-weight: 500;
+
+  /* ================================
+     Caption
+  ================================ */
+  --text-caption: 0.75rem; /* 12px */
+  --text-caption--line-height: 1.4;
+  --text-caption--letter-spacing: 0em;
+  --text-caption--font-weight: 500;
+}
