@@ -1,6 +1,11 @@
 import { Drawer } from 'vaul'
 
-export function LanguageBottomSheet({ open, onClose }) {
+interface LanguageBottomSheetProps {
+  open: boolean
+  onClose: () => void
+}
+
+export function LanguageBottomSheet({ open, onClose }: LanguageBottomSheetProps) {
   return (
     <Drawer.Root open={open} dismissible={false}>
       <Drawer.Portal>

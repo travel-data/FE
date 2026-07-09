@@ -7,7 +7,7 @@ import './lib/i18n'
 import { queryClient } from './lib/query-client'
 import { router } from './router'
 
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />

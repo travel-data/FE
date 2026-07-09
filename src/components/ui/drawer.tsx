@@ -1,8 +1,12 @@
+import { ComponentPropsWithoutRef, HTMLAttributes } from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
 import { cn } from '@/lib/utils'
 
-function Drawer({ shouldScaleBackground = true, ...props }) {
+function Drawer({
+  shouldScaleBackground = true,
+  ...props
+}: ComponentPropsWithoutRef<typeof DrawerPrimitive.Root>) {
   return (
     <DrawerPrimitive.Root
       data-slot="drawer"
@@ -12,19 +16,22 @@ function Drawer({ shouldScaleBackground = true, ...props }) {
   )
 }
 
-function DrawerTrigger(props) {
+function DrawerTrigger(props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Trigger>) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
 }
 
-function DrawerPortal(props) {
+function DrawerPortal(props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Portal>) {
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
 }
 
-function DrawerClose(props) {
+function DrawerClose(props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Close>) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 }
 
-function DrawerOverlay({ className, ...props }) {
+function DrawerOverlay({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>) {
   return (
     <DrawerPrimitive.Overlay
       data-slot="drawer-overlay"
@@ -37,7 +44,11 @@ function DrawerOverlay({ className, ...props }) {
   )
 }
 
-function DrawerContent({ className, children, ...props }) {
+function DrawerContent({
+  className,
+  children,
+  ...props
+}: ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>) {
   return (
     <DrawerPortal>
       <DrawerOverlay />
@@ -56,7 +67,10 @@ function DrawerContent({ className, children, ...props }) {
   )
 }
 
-function DrawerHeader({ className, ...props }) {
+function DrawerHeader({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       data-slot="drawer-header"
@@ -66,7 +80,10 @@ function DrawerHeader({ className, ...props }) {
   )
 }
 
-function DrawerFooter({ className, ...props }) {
+function DrawerFooter({
+  className,
+  ...props
+}: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       data-slot="drawer-footer"
@@ -76,7 +93,10 @@ function DrawerFooter({ className, ...props }) {
   )
 }
 
-function DrawerTitle({ className, ...props }) {
+function DrawerTitle({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>) {
   return (
     <DrawerPrimitive.Title
       data-slot="drawer-title"
@@ -86,7 +106,10 @@ function DrawerTitle({ className, ...props }) {
   )
 }
 
-function DrawerDescription({ className, ...props }) {
+function DrawerDescription({
+  className,
+  ...props
+}: ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>) {
   return (
     <DrawerPrimitive.Description
       data-slot="drawer-description"

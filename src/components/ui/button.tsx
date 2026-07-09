@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
+import { ComponentPropsWithoutRef } from 'react'
 import { Slot } from '@radix-ui/react-slot'
-import { cva } from 'class-variance-authority'
+import { cva, type VariantProps } from 'class-variance-authority'
 
 import { cn } from '@/lib/utils'
 
@@ -34,7 +35,13 @@ const buttonVariants = cva(
   },
 )
 
-function Button({ className, variant, size, asChild = false, ...props }) {
+interface ButtonProps
+  extends ComponentPropsWithoutRef<'button'>,
+    VariantProps<typeof buttonVariants> {
+  asChild?: boolean
+}
+
+function Button({ className, variant, size, asChild = false, ...props }: ButtonProps) {
   const Comp = asChild ? Slot : 'button'
 
   return (
