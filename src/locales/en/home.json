@@ -1,0 +1,27 @@
+{
+  "greeting": "A City of a Thousand Years <br/> Welcome to <city>Gyeongju</city>!",
+  "today_storycard_label": "Today's Gyeongju Story",
+  "weather": {
+    "title": "Weather in Gyeongju",
+    "condition_sunny": "Sunny",
+    "condition_cloudy": "Cloudy",
+    "condition_rainy": "Rainy",
+    "condition_snowy": "Snowy"
+  },
+  "course": {
+    "cta_recommend": "Get My Custom Course"
+  },
+  "course_card": {
+    "progress_rate_label": "Course Progress",
+    "in_progress": "Course in Progress",
+    "shared": "Shared"
+  },
+  "recommend_course_section": {
+    "title": "Picked Just for You by OISO",
+    "description": "Courses that let you experience Gyeongju at its best"
+  },
+  "festival_section": {
+    "title": "What's On in Gyeongju",
+    "description": "Check out events you won't want to miss before you visit"
+  }
+}

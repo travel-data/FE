@@ -1,0 +1,78 @@
+{
+  "recommend": {
+    "course_type_label": "Recommended",
+    "other_place_title": "Take a break?",
+    "other_place_description": "How about here before your next stop?"
+  },
+  "badge": {
+    "day_badge_label": "Day {{count}}"
+  },
+  "label": {
+    "course_in_progress": "Course {{count}} in Progress",
+    "estimated": "Estimated Duration"
+  },
+  "transportation": {
+    "walk": "Walking",
+    "car": "Driving",
+    "bicycle": "Cycling",
+    "public_transportation": "Public Transit"
+  },
+  "button": {
+    "course_shared": "Share Course",
+    "course_start": "Start Course",
+    "course_stop": "End Course",
+    "directions": "Directions",
+    "see_all_course": "See Full Course",
+    "next_place": "Next Place",
+    "skip": "Skip",
+    "move": "Move",
+    "shared_course": "Share Course",
+    "confirm_shared": "Share Course",
+    "confirm_stop_sharing": "Stop Sharing"
+  },
+  "shared": {
+    "add_shared_password_form_title": "Please enter <br/>a share password",
+    "edit_shared_password_form_title": "Please enter <br/>a new password",
+    "edit_shared_password_form_description": "Be sure to share the new password with your companions",
+    "alert_complete_shared_title": "Your share link is ready",
+    "alert_complete_shared_description": "Send the link and password below to your companions",
+    "alert_sharing_active_title": "This course is currently shared",
+    "alert_sharing_active_description": "You can change the password or stop sharing",
+    "alert_complete_edit_password": "Your password has been changed",
+    "create_course_link": "Course Link",
+    "create_course_password": "Share Password",
+    "check_share_link_button": "Check Share Link",
+    "check_share_link_button_description": "View the link for your <br/>shared course",
+    "edit_password_button": "Change Share Password",
+    "edit_password_button_description": "Update the password for <br/>your shared course",
+    "stop_sharing_button": "Stop Sharing",
+    "stop_sharing_button_description": "Once stopped, your companions<br/>will no longer be able to access this course"
+  },
+  "edit": {
+    "course_edit": "Edit Course",
+    "edit_transportation_button": "Change Transportation",
+    "delete_place_button": "Delete",
+    "add_place_button": "Add Place",
+    "course_edit_submit_button": "Save Changes",
+    "confrim_edit_transportation_button": "Save",
+    "confirm_delete_place_title": "Remove this place from the course",
+    "confirm_delete_place_description": "You can add it back anytime",
+    "confirm_transportation_title": "Change transportation method?",
+    "confirm_transportation_description": "Estimated duration will change based on your selection"
+  },
+  "confirm": {
+    "shared_course_title": "Share Course",
+    "shared_course_description": "Sharing lets your companions view or edit your course",
+    "stop_sharing_title": "Stop sharing this course?",
+    "stop_sharing_description": "Your course data won't be lost even after you stop sharing",
+    "add_course_place_title": "Add this place to your course?",
+    "add_break_place_description": "This place will be automatically added to your course and travel notes",
+    "add_course_place_description": "Added places will appear at the bottom of your course list",
+    "next_place": "Move to the next place?"
+  },
+  "traffic_level": {
+    "crowded": "Crowded",
+    "moderate": "Moderate",
+    "relaxed": "Not Crowded"
+  }
+}

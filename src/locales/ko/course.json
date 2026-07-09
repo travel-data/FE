@@ -1,0 +1,78 @@
+{
+  "recommend": {
+    "course_type_label": "추천코스",
+    "other_place_title": "잠깐 쉬어갈까요?",
+    "other_place_description": "다음 장소를 가기 전 이런 곳은 어떤가요?"
+  },
+  "badge": {
+    "day_badge_label": "{{count}}일차"
+  },
+  "label": {
+    "course_in_progress": "{{count}}번째 코스 진행중",
+    "estimated": "예상 소요 시간"
+  },
+  "transportation": {
+    "walk": "도보",
+    "car": "자동차",
+    "bicycle": "자전거",
+    "public_transportation": "대중교통"
+  },
+  "button": {
+    "course_shared": "코스 공유하기",
+    "course_start": "여행 시작하기",
+    "course_stop": "여행 중단하기",
+    "directions": "길찾기",
+    "see_all_course": "코스 전체보기",
+    "next_place": "다음 장소로 이동",
+    "skip": "건너뛰기",
+    "move": "이동하기",
+    "shared_course": "코스 공유하기",
+    "confirm_shared": "공유하기",
+    "confirm_stop_sharing": "중단하기"
+  },
+  "shared": {
+    "add_shared_password_form_title": "공유 비밀번호를<br/>입력해 주세요",
+    "edit_shared_password_form_title": "새 비밀번호를<br/>입력해주세요",
+    "edit_shared_password_form_description": "변경 후 동행자에게 새 비밀번호를 알려주세요",
+    "alert_complete_shared_title": "공유 링크가 생성됐어요",
+    "alert_complete_shared_description": "아래 링크와 비밀번호를 동행자에게 전달해주세요",
+    "alert_sharing_active_title": "현재 코스를 공유 중입니다",
+    "alert_sharing_active_description": "공유 비밀번호를 수정하거나 공유를 중단할 수 있어요",
+    "alert_complete_edit_password": "비밀번호가 변경됐어요",
+    "create_course_link": "생성된 코스 링크",
+    "create_course_password": "공유 비밀번호",
+    "check_share_link_button": "공유 링크 확인하기",
+    "check_share_link_button_description": "공유 중인 코스의 링크를<br/>다시 볼 수 있어요",
+    "edit_password_button": "공유 비밀번호 수정하기",
+    "edit_password_button_description": "공유 중인 코스의 비밀번호를<br/>변경 할 수 있어요",
+    "stop_sharing_button": "공유 중단하기",
+    "stop_sharing_button_description": "공유를 중단하면 동행자가 더 이상<br/>이 코스에 접근 할 수 없어요"
+  },
+  "edit": {
+    "course_edit": "코스 수정",
+    "edit_transportation_button": "이동 수단 변경하기",
+    "delete_place_button": "삭제하기",
+    "add_place_button": "장소 추가하기",
+    "course_edit_submit_button": "수정완료",
+    "confrim_edit_transportation_button": "변경하기",
+    "confirm_delete_place_title": "해당 장소를 코스에서 삭제할까요?",
+    "confirm_delete_place_description": "삭제한 장소는 다시 추가 할 수 있어요",
+    "confirm_transportation_title": "이동 수단을 변경하시겠습니까?",
+    "confirm_transportation_description": "선택된 수단에 따라 예상 소요 시간이 달라져요"
+  },
+  "confirm": {
+    "shared_course_title": "코스 공유하기",
+    "shared_course_description": "관광 코스를 공유하면 동행자가<br/> 내 코스를 수정하거나 볼 수 있어요",
+    "stop_sharing_title": "정말 공유를 중단할까요?",
+    "stop_sharing_description": "공유를 중단해도 내 코스 데이터는<br/>사라지지 않아요",
+    "add_course_place_title": "이 장소를 코스에 추가할까요?",
+    "add_break_place_description": "추가한 장소는 여행 코스와 여행 노트에 자동으로 추가됩니다",
+    "add_course_place_description": "추가한 장소들은 코스 목록 맨 아래에 추가돼요",
+    "next_place": "다음 장소로 이동하시겠어요?"
+  },
+  "traffic_level": {
+    "crowded": "혼잡",
+    "moderate": "보통",
+    "relaxed": "여유"
+  }
+}

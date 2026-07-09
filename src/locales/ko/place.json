@@ -1,0 +1,28 @@
+{
+  "type": {
+    "attraction": "관광지",
+    "restaurant": "음식점",
+    "cafe": "카페"
+  },
+  "button": {
+    "directions_link": "길찾기"
+  },
+  "detail": {
+    "description_title": "장소 설명",
+    "signature_menu_title": "대표 메뉴",
+    "storycard_title": "이 곳에 숨겨진 이야기가 있어요",
+    "storycard_description": "이 장소에 얽힌 역사와 설화를 만나보세요",
+    "storycard_badge": "스토리카드",
+    "stamp_title": "여행에 재미를 더하는 스탬프 미션",
+    "stamp_description": "미션을 완료할수록 여행이 더 특별해져요"
+  },
+  "business_hours": "영업시간",
+  "search": {
+    "list_title": "함께 둘러보기 좋은 곳"
+  },
+  "storycard": {
+    "scroll_hint": "스크롤하여 더 보기",
+    "insight": "이 장소에서 무엇을 보게 되나요?",
+    "tip": "알아두면 좋아요!"
+  }
+}
