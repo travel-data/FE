@@ -1,30 +1,6 @@
-import {
-  Navigate,
-  Outlet,
-  createRootRoute,
-  createRoute,
-  createRouter,
-} from '@tanstack/react-router'
+import { createRouter } from '@tanstack/react-router'
 
-import LoginPage from '@/pages/LoginPage'
-
-const rootRoute = createRootRoute({
-  component: () => <Outlet />,
-})
-
-const indexRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/',
-  component: () => <Navigate to="/login" replace />,
-})
-
-const loginRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/login',
-  component: LoginPage,
-})
-
-const routeTree = rootRoute.addChildren([indexRoute, loginRoute])
+import { routeTree } from './routeTree.gen'
 
 export const router = createRouter({ routeTree })
 
