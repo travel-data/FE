@@ -8,7 +8,7 @@ interface PhoneShellProps {
 export function PhoneShell({ children, className = '' }: PhoneShellProps) {
   return (
     <main className="phone-shell">
-      <section className={`phone-screen ${className}`}>{children}</section>
+      <div className={`phone-screen ${className}`}>{children}</div>
     </main>
   )
 }
