@@ -2,7 +2,9 @@
   "button": {
     "see_all": "See All",
     "cancel": "Cancel",
-    "copy": "Copy"
+    "copy": "Copy",
+    "korean": "Switch to Korean",
+    "english": "Switch to English"
   },
   "nav": {
     "home": "Home",
@@ -20,5 +22,9 @@
     "confirm_language_description": "You can change the language anytime from Home",
     "confirm_button": "Yes, Keep Current Language",
     "select_another_language": "Switch to {{language}}"
+  },
+  "or": "or",
+  "confirm": {
+    "change_language": "Chnage Language?"
   }
 }

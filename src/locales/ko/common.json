@@ -2,7 +2,9 @@
   "button": {
     "see_all": "전체보기",
     "cancel": "취소",
-    "copy": "복사"
+    "copy": "복사",
+    "korean": "한국어로 변경하기",
+    "english": "영어로 변경하기"
   },
   "nav": {
     "home": "홈",
@@ -20,5 +22,9 @@
     "confirm_language_description": "언어는 홈에서도 변경할 수 있습니다",
     "confirm_button": "네, 그대로 사용할래요",
     "select_another_language": "{{language}}로 변경"
+  },
+  "or": "또는",
+  "confirm": {
+    "change_language": "언어를 변경하시겠습니까?"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "greeting": "천년 고도의 도시 <br/> <city>경주</city>에 오신 것을 환영합니다!",
+  "greeting": "천년 고도의 도시 <br/> <1>경주</1>에 오신 것을 환영합니다!",
   "today_storycard_label": "오늘의 경주 이야기",
   "weather": {
     "title": "오늘 경주 날씨",
