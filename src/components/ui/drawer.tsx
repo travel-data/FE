@@ -16,15 +16,21 @@ function Drawer({
   )
 }
 
-function DrawerTrigger(props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Trigger>) {
+function DrawerTrigger(
+  props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Trigger>,
+) {
   return <DrawerPrimitive.Trigger data-slot="drawer-trigger" {...props} />
 }
 
-function DrawerPortal(props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Portal>) {
+function DrawerPortal(
+  props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Portal>,
+) {
   return <DrawerPrimitive.Portal data-slot="drawer-portal" {...props} />
 }
 
-function DrawerClose(props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Close>) {
+function DrawerClose(
+  props: ComponentPropsWithoutRef<typeof DrawerPrimitive.Close>,
+) {
   return <DrawerPrimitive.Close data-slot="drawer-close" {...props} />
 }
 
@@ -55,22 +61,18 @@ function DrawerContent({
       <DrawerPrimitive.Content
         data-slot="drawer-content"
         className={cn(
-          'fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-lg border bg-background',
+          'max-w-107.5 mx-auto fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-3xl bg-bg-main text-text-default',
           className,
         )}
         {...props}
       >
-        <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
         {children}
       </DrawerPrimitive.Content>
     </DrawerPortal>
   )
 }
 
-function DrawerHeader({
-  className,
-  ...props
-}: HTMLAttributes<HTMLDivElement>) {
+function DrawerHeader({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       data-slot="drawer-header"
@@ -80,10 +82,7 @@ function DrawerHeader({
   )
 }
 
-function DrawerFooter({
-  className,
-  ...props
-}: HTMLAttributes<HTMLDivElement>) {
+function DrawerFooter({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
       data-slot="drawer-footer"
@@ -100,7 +99,7 @@ function DrawerTitle({
   return (
     <DrawerPrimitive.Title
       data-slot="drawer-title"
-      className={cn('font-semibold text-foreground', className)}
+      className={cn('', className)}
       {...props}
     />
   )
