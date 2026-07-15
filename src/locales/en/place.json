@@ -1,0 +1,28 @@
+{
+  "type": {
+    "attraction": "Attraction",
+    "restaurant": "Restaurant",
+    "cafe": "Cafe"
+  },
+  "button": {
+    "directions_link": "Directions"
+  },
+  "detail": {
+    "description_title": "About This Place",
+    "signature_menu_title": "Signature Menu",
+    "storycard_title": "There's a hidden story here",
+    "storycard_description": "Discover the history and folklore behind this place",
+    "storycard_badge": "Story Card",
+    "stamp_title": "Stamp mission",
+    "stamp_description": "The more missions you complete, the more special your trip becomes"
+  },
+  "business_hours": "Business Hours",
+  "search": {
+    "list_title": "Great Spots Nearby"
+  },
+  "storycard": {
+    "scroll_hint": "Scroll for More",
+    "insight": "What's Here?",
+    "tip": "Good to Know!"
+  }
+}

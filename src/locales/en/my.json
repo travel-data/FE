@@ -1,0 +1,28 @@
+{
+  "travel_note": {
+    "title": "Notes",
+    "fallback": "No travel notes yet",
+    "course_cta_button": "Get Course Recommendations",
+    "confirm_delete_notes_title": "Remove {{course}} <br/>from your notes?",
+    "confirm_delete_notes_description": "Deleted notes can't be recovered",
+    "confirm_delete_button": "Delete",
+    "timeline": "Timeline",
+    "saved_storycard": "Saved Story Cards"
+  },
+  "memo": {
+    "title": "My Journal",
+    "empty_title": "No Notes Yet",
+    "empty_description": "Write about your experience and add photos",
+    "saved_button": "Save",
+    "edit_button": "Edit",
+    "delete_button": "Delete"
+  },
+  "place": {
+    "title": "Saved Places",
+    "empty_title": "No Saved Places"
+  },
+  "storycard": {
+    "title": "Saved Story Cards",
+    "empty_description": "No Saved Story Cards"
+  }
+}

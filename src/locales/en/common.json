@@ -1,0 +1,30 @@
+{
+  "button": {
+    "see_all": "See All",
+    "cancel": "Cancel",
+    "copy": "Copy",
+    "korean": "Switch to Korean",
+    "english": "Switch to English"
+  },
+  "nav": {
+    "home": "Home",
+    "course": "Course",
+    "travel_note": "Notes",
+    "mypage": "My"
+  },
+  "duration": {
+    "hours_one": "{{count}}hr",
+    "hours_other": "{{count}}hrs",
+    "minutes": "{{count}}min"
+  },
+  "setting": {
+    "confirm_language_title": "Would you use OISO in {{language}}?",
+    "confirm_language_description": "You can change the language anytime from Home",
+    "confirm_button": "Yes, Keep Current Language",
+    "select_another_language": "Switch to {{language}}"
+  },
+  "or": "or",
+  "confirm": {
+    "change_language": "Chnage Language?"
+  }
+}

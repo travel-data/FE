@@ -1,0 +1,27 @@
+{
+  "greeting": "천년 고도의 도시 <br/> <1>경주</1>에 오신 것을 환영합니다!",
+  "today_storycard_label": "오늘의 경주 이야기",
+  "weather": {
+    "title": "오늘 경주 날씨",
+    "condition_sunny": "맑음",
+    "condition_cloudy": "흐림",
+    "condition_rainy": "비",
+    "condition_snowy": "눈"
+  },
+  "course": {
+    "cta_recommend": "나만의 맞춤 코스  추천받기"
+  },
+  "course_card": {
+    "progress_rate_label": "코스 진행률",
+    "in_progress": "코스 진행중",
+    "shared": "코스 공유중"
+  },
+  "recommend_course_section": {
+    "title": "오이소가 직접 골라봤어요",
+    "description": "경주를 제대로 느낄 수 있는 코스들만 모아놨어요"
+  },
+  "festival_section": {
+    "title": "지금 경주에서는",
+    "description": "방문 전, 놓치면 아쉬운 행사들을 먼저 확인해보세요"
+  }
+}

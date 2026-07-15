@@ -1,0 +1,28 @@
+{
+  "travel_note": {
+    "title": "여행 노트",
+    "fallback": "등록된 여행노트가 없습니다",
+    "course_cta_button": "코스 추천 받으러가기",
+    "confirm_delete_notes_title": "{{course}}를 <br/>여행노트에서 삭제할까요?",
+    "confirm_delete_notes_description": "삭제된 여행노트는 복구되지 않아요",
+    "confirm_delete_button": "삭제하기",
+    "timeline": "여행 타임라인",
+    "saved_storycard": "저장한 스토리카드"
+  },
+  "memo": {
+    "title": "내가 작성한 메모",
+    "empty_title": "작성된 메모가 없습니다",
+    "empty_description": "해당 장소에서 느낀 점을 작성하고 이미지를 추가해보세요",
+    "saved_button": "완료",
+    "edit_button": "수정",
+    "delete_button": "삭제"
+  },
+  "place": {
+    "title": "저장한 장소",
+    "empty_title": "저장된 장소가 존재하지 않습니다"
+  },
+  "storycard": {
+    "title": "저장한 스토리카드",
+    "empty_description": "저장된 스토리카드가 없습니다"
+  }
+}

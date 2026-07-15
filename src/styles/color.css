@@ -1,0 +1,74 @@
+@theme {
+  /* ================================
+     Primitive - Primary
+  ================================ */
+  --color-primary-50: #fff2f0;
+  --color-primary-100: #fee5e1;
+  --color-primary-200: #fdcac3;
+  --color-primary-300: #fca297;
+  --color-primary-400: #fa624d;
+  --color-primary-500: #f93015;
+  --color-primary-600: #e01f06;
+  --color-primary-700: #b81a05;
+  --color-primary-800: #901404;
+  --color-primary-900: #680f03;
+
+  /* ================================
+     Primitive - Gray Scale
+  ================================ */
+  --color-gray-50: #f7f8fa;
+  --color-gray-100: #f2f3f6;
+  --color-gray-200: #eaebee;
+  --color-gray-300: #dcdee3;
+  --color-gray-400: #d1d3d8;
+  --color-gray-500: #adb1ba;
+  --color-gray-600: #868b94;
+  --color-gray-700: #4d5159;
+  --color-gray-800: #393a40;
+  --color-gray-900: #212124;
+
+  /* ================================
+     Semantic - Brand
+  ================================ */
+  --color-brand-primary: var(--color-primary-400);
+  --color-brand-secondary: var(--color-primary-500);
+
+  /* ================================
+     Semantic - Text
+  ================================ */
+  --color-text-subdued: var(--color-gray-600);
+  --color-text-default: var(--color-gray-800);
+  --color-text-heading: var(--color-gray-900);
+
+  /* ================================
+     Semantic - Background
+  ================================ */
+  --color-bg-card: var(--color-gray-100);
+  --color-bg-main: #fdfbfa;
+
+  /* ================================
+     Semantic - Border
+  ================================ */
+  --color-border-1: var(--color-gray-400);
+  --color-border-2: var(--color-gray-500);
+
+  /* ================================
+     Semantic - Interaction
+  ================================ */
+  --color-hover: #dd6954;
+  --color-active: #c95844;
+  --color-disabled: var(--color-gray-400);
+
+  /* ================================
+     Semantic - Status
+  ================================ */
+  --color-status-success: #59bb88;
+  --color-status-warning: #f0cb66;
+  --color-status-error: #f32b2f;
+
+  /* ================================
+     Semantic - Dim (Overlay)
+  ================================ */
+  --color-dim-1: #00000026;
+  --color-dim-2: #0000004d;
+}

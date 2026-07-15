@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# scripts
+oiso-i18n-service-account.json
+
+.env
+.env.local
