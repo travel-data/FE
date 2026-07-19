@@ -9,11 +9,12 @@ function useSearchAddressQuery(searchTerm: string) {
   return useInfiniteQuery({
     queryKey: QUERY_KEY.search.searchAddress(debouncedSearchTerm),
     queryFn: ({ pageParam }) =>
-      getSearchAddress({ query: searchTerm, page: pageParam }),
+      getSearchAddress({ query: debouncedSearchTerm, page: pageParam }),
     getNextPageParam: (lastPage, allPages) =>
       lastPage.meta.is_end ? undefined : allPages.length + 1,
     initialPageParam: 1,
-    enabled: !!searchTerm,
+    enabled: !!debouncedSearchTerm,
+    placeholderData: (prevData) => prevData,
   })
 }
 

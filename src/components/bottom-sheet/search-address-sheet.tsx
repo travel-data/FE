@@ -9,11 +9,11 @@ import { useTranslation } from 'react-i18next'
 import { Button } from '../ui/button'
 import MarkerIcon from '@/assets/icons/maker-icon.svg?react'
 import TargetIcon from '@/assets/icons/target-icon.svg?react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import useSearchAddressQuery from '@/hooks/queries/use-search-address-query'
 import { getGeocordAddress } from '@/services/kakao/local'
 import type { CourseDeparture } from '@/components/course/recommend/use-course-recommend-form'
-
+import { useInView } from 'react-intersection-observer'
 interface SearchAddressSheetProps {
   isOpen: boolean
   onClose: () => void
@@ -27,13 +27,22 @@ function SearchAddressSheet({
 }: SearchAddressSheetProps) {
   const [searchTerm, setSearchTerm] = useState('')
 
-  const { data, isPending } = useSearchAddressQuery(searchTerm)
+  const { ref, inView } = useInView()
+
+  const { data, isPending, hasNextPage, fetchNextPage } =
+    useSearchAddressQuery(searchTerm)
 
   const { t } = useTranslation('course')
 
   const searchResult = data?.pages
     .flatMap((page) => page.documents)
     .filter((document) => document.address_name.includes('경주'))
+
+  useEffect(() => {
+    if (inView) {
+      fetchNextPage()
+    }
+  }, [inView, fetchNextPage])
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
@@ -85,6 +94,7 @@ function SearchAddressSheet({
                     </span>
                   </li>
                 ))}
+                {hasNextPage && <li ref={ref} className="min-h-4 w-full" />}
               </ul>
             )}
           </div>
