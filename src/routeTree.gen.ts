@@ -14,7 +14,8 @@ import { Route as authenticationRouteRouteImport } from './routes/(authenticatio
 import { Route as authenticationIndexRouteImport } from './routes/(authentication)/index'
 import { Route as authenticationNoteRouteImport } from './routes/(authentication)/note'
 import { Route as authenticationMyRouteImport } from './routes/(authentication)/my'
-import { Route as authenticationCourseRouteImport } from './routes/(authentication)/course'
+import { Route as authenticationCourseIndexRouteImport } from './routes/(authentication)/course/index'
+import { Route as authenticationCourseRecommendRouteImport } from './routes/(authentication)/course/recommend'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -40,48 +41,59 @@ const authenticationMyRoute = authenticationMyRouteImport.update({
   path: '/my',
   getParentRoute: () => authenticationRouteRoute,
 } as any)
-const authenticationCourseRoute = authenticationCourseRouteImport.update({
-  id: '/course',
-  path: '/course',
-  getParentRoute: () => authenticationRouteRoute,
-} as any)
+const authenticationCourseIndexRoute =
+  authenticationCourseIndexRouteImport.update({
+    id: '/course/',
+    path: '/course/',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
+const authenticationCourseRecommendRoute =
+  authenticationCourseRecommendRouteImport.update({
+    id: '/course/recommend',
+    path: '/course/recommend',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
-  '/course': typeof authenticationCourseRoute
   '/my': typeof authenticationMyRoute
   '/note': typeof authenticationNoteRoute
   '/': typeof authenticationIndexRoute
+  '/course/recommend': typeof authenticationCourseRecommendRoute
+  '/course/': typeof authenticationCourseIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
-  '/course': typeof authenticationCourseRoute
   '/my': typeof authenticationMyRoute
   '/note': typeof authenticationNoteRoute
   '/': typeof authenticationIndexRoute
+  '/course/recommend': typeof authenticationCourseRecommendRoute
+  '/course': typeof authenticationCourseIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(authentication)': typeof authenticationRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/(authentication)/course': typeof authenticationCourseRoute
   '/(authentication)/my': typeof authenticationMyRoute
   '/(authentication)/note': typeof authenticationNoteRoute
   '/(authentication)/': typeof authenticationIndexRoute
+  '/(authentication)/course/recommend': typeof authenticationCourseRecommendRoute
+  '/(authentication)/course/': typeof authenticationCourseIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/course' | '/my' | '/note' | '/'
+  fullPaths: '/login' | '/my' | '/note' | '/' | '/course/recommend' | '/course/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/course' | '/my' | '/note' | '/'
+  to: '/login' | '/my' | '/note' | '/' | '/course/recommend' | '/course'
   id:
     | '__root__'
     | '/(authentication)'
     | '/login'
-    | '/(authentication)/course'
     | '/(authentication)/my'
     | '/(authentication)/note'
     | '/(authentication)/'
+    | '/(authentication)/course/recommend'
+    | '/(authentication)/course/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -126,28 +138,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationMyRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
-    '/(authentication)/course': {
-      id: '/(authentication)/course'
+    '/(authentication)/course/': {
+      id: '/(authentication)/course/'
       path: '/course'
-      fullPath: '/course'
-      preLoaderRoute: typeof authenticationCourseRouteImport
+      fullPath: '/course/'
+      preLoaderRoute: typeof authenticationCourseIndexRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/course/recommend': {
+      id: '/(authentication)/course/recommend'
+      path: '/course/recommend'
+      fullPath: '/course/recommend'
+      preLoaderRoute: typeof authenticationCourseRecommendRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
   }
 }
 
 interface authenticationRouteRouteChildren {
-  authenticationCourseRoute: typeof authenticationCourseRoute
   authenticationMyRoute: typeof authenticationMyRoute
   authenticationNoteRoute: typeof authenticationNoteRoute
   authenticationIndexRoute: typeof authenticationIndexRoute
+  authenticationCourseRecommendRoute: typeof authenticationCourseRecommendRoute
+  authenticationCourseIndexRoute: typeof authenticationCourseIndexRoute
 }
 
 const authenticationRouteRouteChildren: authenticationRouteRouteChildren = {
-  authenticationCourseRoute: authenticationCourseRoute,
   authenticationMyRoute: authenticationMyRoute,
   authenticationNoteRoute: authenticationNoteRoute,
   authenticationIndexRoute: authenticationIndexRoute,
+  authenticationCourseRecommendRoute: authenticationCourseRecommendRoute,
+  authenticationCourseIndexRoute: authenticationCourseIndexRoute,
 }
 
 const authenticationRouteRouteWithChildren =
