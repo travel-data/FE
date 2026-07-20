@@ -18,7 +18,9 @@ function ChangeLanguageBottomSheet({
     <Drawer open={isOpen} onOpenChange={onClose}>
       <DrawerContent>
         <DrawerHeader className="p-7">
-          <h2 className="text-title3">{t('confirm.change_language')}</h2>
+          <h2 className="text-title3 text-left">
+            {t('confirm.change_language')}
+          </h2>
         </DrawerHeader>
 
         <div className="mt-auto flex flex-col gap-2.5 px-7 pb-7">

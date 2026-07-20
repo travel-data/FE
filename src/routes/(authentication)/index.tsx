@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 
 import Symbol from '@/assets/icons/symbol.svg?react'
 import { Button } from '@/components/ui/button'
@@ -31,8 +31,8 @@ function RouteComponent() {
               components={[<br />, <span className="text-brand-primary" />]}
             />
           </p>
-          <Button size="sm" className="w-full">
-            {t('course.cta_recommend')}
+          <Button size="sm" className="w-full" asChild>
+            <Link to="/course/recommend">{t('course.cta_recommend')}</Link>
           </Button>
 
           <div className="flex items-center gap-4 py-4">

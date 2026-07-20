@@ -5,6 +5,7 @@ import CourseDetailHeader from '@/components/note/course-detail-header'
 import CourseDetailTabs from '@/components/note/course-detail-tabs'
 import CourseDateSelector from '@/components/note/course-date-selector'
 import CourseScheduleItem from '@/components/note/course-schedule-item'
+import StoryCard from '@/components/note/story-card'
 
 export const Route = createFileRoute('/(authentication)/note/$courseId')({
   component: RouteComponent,
@@ -14,7 +15,7 @@ const MOCK_COURSE_DETAIL = {
   courseName: '신라 야경 코스',
   dateRange: '26-06-09 ~ 26-06-09',
   tags: ['#여행지', '#경주', '#신라'],
-  totalDays: 6,
+  totalDays: 3,
 }
 
 const MOCK_SCHEDULES = [
@@ -51,6 +52,24 @@ const MOCK_SCHEDULES = [
   },
 ]
 
+const MOCK_STORIES = [
+  {
+    id: 1,
+    placeName: '첨성대',
+    subtitle: '별을 읽던 신라의 탑',
+  },
+  {
+    id: 2,
+    placeName: '대릉원',
+    subtitle: '고분 속 숨겨진 이야기',
+  },
+  {
+    id: 3,
+    placeName: '동궁과 월지',
+    subtitle: '달빛이 비치는 연못',
+  },
+]
+
 function RouteComponent() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState<'timeline' | 'story'>('timeline')
@@ -76,41 +95,42 @@ function RouteComponent() {
 
       <main className="flex-1 overflow-y-auto bg-white pb-24">
         <CourseDetailTabs activeTab={activeTab} onTabChange={setActiveTab} />
-        <CourseDateSelector
-          selectedDay={selectedDay}
-          totalDays={MOCK_COURSE_DETAIL.totalDays}
-          onDayChange={setSelectedDay}
-        />
 
         {activeTab === 'timeline' && (
-          <div className="relative flex flex-col">
-            {MOCK_SCHEDULES.length > 1 && (
-              <div
-                className="absolute left-[27px] w-0.5 bg-primary-400"
-                style={{
-                  top: '32px',
-                  height: `calc(100% - 64px)`,
-                }}
-              />
-            )}
-            {MOCK_SCHEDULES.map((schedule, index) => (
-              <CourseScheduleItem
-                key={schedule.id}
-                time={schedule.time}
-                placeName={schedule.placeName}
-                category={schedule.category}
-                memo={schedule.memo}
-                transportation={schedule.transportation}
-                imageUrl={schedule.imageUrl}
-                isFirst={index === 0}
-                isLast={index === MOCK_SCHEDULES.length - 1}
-              />
-            ))}
-          </div>
+          <>
+            <CourseDateSelector
+              selectedDay={selectedDay}
+              totalDays={MOCK_COURSE_DETAIL.totalDays}
+              onDayChange={setSelectedDay}
+            />
+            <div className="relative flex flex-col">
+              {MOCK_SCHEDULES.map((schedule, index) => (
+                <CourseScheduleItem
+                  key={schedule.id}
+                  time={schedule.time}
+                  placeName={schedule.placeName}
+                  category={schedule.category}
+                  memo={schedule.memo}
+                  transportation={schedule.transportation}
+                  imageUrl={schedule.imageUrl}
+                  isFirst={index === 0}
+                  isLast={index === MOCK_SCHEDULES.length - 1}
+                />
+              ))}
+            </div>
+          </>
         )}
 
         {activeTab === 'story' && (
-          <div className="px-5">저장한 스토리카드 내용</div>
+          <div className="flex flex-col gap-4 px-5">
+            {MOCK_STORIES.map((story) => (
+              <StoryCard
+                key={story.id}
+                placeName={story.placeName}
+                subtitle={story.subtitle}
+              />
+            ))}
+          </div>
         )}
       </main>
 

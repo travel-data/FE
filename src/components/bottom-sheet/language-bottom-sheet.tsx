@@ -27,7 +27,7 @@ export function LanguageBottomSheet({ isOpen }: LanguageBottomSheetProps) {
     <Drawer open={isOpen} dismissible={false}>
       <DrawerContent className="fixed inset-x-0 bottom-0 z-50 mx-auto flex w-full max-w-107.5 flex-col rounded-t-3xl bg-bg-main  text-text-default">
         <DrawerHeader className=" gap-0 mb-8  pb-0 pt-8 px-7">
-          <DrawerTitle className="!text-title3 text-text-heading">
+          <DrawerTitle className="!text-title3 text-text-heading text-left">
             {t('setting.confirm_language_title', {
               language: isKorean ? '한국어' : 'English',
             })}

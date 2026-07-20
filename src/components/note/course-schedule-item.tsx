@@ -20,7 +20,11 @@ function CourseScheduleItem({
   isLast,
 }: CourseScheduleItemProps) {
   return (
-    <div className="grid grid-cols-[auto_minmax(0,1fr)_72px] gap-3 overflow-hidden px-5 py-4">
+    <div className="relative grid grid-cols-[auto_minmax(0,1fr)_72px] gap-3 overflow-visible px-5 py-4">
+      {!isLast && (
+        <div className="absolute left-[27px] top-8 z-0 h-full w-0.5 bg-primary-400" />
+      )}
+
       <div className="relative flex shrink-0 items-start gap-1 pt-2">
         <div className="relative z-10 size-4 shrink-0 rounded-full bg-primary-400" />
         <span className="text-caption text-primary-400">{time}</span>
@@ -45,7 +49,7 @@ function CourseScheduleItem({
         </span>
       </div>
 
-      <div className="mt-2 size-18 shrink-0 justify-self-end overflow-hidden rounded-[8px] border border-gray-300 bg-gray-100">
+      <div className="mt-2 size-18 shrink-0 justify-self-end overflow-hidden rounded-[8px] bg-gray-100">
         {imageUrl && (
           <img
             src={imageUrl}
