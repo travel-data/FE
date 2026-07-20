@@ -9,13 +9,20 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginSuccessRouteImport } from './routes/login-success'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as authenticationRouteRouteImport } from './routes/(authentication)/route'
 import { Route as authenticationIndexRouteImport } from './routes/(authentication)/index'
-import { Route as authenticationNoteRouteImport } from './routes/(authentication)/note'
 import { Route as authenticationMyRouteImport } from './routes/(authentication)/my'
 import { Route as authenticationCourseRouteImport } from './routes/(authentication)/course'
+import { Route as authenticationNoteIndexRouteImport } from './routes/(authentication)/note/index'
+import { Route as authenticationNoteCourseIdRouteImport } from './routes/(authentication)/note/$courseId'
 
+const LoginSuccessRoute = LoginSuccessRouteImport.update({
+  id: '/login-success',
+  path: '/login-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -30,11 +37,6 @@ const authenticationIndexRoute = authenticationIndexRouteImport.update({
   path: '/',
   getParentRoute: () => authenticationRouteRoute,
 } as any)
-const authenticationNoteRoute = authenticationNoteRouteImport.update({
-  id: '/note',
-  path: '/note',
-  getParentRoute: () => authenticationRouteRoute,
-} as any)
 const authenticationMyRoute = authenticationMyRouteImport.update({
   id: '/my',
   path: '/my',
@@ -45,52 +47,93 @@ const authenticationCourseRoute = authenticationCourseRouteImport.update({
   path: '/course',
   getParentRoute: () => authenticationRouteRoute,
 } as any)
+const authenticationNoteIndexRoute = authenticationNoteIndexRouteImport.update({
+  id: '/note/',
+  path: '/note/',
+  getParentRoute: () => authenticationRouteRoute,
+} as any)
+const authenticationNoteCourseIdRoute =
+  authenticationNoteCourseIdRouteImport.update({
+    id: '/note/$courseId',
+    path: '/note/$courseId',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/course': typeof authenticationCourseRoute
   '/my': typeof authenticationMyRoute
-  '/note': typeof authenticationNoteRoute
   '/': typeof authenticationIndexRoute
+  '/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/note/': typeof authenticationNoteIndexRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/course': typeof authenticationCourseRoute
   '/my': typeof authenticationMyRoute
-  '/note': typeof authenticationNoteRoute
   '/': typeof authenticationIndexRoute
+  '/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/note': typeof authenticationNoteIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(authentication)': typeof authenticationRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/(authentication)/course': typeof authenticationCourseRoute
   '/(authentication)/my': typeof authenticationMyRoute
-  '/(authentication)/note': typeof authenticationNoteRoute
   '/(authentication)/': typeof authenticationIndexRoute
+  '/(authentication)/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/(authentication)/note/': typeof authenticationNoteIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/course' | '/my' | '/note' | '/'
+  fullPaths:
+    | '/login'
+    | '/login-success'
+    | '/course'
+    | '/my'
+    | '/'
+    | '/note/$courseId'
+    | '/note/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/course' | '/my' | '/note' | '/'
+  to:
+    | '/login'
+    | '/login-success'
+    | '/course'
+    | '/my'
+    | '/'
+    | '/note/$courseId'
+    | '/note'
   id:
     | '__root__'
     | '/(authentication)'
     | '/login'
+    | '/login-success'
     | '/(authentication)/course'
     | '/(authentication)/my'
-    | '/(authentication)/note'
     | '/(authentication)/'
+    | '/(authentication)/note/$courseId'
+    | '/(authentication)/note/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   authenticationRouteRoute: typeof authenticationRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
+  LoginSuccessRoute: typeof LoginSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login-success': {
+      id: '/login-success'
+      path: '/login-success'
+      fullPath: '/login-success'
+      preLoaderRoute: typeof LoginSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -112,13 +155,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationIndexRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
-    '/(authentication)/note': {
-      id: '/(authentication)/note'
-      path: '/note'
-      fullPath: '/note'
-      preLoaderRoute: typeof authenticationNoteRouteImport
-      parentRoute: typeof authenticationRouteRoute
-    }
     '/(authentication)/my': {
       id: '/(authentication)/my'
       path: '/my'
@@ -133,21 +169,37 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationCourseRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
+    '/(authentication)/note/': {
+      id: '/(authentication)/note/'
+      path: '/note'
+      fullPath: '/note/'
+      preLoaderRoute: typeof authenticationNoteIndexRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/note/$courseId': {
+      id: '/(authentication)/note/$courseId'
+      path: '/note/$courseId'
+      fullPath: '/note/$courseId'
+      preLoaderRoute: typeof authenticationNoteCourseIdRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
   }
 }
 
 interface authenticationRouteRouteChildren {
   authenticationCourseRoute: typeof authenticationCourseRoute
   authenticationMyRoute: typeof authenticationMyRoute
-  authenticationNoteRoute: typeof authenticationNoteRoute
   authenticationIndexRoute: typeof authenticationIndexRoute
+  authenticationNoteCourseIdRoute: typeof authenticationNoteCourseIdRoute
+  authenticationNoteIndexRoute: typeof authenticationNoteIndexRoute
 }
 
 const authenticationRouteRouteChildren: authenticationRouteRouteChildren = {
   authenticationCourseRoute: authenticationCourseRoute,
   authenticationMyRoute: authenticationMyRoute,
-  authenticationNoteRoute: authenticationNoteRoute,
   authenticationIndexRoute: authenticationIndexRoute,
+  authenticationNoteCourseIdRoute: authenticationNoteCourseIdRoute,
+  authenticationNoteIndexRoute: authenticationNoteIndexRoute,
 }
 
 const authenticationRouteRouteWithChildren =
@@ -156,6 +208,7 @@ const authenticationRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   authenticationRouteRoute: authenticationRouteRouteWithChildren,
   LoginRoute: LoginRoute,
+  LoginSuccessRoute: LoginSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

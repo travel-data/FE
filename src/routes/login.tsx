@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { useAuthStore } from '@/stores/auth-store'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import { startKakaoLogin } from '@/api/auth'
 
 import GoogleIcon from '@/assets/icons/logo-google.svg?react'
 import KakaoIcon from '@/assets/icons/logo-kakao.svg?react'
@@ -39,7 +40,7 @@ function RouteComponent() {
 
             <button
               type="button"
-              onClick={stay}
+              onClick={startKakaoLogin}
               className="flex h-14 w-full items-center justify-center gap-2.5 rounded-[12px] bg-[#FEE500] text-body2 text-black active:opacity-80"
             >
               <KakaoIcon />
