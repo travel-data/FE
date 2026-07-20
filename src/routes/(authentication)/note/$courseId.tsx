@@ -21,6 +21,7 @@ const MOCK_COURSE_DETAIL = {
 const MOCK_SCHEDULES = [
   {
     id: 1,
+    placeId: 101,
     time: '10:30',
     placeName: '첨성대',
     category: '관광지',
@@ -29,6 +30,7 @@ const MOCK_SCHEDULES = [
   },
   {
     id: 2,
+    placeId: 102,
     time: '12:00',
     placeName: '황남빵 본점',
     category: '음식점',
@@ -36,6 +38,7 @@ const MOCK_SCHEDULES = [
   },
   {
     id: 3,
+    placeId: 103,
     time: '14:00',
     placeName: '대릉원',
     category: '관광지',
@@ -44,6 +47,7 @@ const MOCK_SCHEDULES = [
   },
   {
     id: 4,
+    placeId: 104,
     time: '16:30',
     placeName: '동궁과 월지',
     category: '관광지',
@@ -72,6 +76,7 @@ const MOCK_STORIES = [
 
 function RouteComponent() {
   const navigate = useNavigate()
+  const { courseId } = Route.useParams()
   const [activeTab, setActiveTab] = useState<'timeline' | 'story'>('timeline')
   const [selectedDay, setSelectedDay] = useState(1)
 
@@ -81,6 +86,13 @@ function RouteComponent() {
 
   const handleDelete = () => {
     // TODO: 삭제 모달
+  }
+
+  const handlePlaceClick = (placeId: number) => {
+    navigate({
+      to: '/note/$courseId/place/$placeId',
+      params: { courseId, placeId: String(placeId) },
+    })
   }
 
   return (
@@ -107,6 +119,7 @@ function RouteComponent() {
               {MOCK_SCHEDULES.map((schedule, index) => (
                 <CourseScheduleItem
                   key={schedule.id}
+                  placeId={schedule.placeId}
                   time={schedule.time}
                   placeName={schedule.placeName}
                   category={schedule.category}
@@ -115,6 +128,7 @@ function RouteComponent() {
                   imageUrl={schedule.imageUrl}
                   isFirst={index === 0}
                   isLast={index === MOCK_SCHEDULES.length - 1}
+                  onClick={() => handlePlaceClick(schedule.placeId)}
                 />
               ))}
             </div>

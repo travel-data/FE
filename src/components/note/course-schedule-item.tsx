@@ -1,4 +1,5 @@
 interface CourseScheduleItemProps {
+  placeId: number
   time: string
   placeName: string
   category: string
@@ -7,9 +8,11 @@ interface CourseScheduleItemProps {
   imageUrl?: string
   isFirst?: boolean
   isLast?: boolean
+  onClick?: () => void
 }
 
 function CourseScheduleItem({
+  placeId,
   time,
   placeName,
   category,
@@ -18,9 +21,14 @@ function CourseScheduleItem({
   imageUrl,
   isFirst,
   isLast,
+  onClick,
 }: CourseScheduleItemProps) {
   return (
-    <div className="relative grid grid-cols-[auto_minmax(0,1fr)_72px] gap-3 overflow-visible px-5 py-4">
+    <button
+      type="button"
+      onClick={onClick}
+      className="relative grid w-full grid-cols-[auto_minmax(0,1fr)_72px] gap-3 overflow-visible px-5 py-4 text-left"
+    >
       {!isLast && (
         <div className="absolute left-[27px] top-8 z-0 h-full w-0.5 bg-primary-400" />
       )}
@@ -58,7 +66,7 @@ function CourseScheduleItem({
           />
         )}
       </div>
-    </div>
+    </button>
   )
 }
 
