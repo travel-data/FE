@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import TopBar from '@/components/layout/top-bar'
 import BottomNavBar from '@/components/layout/bottom-nav-bar'
 import NoteCourseCard from '@/components/note/note-course-card'
+import { Button } from '@/components/ui/button'
 
 export const Route = createFileRoute('/(authentication)/note/')({
   component: RouteComponent,
@@ -49,19 +50,35 @@ function RouteComponent() {
     <div className="relative flex h-svh flex-col bg-white">
       <TopBar title="여행 노트" />
 
-      <main className="flex-1 overflow-y-auto px-5 pb-24">
-        <div className="flex flex-col gap-3">
-          {MOCK_COURSES.map((course) => (
-            <NoteCourseCard
-              key={course.id}
-              courseName={course.courseName}
-              dateRange={course.dateRange}
-              distance={course.distance}
-              duration={course.duration}
-              onClick={() => handleCourseClick(course.id)}
-            />
-          ))}
-        </div>
+      <main className="flex flex-1 flex-col overflow-y-auto px-5 pb-24">
+        {MOCK_COURSES.length === 0 ? (
+          <div className="relative flex flex-1 items-center justify-center">
+            <p className="text-body1 text-text-default">
+              등록된 여행 노트가 없습니다
+            </p>
+            <Button
+              type="button"
+              size="sm"
+              className="absolute inset-x-0 bottom-2 w-full"
+              onClick={() => navigate({ to: '/course/recommend' })}
+            >
+              코스 추천받으러 가기
+            </Button>
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {MOCK_COURSES.map((course) => (
+              <NoteCourseCard
+                key={course.id}
+                courseName={course.courseName}
+                dateRange={course.dateRange}
+                distance={course.distance}
+                duration={course.duration}
+                onClick={() => handleCourseClick(course.id)}
+              />
+            ))}
+          </div>
+        )}
       </main>
 
       <BottomNavBar />
