@@ -3,6 +3,8 @@ import { useNavigate } from '@tanstack/react-router'
 
 import { LanguageBottomSheet } from '@/components/language-bottom-sheet'
 import { PhoneShell } from '@/components/mobile'
+import { Button } from '@/components/ui/button'
+import { startKakaoLogin } from '@/lib/api-client'
 
 function Divider() {
   return (
@@ -41,10 +43,10 @@ export default function LoginPage() {
               구글로 시작하기
             </button>
 
-            <button
+            <Button
               type="button"
-              onClick={stay}
-              className="flex h-14 w-full items-center justify-center gap-2.5 rounded-[12px] bg-[#FEE500] text-body2 text-black active:opacity-80"
+              onClick={startKakaoLogin}
+              className="flex h-14 w-full items-center justify-center gap-2.5 rounded-[12px] bg-[#FEE500] text-body2 text-black shadow-none hover:bg-[#FEE500] active:opacity-80"
             >
               <img
                 src="/images/icons/logo-kakao.svg"
@@ -52,7 +54,7 @@ export default function LoginPage() {
                 className="h-[18px] w-[18px]"
               />
               카카오로 시작하기
-            </button>
+            </Button>
           </div>
 
           <Divider />

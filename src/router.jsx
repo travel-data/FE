@@ -1,11 +1,6 @@
-import {
-  Navigate,
-  Outlet,
-  createRootRoute,
-  createRoute,
-  createRouter,
-} from '@tanstack/react-router'
+import { Outlet, createRootRoute, createRoute, createRouter } from '@tanstack/react-router'
 
+import HomePage from '@/pages/HomePage'
 import LoginPage from '@/pages/LoginPage'
 
 const rootRoute = createRootRoute({
@@ -15,7 +10,7 @@ const rootRoute = createRootRoute({
 const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
-  component: () => <Navigate to="/login" replace />,
+  component: HomePage,
 })
 
 const loginRoute = createRoute({
