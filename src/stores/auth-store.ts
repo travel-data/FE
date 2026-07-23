@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
+
 type AuthRole = 'user' | 'guest' | null
 
 interface AuthStoreState {
@@ -12,35 +12,28 @@ interface AuthStoreState {
   setLoading: (value: boolean) => void
 }
 
-export const useAuthStore = create(
-  persist<AuthStoreState>(
-    (set) => ({
+export const useAuthStore = create<AuthStoreState>((set) => ({
+  role: null,
+  isAuthenticated: false,
+  isLoading: true,
+  logout: () =>
+    set(() => ({
       role: null,
       isAuthenticated: false,
-      isLoading: true,
-      logout: () =>
-        set(() => ({
-          role: null,
-          isAuthenticated: false,
-        })),
-      setAuthRole: (role) =>
-        set(() => ({
-          role: role,
-        })),
-      setAuthenticated: (value) =>
-        set(() => ({
-          isAuthenticated: value,
-        })),
-      setLoading: (value) =>
-        set(() => ({
-          isLoading: value,
-        })),
-    }),
-    {
-      name: 'authRole',
-    },
-  ),
-)
+    })),
+  setAuthRole: (role) =>
+    set(() => ({
+      role,
+    })),
+  setAuthenticated: (value) =>
+    set(() => ({
+      isAuthenticated: value,
+    })),
+  setLoading: (value) =>
+    set(() => ({
+      isLoading: value,
+    })),
+}))
 
 export const useAuth = () => {
   const role = useAuthStore((state) => state.role)

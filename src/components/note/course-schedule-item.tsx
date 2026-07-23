@@ -12,14 +12,12 @@ interface CourseScheduleItemProps {
 }
 
 function CourseScheduleItem({
-  placeId,
   time,
   placeName,
   category,
   memo,
   transportation,
   imageUrl,
-  isFirst,
   isLast,
   onClick,
 }: CourseScheduleItemProps) {

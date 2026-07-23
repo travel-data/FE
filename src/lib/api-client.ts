@@ -1,62 +1,54 @@
-import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios'
+import axios, {
+  AxiosError,
+  type AxiosResponse,
+  type InternalAxiosRequestConfig,
+} from 'axios'
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
+const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:8080'
+
+type RetriableRequestConfig = InternalAxiosRequestConfig & {
+  _retry?: boolean
+}
 
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
   },
 })
 
-let isRefreshing = false
-let refreshSubscribers: ((token: string) => void)[] = []
-
-function onRefreshed(token: string) {
-  refreshSubscribers.forEach((callback) => callback(token))
-  refreshSubscribers = []
-}
-
-function addRefreshSubscriber(callback: (token: string) => void) {
-  refreshSubscribers.push(callback)
-}
+let refreshPromise: Promise<AxiosResponse<unknown>> | null = null
 
 apiClient.interceptors.response.use(
   (response) => response,
   async (error: AxiosError) => {
-    const originalRequest = error.config as InternalAxiosRequestConfig & {
-      _retry?: boolean
+    const originalRequest = error.config as RetriableRequestConfig | undefined
+    const status = error.response?.status
+    const requestUrl = originalRequest?.url ?? ''
+    const isRefreshRequest = requestUrl.includes('/api/auth/refresh')
+
+    if (
+      status !== 401 ||
+      !originalRequest ||
+      originalRequest._retry ||
+      isRefreshRequest
+    ) {
+      return Promise.reject(error)
     }
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      if (isRefreshing) {
-        return new Promise((resolve) => {
-          addRefreshSubscriber(() => {
-            resolve(apiClient(originalRequest))
-          })
-        })
-      }
+    originalRequest._retry = true
 
-      originalRequest._retry = true
-      isRefreshing = true
-
-      try {
-        await apiClient.post('/api/auth/refresh')
-        isRefreshing = false
-        onRefreshed('refreshed')
-        return apiClient(originalRequest)
-      } catch (refreshError) {
-        isRefreshing = false
-        refreshSubscribers = []
-        if (typeof window !== 'undefined') {
-          window.location.href = '/login'
-        }
-        return Promise.reject(refreshError)
-      }
+    try {
+      refreshPromise ??= apiClient.post('/api/auth/refresh')
+      await refreshPromise
+      return apiClient(originalRequest)
+    } catch (refreshError) {
+      window.location.assign('/login')
+      return Promise.reject(refreshError)
+    } finally {
+      refreshPromise = null
     }
-
-    return Promise.reject(error)
   },
 )

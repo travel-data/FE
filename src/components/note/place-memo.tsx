@@ -1,5 +1,3 @@
-import { useNavigate } from '@tanstack/react-router'
-
 interface PlaceMemoProps {
   courseId: string
   placeId: string
@@ -9,9 +7,11 @@ interface PlaceMemoProps {
   }
 }
 
-function PlaceMemo({ courseId, placeId, memo }: PlaceMemoProps) {
-  const navigate = useNavigate()
-
+function PlaceMemo({
+  courseId: _courseId,
+  placeId: _placeId,
+  memo,
+}: PlaceMemoProps) {
   const handleEdit = () => {
     // TODO: 메모 편집 페이지로 이동
     console.log('메모 편집')
@@ -48,7 +48,13 @@ function PlaceMemo({ courseId, placeId, memo }: PlaceMemoProps) {
                   <div
                     key={index}
                     className="h-50 w-full rounded-[8px] bg-gray-100"
-                  />
+                  >
+                    <img
+                      src={image}
+                      alt=""
+                      className="h-full w-full rounded-[8px] object-cover"
+                    />
+                  </div>
                 ))}
               </div>
             )}

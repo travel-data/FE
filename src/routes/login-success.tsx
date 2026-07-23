@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useAuthStore } from '@/stores/auth-store'
 import { useEffect } from 'react'
+import { useAuthStore } from '@/stores/auth-store'
 
 export const Route = createFileRoute('/login-success')({
   component: RouteComponent,
@@ -8,16 +8,14 @@ export const Route = createFileRoute('/login-success')({
 
 function RouteComponent() {
   const navigate = useNavigate()
-  const { setAuthRole, setAuthenticated } = useAuthStore()
+  const { setAuthRole, setAuthenticated, setLoading } = useAuthStore()
 
   useEffect(() => {
     setAuthRole('user')
     setAuthenticated(true)
-
-    setTimeout(() => {
-      navigate({ to: '/' })
-    }, 500)
-  }, [navigate, setAuthRole, setAuthenticated])
+    setLoading(false)
+    navigate({ to: '/', replace: true })
+  }, [navigate, setAuthRole, setAuthenticated, setLoading])
 
   return (
     <div className="flex min-h-svh items-center justify-center">

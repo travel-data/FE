@@ -306,10 +306,16 @@ function createBlockId() {
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`
 }
 
-function ensureTextBlock(blocks: MemoBlock[]) {
+function ensureTextBlock(blocks: MemoBlock[]): MemoBlock[] {
   if (blocks.some((block) => block.type === 'text')) {
     return blocks
   }
 
-  return [{ id: createBlockId(), type: 'text', value: '' }]
+  const textBlock: MemoTextBlock = {
+    id: createBlockId(),
+    type: 'text',
+    value: '',
+  }
+
+  return [textBlock]
 }

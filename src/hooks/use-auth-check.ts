@@ -18,9 +18,7 @@ export function useAuthCheck() {
     setLoading(queryLoading)
     if (authenticated !== undefined) {
       setAuthenticated(authenticated)
-      if (authenticated) {
-        setAuthRole('user')
-      }
+      setAuthRole(authenticated ? 'user' : null)
     }
   }, [authenticated, queryLoading, setAuthenticated, setLoading, setAuthRole])
 

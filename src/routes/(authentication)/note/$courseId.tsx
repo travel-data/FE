@@ -18,7 +18,18 @@ const MOCK_COURSE_DETAIL = {
   totalDays: 3,
 }
 
-const MOCK_SCHEDULES = [
+type MockSchedule = {
+  id: number
+  placeId: number
+  time: string
+  placeName: string
+  category: string
+  memo?: string
+  transportation: string
+  imageUrl?: string
+}
+
+const MOCK_SCHEDULES: MockSchedule[] = [
   {
     id: 1,
     placeId: 101,
