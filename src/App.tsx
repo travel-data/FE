@@ -1,4 +1,3 @@
-import { useTranslation } from 'react-i18next'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -17,7 +16,6 @@ import { useAppStore } from '@/stores/app-store'
 import './App.css'
 
 function App() {
-  const { t } = useTranslation()
   const count = useAppStore((state) => state.count)
   const increment = useAppStore((state) => state.increment)
 
@@ -30,7 +28,7 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>{t('getStarted')}</h1>
+          <h1>Get started</h1>
           <p>
             Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
           </p>
@@ -42,7 +40,7 @@ function App() {
           <Drawer>
             <DrawerTrigger asChild>
               <Button type="button" variant="outline">
-                {t('openSheet')}
+                Open sheet
               </Button>
             </DrawerTrigger>
             <DrawerContent>

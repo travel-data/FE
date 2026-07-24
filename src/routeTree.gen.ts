@@ -9,14 +9,23 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginSuccessRouteImport } from './routes/login-success'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as authenticationRouteRouteImport } from './routes/(authentication)/route'
 import { Route as authenticationIndexRouteImport } from './routes/(authentication)/index'
-import { Route as authenticationNoteRouteImport } from './routes/(authentication)/note'
 import { Route as authenticationMyRouteImport } from './routes/(authentication)/my'
+import { Route as authenticationNoteIndexRouteImport } from './routes/(authentication)/note/index'
 import { Route as authenticationCourseIndexRouteImport } from './routes/(authentication)/course/index'
+import { Route as authenticationNoteCourseIdRouteImport } from './routes/(authentication)/note/$courseId'
 import { Route as authenticationCourseRecommendRouteImport } from './routes/(authentication)/course/recommend'
+import { Route as authenticationNoteCourseIdPlacePlaceIdRouteImport } from './routes/(authentication)/note/$courseId_.place.$placeId'
+import { Route as authenticationNoteCourseIdPlacePlaceIdEditMemoRouteImport } from './routes/(authentication)/note/$courseId_.place.$placeId_.edit-memo'
 
+const LoginSuccessRoute = LoginSuccessRouteImport.update({
+  id: '/login-success',
+  path: '/login-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -31,14 +40,14 @@ const authenticationIndexRoute = authenticationIndexRouteImport.update({
   path: '/',
   getParentRoute: () => authenticationRouteRoute,
 } as any)
-const authenticationNoteRoute = authenticationNoteRouteImport.update({
-  id: '/note',
-  path: '/note',
-  getParentRoute: () => authenticationRouteRoute,
-} as any)
 const authenticationMyRoute = authenticationMyRouteImport.update({
   id: '/my',
   path: '/my',
+  getParentRoute: () => authenticationRouteRoute,
+} as any)
+const authenticationNoteIndexRoute = authenticationNoteIndexRouteImport.update({
+  id: '/note/',
+  path: '/note/',
   getParentRoute: () => authenticationRouteRoute,
 } as any)
 const authenticationCourseIndexRoute =
@@ -47,62 +56,124 @@ const authenticationCourseIndexRoute =
     path: '/course/',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
+const authenticationNoteCourseIdRoute =
+  authenticationNoteCourseIdRouteImport.update({
+    id: '/note/$courseId',
+    path: '/note/$courseId',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
 const authenticationCourseRecommendRoute =
   authenticationCourseRecommendRouteImport.update({
     id: '/course/recommend',
     path: '/course/recommend',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
+const authenticationNoteCourseIdPlacePlaceIdRoute =
+  authenticationNoteCourseIdPlacePlaceIdRouteImport.update({
+    id: '/note/$courseId_/place/$placeId',
+    path: '/note/$courseId/place/$placeId',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
+const authenticationNoteCourseIdPlacePlaceIdEditMemoRoute =
+  authenticationNoteCourseIdPlacePlaceIdEditMemoRouteImport.update({
+    id: '/note/$courseId_/place/$placeId_/edit-memo',
+    path: '/note/$courseId/place/$placeId/edit-memo',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/my': typeof authenticationMyRoute
-  '/note': typeof authenticationNoteRoute
   '/': typeof authenticationIndexRoute
   '/course/recommend': typeof authenticationCourseRecommendRoute
+  '/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/course/': typeof authenticationCourseIndexRoute
+  '/note/': typeof authenticationNoteIndexRoute
+  '/note/$courseId/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
+  '/note/$courseId/place/$placeId/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/my': typeof authenticationMyRoute
-  '/note': typeof authenticationNoteRoute
   '/': typeof authenticationIndexRoute
   '/course/recommend': typeof authenticationCourseRecommendRoute
+  '/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/course': typeof authenticationCourseIndexRoute
+  '/note': typeof authenticationNoteIndexRoute
+  '/note/$courseId/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
+  '/note/$courseId/place/$placeId/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(authentication)': typeof authenticationRouteRouteWithChildren
   '/login': typeof LoginRoute
+  '/login-success': typeof LoginSuccessRoute
   '/(authentication)/my': typeof authenticationMyRoute
-  '/(authentication)/note': typeof authenticationNoteRoute
   '/(authentication)/': typeof authenticationIndexRoute
   '/(authentication)/course/recommend': typeof authenticationCourseRecommendRoute
+  '/(authentication)/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/(authentication)/course/': typeof authenticationCourseIndexRoute
+  '/(authentication)/note/': typeof authenticationNoteIndexRoute
+  '/(authentication)/note/$courseId_/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
+  '/(authentication)/note/$courseId_/place/$placeId_/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/login' | '/my' | '/note' | '/' | '/course/recommend' | '/course/'
+  fullPaths:
+    | '/login'
+    | '/login-success'
+    | '/my'
+    | '/'
+    | '/course/recommend'
+    | '/note/$courseId'
+    | '/course/'
+    | '/note/'
+    | '/note/$courseId/place/$placeId'
+    | '/note/$courseId/place/$placeId/edit-memo'
   fileRoutesByTo: FileRoutesByTo
-  to: '/login' | '/my' | '/note' | '/' | '/course/recommend' | '/course'
+  to:
+    | '/login'
+    | '/login-success'
+    | '/my'
+    | '/'
+    | '/course/recommend'
+    | '/note/$courseId'
+    | '/course'
+    | '/note'
+    | '/note/$courseId/place/$placeId'
+    | '/note/$courseId/place/$placeId/edit-memo'
   id:
     | '__root__'
     | '/(authentication)'
     | '/login'
+    | '/login-success'
     | '/(authentication)/my'
-    | '/(authentication)/note'
     | '/(authentication)/'
     | '/(authentication)/course/recommend'
+    | '/(authentication)/note/$courseId'
     | '/(authentication)/course/'
+    | '/(authentication)/note/'
+    | '/(authentication)/note/$courseId_/place/$placeId'
+    | '/(authentication)/note/$courseId_/place/$placeId_/edit-memo'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   authenticationRouteRoute: typeof authenticationRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
+  LoginSuccessRoute: typeof LoginSuccessRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login-success': {
+      id: '/login-success'
+      path: '/login-success'
+      fullPath: '/login-success'
+      preLoaderRoute: typeof LoginSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -124,18 +195,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationIndexRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
-    '/(authentication)/note': {
-      id: '/(authentication)/note'
-      path: '/note'
-      fullPath: '/note'
-      preLoaderRoute: typeof authenticationNoteRouteImport
-      parentRoute: typeof authenticationRouteRoute
-    }
     '/(authentication)/my': {
       id: '/(authentication)/my'
       path: '/my'
       fullPath: '/my'
       preLoaderRoute: typeof authenticationMyRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/note/': {
+      id: '/(authentication)/note/'
+      path: '/note'
+      fullPath: '/note/'
+      preLoaderRoute: typeof authenticationNoteIndexRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
     '/(authentication)/course/': {
@@ -145,6 +216,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationCourseIndexRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
+    '/(authentication)/note/$courseId': {
+      id: '/(authentication)/note/$courseId'
+      path: '/note/$courseId'
+      fullPath: '/note/$courseId'
+      preLoaderRoute: typeof authenticationNoteCourseIdRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
     '/(authentication)/course/recommend': {
       id: '/(authentication)/course/recommend'
       path: '/course/recommend'
@@ -152,23 +230,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationCourseRecommendRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
+    '/(authentication)/note/$courseId_/place/$placeId': {
+      id: '/(authentication)/note/$courseId_/place/$placeId'
+      path: '/note/$courseId/place/$placeId'
+      fullPath: '/note/$courseId/place/$placeId'
+      preLoaderRoute: typeof authenticationNoteCourseIdPlacePlaceIdRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/note/$courseId_/place/$placeId_/edit-memo': {
+      id: '/(authentication)/note/$courseId_/place/$placeId_/edit-memo'
+      path: '/note/$courseId/place/$placeId/edit-memo'
+      fullPath: '/note/$courseId/place/$placeId/edit-memo'
+      preLoaderRoute: typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
   }
 }
 
 interface authenticationRouteRouteChildren {
   authenticationMyRoute: typeof authenticationMyRoute
-  authenticationNoteRoute: typeof authenticationNoteRoute
   authenticationIndexRoute: typeof authenticationIndexRoute
   authenticationCourseRecommendRoute: typeof authenticationCourseRecommendRoute
+  authenticationNoteCourseIdRoute: typeof authenticationNoteCourseIdRoute
   authenticationCourseIndexRoute: typeof authenticationCourseIndexRoute
+  authenticationNoteIndexRoute: typeof authenticationNoteIndexRoute
+  authenticationNoteCourseIdPlacePlaceIdRoute: typeof authenticationNoteCourseIdPlacePlaceIdRoute
+  authenticationNoteCourseIdPlacePlaceIdEditMemoRoute: typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
 
 const authenticationRouteRouteChildren: authenticationRouteRouteChildren = {
   authenticationMyRoute: authenticationMyRoute,
-  authenticationNoteRoute: authenticationNoteRoute,
   authenticationIndexRoute: authenticationIndexRoute,
   authenticationCourseRecommendRoute: authenticationCourseRecommendRoute,
+  authenticationNoteCourseIdRoute: authenticationNoteCourseIdRoute,
   authenticationCourseIndexRoute: authenticationCourseIndexRoute,
+  authenticationNoteIndexRoute: authenticationNoteIndexRoute,
+  authenticationNoteCourseIdPlacePlaceIdRoute:
+    authenticationNoteCourseIdPlacePlaceIdRoute,
+  authenticationNoteCourseIdPlacePlaceIdEditMemoRoute:
+    authenticationNoteCourseIdPlacePlaceIdEditMemoRoute,
 }
 
 const authenticationRouteRouteWithChildren =
@@ -177,6 +277,7 @@ const authenticationRouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   authenticationRouteRoute: authenticationRouteRouteWithChildren,
   LoginRoute: LoginRoute,
+  LoginSuccessRoute: LoginSuccessRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
