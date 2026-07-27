@@ -21,15 +21,17 @@ interface CourseRecommendFormProps {
     key: K,
     value: CourseRecommendFormValues[K],
   ) => void
+  onSubmit?: () => void
 }
 
-function CourseRecommendForm({ values, setValue }: CourseRecommendFormProps) {
+function CourseRecommendForm({ values, setValue, onSubmit }: CourseRecommendFormProps) {
   const [searchLocationSheet, setSearchLocationSheet] = useState(false)
 
   const { t } = useTranslation('course')
 
   const handleSubmit: SubmitEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault()
+    onSubmit?.()
   }
 
   return (
