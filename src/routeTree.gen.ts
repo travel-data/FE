@@ -18,6 +18,9 @@ import { Route as authenticationNoteIndexRouteImport } from './routes/(authentic
 import { Route as authenticationCourseIndexRouteImport } from './routes/(authentication)/course/index'
 import { Route as authenticationNoteCourseIdRouteImport } from './routes/(authentication)/note/$courseId'
 import { Route as authenticationCourseRecommendRouteImport } from './routes/(authentication)/course/recommend'
+import { Route as authenticationCourseCourseIdRouteImport } from './routes/(authentication)/course/$courseId'
+import { Route as authenticationCourseCourseIdShareEditRouteImport } from './routes/(authentication)/course/$courseId_.share-edit'
+import { Route as authenticationCourseCourseIdShareRouteImport } from './routes/(authentication)/course/$courseId_.share'
 import { Route as authenticationNoteCourseIdPlacePlaceIdRouteImport } from './routes/(authentication)/note/$courseId_.place.$placeId'
 import { Route as authenticationNoteCourseIdPlacePlaceIdEditMemoRouteImport } from './routes/(authentication)/note/$courseId_.place.$placeId_.edit-memo'
 
@@ -68,6 +71,24 @@ const authenticationCourseRecommendRoute =
     path: '/course/recommend',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
+const authenticationCourseCourseIdRoute =
+  authenticationCourseCourseIdRouteImport.update({
+    id: '/course/$courseId',
+    path: '/course/$courseId',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
+const authenticationCourseCourseIdShareEditRoute =
+  authenticationCourseCourseIdShareEditRouteImport.update({
+    id: '/course/$courseId_/share-edit',
+    path: '/course/$courseId/share-edit',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
+const authenticationCourseCourseIdShareRoute =
+  authenticationCourseCourseIdShareRouteImport.update({
+    id: '/course/$courseId_/share',
+    path: '/course/$courseId/share',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
 const authenticationNoteCourseIdPlacePlaceIdRoute =
   authenticationNoteCourseIdPlacePlaceIdRouteImport.update({
     id: '/note/$courseId_/place/$placeId',
@@ -86,10 +107,13 @@ export interface FileRoutesByFullPath {
   '/login-success': typeof LoginSuccessRoute
   '/my': typeof authenticationMyRoute
   '/': typeof authenticationIndexRoute
+  '/course/$courseId': typeof authenticationCourseCourseIdRoute
   '/course/recommend': typeof authenticationCourseRecommendRoute
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/course/': typeof authenticationCourseIndexRoute
   '/note/': typeof authenticationNoteIndexRoute
+  '/course/$courseId/share': typeof authenticationCourseCourseIdShareRoute
+  '/course/$courseId/share-edit': typeof authenticationCourseCourseIdShareEditRoute
   '/note/$courseId/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
   '/note/$courseId/place/$placeId/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
@@ -98,10 +122,13 @@ export interface FileRoutesByTo {
   '/login-success': typeof LoginSuccessRoute
   '/my': typeof authenticationMyRoute
   '/': typeof authenticationIndexRoute
+  '/course/$courseId': typeof authenticationCourseCourseIdRoute
   '/course/recommend': typeof authenticationCourseRecommendRoute
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/course': typeof authenticationCourseIndexRoute
   '/note': typeof authenticationNoteIndexRoute
+  '/course/$courseId/share': typeof authenticationCourseCourseIdShareRoute
+  '/course/$courseId/share-edit': typeof authenticationCourseCourseIdShareEditRoute
   '/note/$courseId/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
   '/note/$courseId/place/$placeId/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
@@ -112,10 +139,13 @@ export interface FileRoutesById {
   '/login-success': typeof LoginSuccessRoute
   '/(authentication)/my': typeof authenticationMyRoute
   '/(authentication)/': typeof authenticationIndexRoute
+  '/(authentication)/course/$courseId': typeof authenticationCourseCourseIdRoute
   '/(authentication)/course/recommend': typeof authenticationCourseRecommendRoute
   '/(authentication)/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/(authentication)/course/': typeof authenticationCourseIndexRoute
   '/(authentication)/note/': typeof authenticationNoteIndexRoute
+  '/(authentication)/course/$courseId_/share': typeof authenticationCourseCourseIdShareRoute
+  '/(authentication)/course/$courseId_/share-edit': typeof authenticationCourseCourseIdShareEditRoute
   '/(authentication)/note/$courseId_/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
   '/(authentication)/note/$courseId_/place/$placeId_/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
@@ -126,10 +156,13 @@ export interface FileRouteTypes {
     | '/login-success'
     | '/my'
     | '/'
+    | '/course/$courseId'
     | '/course/recommend'
     | '/note/$courseId'
     | '/course/'
     | '/note/'
+    | '/course/$courseId/share'
+    | '/course/$courseId/share-edit'
     | '/note/$courseId/place/$placeId'
     | '/note/$courseId/place/$placeId/edit-memo'
   fileRoutesByTo: FileRoutesByTo
@@ -138,10 +171,13 @@ export interface FileRouteTypes {
     | '/login-success'
     | '/my'
     | '/'
+    | '/course/$courseId'
     | '/course/recommend'
     | '/note/$courseId'
     | '/course'
     | '/note'
+    | '/course/$courseId/share'
+    | '/course/$courseId/share-edit'
     | '/note/$courseId/place/$placeId'
     | '/note/$courseId/place/$placeId/edit-memo'
   id:
@@ -151,10 +187,13 @@ export interface FileRouteTypes {
     | '/login-success'
     | '/(authentication)/my'
     | '/(authentication)/'
+    | '/(authentication)/course/$courseId'
     | '/(authentication)/course/recommend'
     | '/(authentication)/note/$courseId'
     | '/(authentication)/course/'
     | '/(authentication)/note/'
+    | '/(authentication)/course/$courseId_/share'
+    | '/(authentication)/course/$courseId_/share-edit'
     | '/(authentication)/note/$courseId_/place/$placeId'
     | '/(authentication)/note/$courseId_/place/$placeId_/edit-memo'
   fileRoutesById: FileRoutesById
@@ -230,6 +269,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationCourseRecommendRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
+    '/(authentication)/course/$courseId': {
+      id: '/(authentication)/course/$courseId'
+      path: '/course/$courseId'
+      fullPath: '/course/$courseId'
+      preLoaderRoute: typeof authenticationCourseCourseIdRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/course/$courseId_/share-edit': {
+      id: '/(authentication)/course/$courseId_/share-edit'
+      path: '/course/$courseId/share-edit'
+      fullPath: '/course/$courseId/share-edit'
+      preLoaderRoute: typeof authenticationCourseCourseIdShareEditRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/course/$courseId_/share': {
+      id: '/(authentication)/course/$courseId_/share'
+      path: '/course/$courseId/share'
+      fullPath: '/course/$courseId/share'
+      preLoaderRoute: typeof authenticationCourseCourseIdShareRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
     '/(authentication)/note/$courseId_/place/$placeId': {
       id: '/(authentication)/note/$courseId_/place/$placeId'
       path: '/note/$courseId/place/$placeId'
@@ -250,10 +310,13 @@ declare module '@tanstack/react-router' {
 interface authenticationRouteRouteChildren {
   authenticationMyRoute: typeof authenticationMyRoute
   authenticationIndexRoute: typeof authenticationIndexRoute
+  authenticationCourseCourseIdRoute: typeof authenticationCourseCourseIdRoute
   authenticationCourseRecommendRoute: typeof authenticationCourseRecommendRoute
   authenticationNoteCourseIdRoute: typeof authenticationNoteCourseIdRoute
   authenticationCourseIndexRoute: typeof authenticationCourseIndexRoute
   authenticationNoteIndexRoute: typeof authenticationNoteIndexRoute
+  authenticationCourseCourseIdShareRoute: typeof authenticationCourseCourseIdShareRoute
+  authenticationCourseCourseIdShareEditRoute: typeof authenticationCourseCourseIdShareEditRoute
   authenticationNoteCourseIdPlacePlaceIdRoute: typeof authenticationNoteCourseIdPlacePlaceIdRoute
   authenticationNoteCourseIdPlacePlaceIdEditMemoRoute: typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
@@ -261,10 +324,15 @@ interface authenticationRouteRouteChildren {
 const authenticationRouteRouteChildren: authenticationRouteRouteChildren = {
   authenticationMyRoute: authenticationMyRoute,
   authenticationIndexRoute: authenticationIndexRoute,
+  authenticationCourseCourseIdRoute: authenticationCourseCourseIdRoute,
   authenticationCourseRecommendRoute: authenticationCourseRecommendRoute,
   authenticationNoteCourseIdRoute: authenticationNoteCourseIdRoute,
   authenticationCourseIndexRoute: authenticationCourseIndexRoute,
   authenticationNoteIndexRoute: authenticationNoteIndexRoute,
+  authenticationCourseCourseIdShareRoute:
+    authenticationCourseCourseIdShareRoute,
+  authenticationCourseCourseIdShareEditRoute:
+    authenticationCourseCourseIdShareEditRoute,
   authenticationNoteCourseIdPlacePlaceIdRoute:
     authenticationNoteCourseIdPlacePlaceIdRoute,
   authenticationNoteCourseIdPlacePlaceIdEditMemoRoute:
