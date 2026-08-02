@@ -43,7 +43,8 @@
   },
   "label": {
     "course_in_progress": "Course {{count}} in Progress",
-    "estimated": "Estimated Duration"
+    "estimated": "Estimated Duration",
+    "transportation": "Travel by {{transportation}}"
   },
   "transportation": {
     "walk": "Walking",
@@ -62,10 +63,13 @@
     "move": "Move",
     "shared_course": "Share Course",
     "confirm_shared": "Share Course",
-    "confirm_stop_sharing": "Stop Sharing"
+    "confirm_stop_sharing": "Stop Sharing",
+    "course_sharing": "Sharing the course"
   },
   "shared": {
     "add_shared_password_form_title": "Please enter <br/>a share password",
+    "password_input_placeholder": "Please enter a share password",
+    "password_complete_button": "Submit",
     "edit_shared_password_form_title": "Please enter <br/>a new password",
     "edit_shared_password_form_description": "Be sure to share the new password with your companions",
     "alert_complete_shared_title": "Your share link is ready",
@@ -80,7 +84,10 @@
     "edit_password_button": "Change Share Password",
     "edit_password_button_description": "Update the password for <br/>your shared course",
     "stop_sharing_button": "Stop Sharing",
-    "stop_sharing_button_description": "Once stopped, your companions<br/>will no longer be able to access this course"
+    "stop_sharing_button_description": "Once stopped, your companions<br/>will no longer be able to access this course",
+    "close_option_sheet": "Close",
+    "view_link_title": "Shared course link",
+    "edit_password_submit_button": "Update"
   },
   "edit": {
     "course_edit": "Edit Course",

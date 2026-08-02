@@ -43,7 +43,8 @@
   },
   "label": {
     "course_in_progress": "{{count}}번째 코스 진행중",
-    "estimated": "예상 소요 시간"
+    "estimated": "예상 소요 시간",
+    "transportation": "{{transportation}}로 이동"
   },
   "transportation": {
     "walk": "도보",
@@ -62,10 +63,13 @@
     "move": "이동하기",
     "shared_course": "코스 공유하기",
     "confirm_shared": "공유하기",
-    "confirm_stop_sharing": "중단하기"
+    "confirm_stop_sharing": "중단하기",
+    "course_sharing": "코스 공유중"
   },
   "shared": {
     "add_shared_password_form_title": "공유 비밀번호를<br/>입력해 주세요",
+    "password_input_placeholder": "비밀번호를 입력해주세요",
+    "password_complete_button": "입력완료",
     "edit_shared_password_form_title": "새 비밀번호를<br/>입력해주세요",
     "edit_shared_password_form_description": "변경 후 동행자에게 새 비밀번호를 알려주세요",
     "alert_complete_shared_title": "공유 링크가 생성됐어요",
@@ -80,7 +84,10 @@
     "edit_password_button": "공유 비밀번호 수정하기",
     "edit_password_button_description": "공유 중인 코스의 비밀번호를<br/>변경 할 수 있어요",
     "stop_sharing_button": "공유 중단하기",
-    "stop_sharing_button_description": "공유를 중단하면 동행자가 더 이상<br/>이 코스에 접근 할 수 없어요"
+    "stop_sharing_button_description": "공유를 중단하면 동행자가 더 이상<br/>이 코스에 접근 할 수 없어요",
+    "close_option_sheet": "닫기",
+    "view_link_title": "공유 중인 코스 링크에요",
+    "edit_password_submit_button": "수정하기"
   },
   "edit": {
     "course_edit": "코스 수정",
