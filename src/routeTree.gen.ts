@@ -21,6 +21,8 @@ import { Route as authenticationCourseRecommendRouteImport } from './routes/(aut
 import { Route as authenticationCourseCourseIdRouteImport } from './routes/(authentication)/course/$courseId'
 import { Route as authenticationCourseCourseIdShareEditRouteImport } from './routes/(authentication)/course/$courseId_.share-edit'
 import { Route as authenticationCourseCourseIdShareRouteImport } from './routes/(authentication)/course/$courseId_.share'
+import { Route as authenticationCourseCourseIdPlaceSearchRouteImport } from './routes/(authentication)/course/$courseId_.place-search'
+import { Route as authenticationCourseCourseIdEditRouteImport } from './routes/(authentication)/course/$courseId_.edit'
 import { Route as authenticationNoteCourseIdPlacePlaceIdRouteImport } from './routes/(authentication)/note/$courseId_.place.$placeId'
 import { Route as authenticationNoteCourseIdPlacePlaceIdEditMemoRouteImport } from './routes/(authentication)/note/$courseId_.place.$placeId_.edit-memo'
 
@@ -89,6 +91,18 @@ const authenticationCourseCourseIdShareRoute =
     path: '/course/$courseId/share',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
+const authenticationCourseCourseIdPlaceSearchRoute =
+  authenticationCourseCourseIdPlaceSearchRouteImport.update({
+    id: '/course/$courseId_/place-search',
+    path: '/course/$courseId/place-search',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
+const authenticationCourseCourseIdEditRoute =
+  authenticationCourseCourseIdEditRouteImport.update({
+    id: '/course/$courseId_/edit',
+    path: '/course/$courseId/edit',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
 const authenticationNoteCourseIdPlacePlaceIdRoute =
   authenticationNoteCourseIdPlacePlaceIdRouteImport.update({
     id: '/note/$courseId_/place/$placeId',
@@ -112,6 +126,8 @@ export interface FileRoutesByFullPath {
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/course/': typeof authenticationCourseIndexRoute
   '/note/': typeof authenticationNoteIndexRoute
+  '/course/$courseId/edit': typeof authenticationCourseCourseIdEditRoute
+  '/course/$courseId/place-search': typeof authenticationCourseCourseIdPlaceSearchRoute
   '/course/$courseId/share': typeof authenticationCourseCourseIdShareRoute
   '/course/$courseId/share-edit': typeof authenticationCourseCourseIdShareEditRoute
   '/note/$courseId/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
@@ -127,6 +143,8 @@ export interface FileRoutesByTo {
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/course': typeof authenticationCourseIndexRoute
   '/note': typeof authenticationNoteIndexRoute
+  '/course/$courseId/edit': typeof authenticationCourseCourseIdEditRoute
+  '/course/$courseId/place-search': typeof authenticationCourseCourseIdPlaceSearchRoute
   '/course/$courseId/share': typeof authenticationCourseCourseIdShareRoute
   '/course/$courseId/share-edit': typeof authenticationCourseCourseIdShareEditRoute
   '/note/$courseId/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
@@ -144,6 +162,8 @@ export interface FileRoutesById {
   '/(authentication)/note/$courseId': typeof authenticationNoteCourseIdRoute
   '/(authentication)/course/': typeof authenticationCourseIndexRoute
   '/(authentication)/note/': typeof authenticationNoteIndexRoute
+  '/(authentication)/course/$courseId_/edit': typeof authenticationCourseCourseIdEditRoute
+  '/(authentication)/course/$courseId_/place-search': typeof authenticationCourseCourseIdPlaceSearchRoute
   '/(authentication)/course/$courseId_/share': typeof authenticationCourseCourseIdShareRoute
   '/(authentication)/course/$courseId_/share-edit': typeof authenticationCourseCourseIdShareEditRoute
   '/(authentication)/note/$courseId_/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
@@ -161,6 +181,8 @@ export interface FileRouteTypes {
     | '/note/$courseId'
     | '/course/'
     | '/note/'
+    | '/course/$courseId/edit'
+    | '/course/$courseId/place-search'
     | '/course/$courseId/share'
     | '/course/$courseId/share-edit'
     | '/note/$courseId/place/$placeId'
@@ -176,6 +198,8 @@ export interface FileRouteTypes {
     | '/note/$courseId'
     | '/course'
     | '/note'
+    | '/course/$courseId/edit'
+    | '/course/$courseId/place-search'
     | '/course/$courseId/share'
     | '/course/$courseId/share-edit'
     | '/note/$courseId/place/$placeId'
@@ -192,6 +216,8 @@ export interface FileRouteTypes {
     | '/(authentication)/note/$courseId'
     | '/(authentication)/course/'
     | '/(authentication)/note/'
+    | '/(authentication)/course/$courseId_/edit'
+    | '/(authentication)/course/$courseId_/place-search'
     | '/(authentication)/course/$courseId_/share'
     | '/(authentication)/course/$courseId_/share-edit'
     | '/(authentication)/note/$courseId_/place/$placeId'
@@ -290,6 +316,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationCourseCourseIdShareRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
+    '/(authentication)/course/$courseId_/place-search': {
+      id: '/(authentication)/course/$courseId_/place-search'
+      path: '/course/$courseId/place-search'
+      fullPath: '/course/$courseId/place-search'
+      preLoaderRoute: typeof authenticationCourseCourseIdPlaceSearchRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/course/$courseId_/edit': {
+      id: '/(authentication)/course/$courseId_/edit'
+      path: '/course/$courseId/edit'
+      fullPath: '/course/$courseId/edit'
+      preLoaderRoute: typeof authenticationCourseCourseIdEditRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
     '/(authentication)/note/$courseId_/place/$placeId': {
       id: '/(authentication)/note/$courseId_/place/$placeId'
       path: '/note/$courseId/place/$placeId'
@@ -315,6 +355,8 @@ interface authenticationRouteRouteChildren {
   authenticationNoteCourseIdRoute: typeof authenticationNoteCourseIdRoute
   authenticationCourseIndexRoute: typeof authenticationCourseIndexRoute
   authenticationNoteIndexRoute: typeof authenticationNoteIndexRoute
+  authenticationCourseCourseIdEditRoute: typeof authenticationCourseCourseIdEditRoute
+  authenticationCourseCourseIdPlaceSearchRoute: typeof authenticationCourseCourseIdPlaceSearchRoute
   authenticationCourseCourseIdShareRoute: typeof authenticationCourseCourseIdShareRoute
   authenticationCourseCourseIdShareEditRoute: typeof authenticationCourseCourseIdShareEditRoute
   authenticationNoteCourseIdPlacePlaceIdRoute: typeof authenticationNoteCourseIdPlacePlaceIdRoute
@@ -329,6 +371,9 @@ const authenticationRouteRouteChildren: authenticationRouteRouteChildren = {
   authenticationNoteCourseIdRoute: authenticationNoteCourseIdRoute,
   authenticationCourseIndexRoute: authenticationCourseIndexRoute,
   authenticationNoteIndexRoute: authenticationNoteIndexRoute,
+  authenticationCourseCourseIdEditRoute: authenticationCourseCourseIdEditRoute,
+  authenticationCourseCourseIdPlaceSearchRoute:
+    authenticationCourseCourseIdPlaceSearchRoute,
   authenticationCourseCourseIdShareRoute:
     authenticationCourseCourseIdShareRoute,
   authenticationCourseCourseIdShareEditRoute:
