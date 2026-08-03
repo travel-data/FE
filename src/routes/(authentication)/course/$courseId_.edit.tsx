@@ -146,7 +146,6 @@ function RouteComponent() {
           ))}
         </Tabs>
       </div>
-      s
       <div className="p-4 flex w-full gap-4">
         <Button
           variant={dragMode ? 'solid' : 'soft'}
