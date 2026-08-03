@@ -211,7 +211,16 @@ function RouteComponent() {
           <TopBar
             leftSlot={<BackButton />}
             rightSlot={
-              <Button variant="icon" size="icon">
+              <Button
+                onClick={() =>
+                  navigate({
+                    to: '/course/$courseId/edit',
+                    params: { courseId },
+                  })
+                }
+                variant="icon"
+                size="icon"
+              >
                 <Pencil className="text-text-heading" />
               </Button>
             }
