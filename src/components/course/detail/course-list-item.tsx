@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 
-export type TransportationType = 'walk' | 'car' | 'bicycle' | 'public_transportation'
+export type TransportationType = 'walk' | 'car' | 'bicycle'
 
 export interface CourseListItemProps {
   index: number
@@ -36,7 +36,9 @@ function CourseListItem({
         <div className="flex items-start gap-4">
           <div className="flex-1">
             <p className="text-body1 font-bold text-text-heading">{name}</p>
-            <p className="text-label text-text-default font-semibold">{address}</p>
+            <p className="text-label text-text-default font-semibold">
+              {address}
+            </p>
             <p className="text-caption text-text-subdued mt-1">{description}</p>
           </div>
           <div className="size-21.5 shrink-0 rounded-md bg-gray-200" />

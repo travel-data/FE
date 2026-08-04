@@ -104,7 +104,7 @@ function ShareLinkDrawer({
         <DrawerFooter className="flex-row gap-3 p-0">
           <DrawerClose asChild>
             <Button variant="soft" className="flex-1">
-              {t('button.cancel', { ns: 'common' })}
+              {t('shared.close_option_sheet')}
             </Button>
           </DrawerClose>
           <Button className="flex-1" onClick={handleShare}>

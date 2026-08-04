@@ -100,7 +100,7 @@ function ShareOptionButton({
         <p className="text-label text-text-subdued">{description}</p>
       </div>
 
-      <RightArrowIcon />
+      <RightArrowIcon className="fill-text-subdued" />
     </button>
   )
 }
