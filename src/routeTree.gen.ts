@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginSuccessRouteImport } from './routes/login-success'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as authenticationRouteRouteImport } from './routes/(authentication)/route'
+import { Route as FestivalIndexRouteImport } from './routes/festival/index'
 import { Route as authenticationIndexRouteImport } from './routes/(authentication)/index'
+import { Route as FestivalFestivalIdRouteImport } from './routes/festival/$festivalId'
 import { Route as authenticationMyRouteImport } from './routes/(authentication)/my'
 import { Route as authenticationNoteIndexRouteImport } from './routes/(authentication)/note/index'
 import { Route as authenticationCourseIndexRouteImport } from './routes/(authentication)/course/index'
@@ -40,10 +42,20 @@ const authenticationRouteRoute = authenticationRouteRouteImport.update({
   id: '/(authentication)',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FestivalIndexRoute = FestivalIndexRouteImport.update({
+  id: '/festival/',
+  path: '/festival/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const authenticationIndexRoute = authenticationIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => authenticationRouteRoute,
+} as any)
+const FestivalFestivalIdRoute = FestivalFestivalIdRouteImport.update({
+  id: '/festival/$festivalId',
+  path: '/festival/$festivalId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const authenticationMyRoute = authenticationMyRouteImport.update({
   id: '/my',
@@ -120,7 +132,9 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/login-success': typeof LoginSuccessRoute
   '/my': typeof authenticationMyRoute
+  '/festival/$festivalId': typeof FestivalFestivalIdRoute
   '/': typeof authenticationIndexRoute
+  '/festival/': typeof FestivalIndexRoute
   '/course/$courseId': typeof authenticationCourseCourseIdRoute
   '/course/recommend': typeof authenticationCourseRecommendRoute
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
@@ -137,7 +151,9 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/login-success': typeof LoginSuccessRoute
   '/my': typeof authenticationMyRoute
+  '/festival/$festivalId': typeof FestivalFestivalIdRoute
   '/': typeof authenticationIndexRoute
+  '/festival': typeof FestivalIndexRoute
   '/course/$courseId': typeof authenticationCourseCourseIdRoute
   '/course/recommend': typeof authenticationCourseRecommendRoute
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
@@ -156,7 +172,9 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/login-success': typeof LoginSuccessRoute
   '/(authentication)/my': typeof authenticationMyRoute
+  '/festival/$festivalId': typeof FestivalFestivalIdRoute
   '/(authentication)/': typeof authenticationIndexRoute
+  '/festival/': typeof FestivalIndexRoute
   '/(authentication)/course/$courseId': typeof authenticationCourseCourseIdRoute
   '/(authentication)/course/recommend': typeof authenticationCourseRecommendRoute
   '/(authentication)/note/$courseId': typeof authenticationNoteCourseIdRoute
@@ -175,7 +193,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-success'
     | '/my'
+    | '/festival/$festivalId'
     | '/'
+    | '/festival/'
     | '/course/$courseId'
     | '/course/recommend'
     | '/note/$courseId'
@@ -192,7 +212,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-success'
     | '/my'
+    | '/festival/$festivalId'
     | '/'
+    | '/festival'
     | '/course/$courseId'
     | '/course/recommend'
     | '/note/$courseId'
@@ -210,7 +232,9 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-success'
     | '/(authentication)/my'
+    | '/festival/$festivalId'
     | '/(authentication)/'
+    | '/festival/'
     | '/(authentication)/course/$courseId'
     | '/(authentication)/course/recommend'
     | '/(authentication)/note/$courseId'
@@ -228,6 +252,8 @@ export interface RootRouteChildren {
   authenticationRouteRoute: typeof authenticationRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
   LoginSuccessRoute: typeof LoginSuccessRoute
+  FestivalFestivalIdRoute: typeof FestivalFestivalIdRoute
+  FestivalIndexRoute: typeof FestivalIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -253,12 +279,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/festival/': {
+      id: '/festival/'
+      path: '/festival'
+      fullPath: '/festival/'
+      preLoaderRoute: typeof FestivalIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(authentication)/': {
       id: '/(authentication)/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof authenticationIndexRouteImport
       parentRoute: typeof authenticationRouteRoute
+    }
+    '/festival/$festivalId': {
+      id: '/festival/$festivalId'
+      path: '/festival/$festivalId'
+      fullPath: '/festival/$festivalId'
+      preLoaderRoute: typeof FestivalFestivalIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/(authentication)/my': {
       id: '/(authentication)/my'
@@ -391,6 +431,8 @@ const rootRouteChildren: RootRouteChildren = {
   authenticationRouteRoute: authenticationRouteRouteWithChildren,
   LoginRoute: LoginRoute,
   LoginSuccessRoute: LoginSuccessRoute,
+  FestivalFestivalIdRoute: FestivalFestivalIdRoute,
+  FestivalIndexRoute: FestivalIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
