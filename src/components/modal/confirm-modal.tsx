@@ -13,11 +13,13 @@ interface ConfirmModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   title: string
-  description: ReactNode
+  description?: ReactNode
   cancelLabel?: string
   actionLabel: string
+  actionDisabled?: boolean
   onCancel?: () => void
   onAction: () => void
+  children?: ReactNode
 }
 
 function ConfirmModal({
@@ -27,8 +29,10 @@ function ConfirmModal({
   description,
   cancelLabel,
   actionLabel,
+  actionDisabled,
   onCancel,
   onAction,
+  children,
 }: ConfirmModalProps) {
   const { t } = useTranslation('common')
 
@@ -47,16 +51,20 @@ function ConfirmModal({
           <DialogTitle className="text-center text-title3 font-semibold text-text-heading">
             {title}
           </DialogTitle>
-          <DialogDescription className="text-center text-body2 text-text-subdued whitespace-pre-line">
-            {description}
-          </DialogDescription>
+          {description && (
+            <DialogDescription className="text-center text-body2 text-text-subdued whitespace-pre-line">
+              {description}
+            </DialogDescription>
+          )}
         </DialogHeader>
+
+        {children}
 
         <div className="mt-2 flex gap-3">
           <Button variant="soft" className="flex-1" onClick={handleCancel}>
             {cancelLabel || t('button.cancel')}
           </Button>
-          <Button className="flex-1" onClick={onAction}>
+          <Button className="flex-1" onClick={onAction} disabled={actionDisabled}>
             {actionLabel}
           </Button>
         </div>

@@ -1,9 +1,10 @@
 import { PhoneShell } from '@/components/mobile'
 import { Button } from '@/components/ui/button'
-import { useAuthStore } from '@/stores/auth-store'
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useAuth, useAuthStore } from '@/stores/auth-store'
+import { createFileRoute, Navigate, useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { startKakaoLogin } from '@/api/auth'
+import { useAuthCheck } from '@/hooks/use-auth-check'
 
 import GoogleIcon from '@/assets/icons/logo-google.svg?react'
 import KakaoIcon from '@/assets/icons/logo-kakao.svg?react'
@@ -14,11 +15,25 @@ export const Route = createFileRoute('/login')({
 
 function RouteComponent() {
   const { t } = useTranslation('auth')
+  const { role, isLoading } = useAuth()
+  useAuthCheck()
 
   const navigate = useNavigate()
   const stay = () => navigate({ to: '/login' })
 
   const { setAuthRole } = useAuthStore()
+
+  if (isLoading) {
+    return (
+      <div className="flex min-h-svh items-center justify-center">
+        <p>로딩 중...</p>
+      </div>
+    )
+  }
+
+  if (role === 'user') {
+    return <Navigate to="/" replace />
+  }
 
   return (
     <PhoneShell>
