@@ -1,3 +1,5 @@
+import { useNavigate } from '@tanstack/react-router'
+
 interface PlaceMemoProps {
   courseId: string
   placeId: string
@@ -7,14 +9,15 @@ interface PlaceMemoProps {
   }
 }
 
-function PlaceMemo({
-  courseId: _courseId,
-  placeId: _placeId,
-  memo,
-}: PlaceMemoProps) {
+function PlaceMemo({ courseId, placeId, memo }: PlaceMemoProps) {
+  const navigate = useNavigate()
+
   const handleEdit = () => {
-    // TODO: 메모 편집 페이지로 이동
-    console.log('메모 편집')
+    navigate({
+      to: '/note/$courseId/place/$placeId/edit-memo',
+      params: { courseId, placeId },
+      search: { from: undefined },
+    })
   }
 
   return (
@@ -46,15 +49,10 @@ function PlaceMemo({
               <div className="flex flex-col gap-2">
                 {memo.images.map((image, index) => (
                   <div
-                    key={index}
-                    className="h-50 w-full rounded-[8px] bg-gray-100"
-                  >
-                    <img
-                      src={image}
-                      alt=""
-                      className="h-full w-full rounded-[8px] object-cover"
-                    />
-                  </div>
+                    key={`${image}-${index}`}
+                    className="h-[200px] w-full rounded-[8px] border border-dashed border-gray-300 bg-white"
+                    aria-label={`메모 이미지 영역 ${index + 1}`}
+                  />
                 ))}
               </div>
             )}

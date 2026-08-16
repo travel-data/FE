@@ -7,4 +7,7 @@ export const QUERY_KEY = {
     list: () => ['festival', 'list'] as const,
     detail: (spotId: number) => ['festival', 'detail', spotId] as const,
   },
+  my: {
+    page: () => ['my', 'page'] as const,
+  },
 }

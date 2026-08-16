@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, Image as ImageIcon, Minus } from 'lucide-react'
 
@@ -6,11 +6,18 @@ export const Route = createFileRoute(
   '/(authentication)/note/$courseId_/place/$placeId_/edit-memo',
 )({
   component: RouteComponent,
+  validateSearch: (search: Record<string, unknown>) => {
+    return {
+      from: (search.from as string) || undefined,
+    }
+  },
 })
 
 function RouteComponent() {
   const navigate = useNavigate()
+  const router = useRouter()
   const { courseId, placeId } = Route.useParams()
+  const search = Route.useSearch()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const textareaRefs = useRef<Record<string, HTMLTextAreaElement | null>>({})
 
@@ -34,6 +41,16 @@ function RouteComponent() {
   }, [blocks, pendingFocus])
 
   const handleBack = () => {
+    if (search.from === 'mypage') {
+      if (router.history.canGoBack()) {
+        router.history.back()
+        return
+      }
+
+      navigate({ to: '/my/memos' })
+      return
+    }
+
     navigate({
       to: '/note/$courseId/place/$placeId',
       params: { courseId, placeId },
