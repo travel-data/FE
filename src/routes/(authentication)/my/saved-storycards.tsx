@@ -65,7 +65,7 @@ function RouteComponent() {
             type="button"
             aria-label="뒤로가기"
             onClick={handleBack}
-            className="flex size-8 items-center justify-center rounded-full text-text-heading transition-colors hover:bg-gray-100 active:bg-gray-200"
+            className="flex size-8 items-center justify-center rounded-full text-text-heading"
           >
             <ChevronLeft className="size-6" />
           </button>

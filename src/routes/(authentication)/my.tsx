@@ -64,7 +64,7 @@ function RouteComponent() {
             type="button"
             aria-label="설정"
             onClick={() => navigate({ to: '/settings' })}
-            className="flex size-8 items-center justify-center rounded-full text-text-heading transition-colors hover:bg-gray-100 active:bg-gray-200"
+            className="flex size-8 items-center justify-center rounded-full text-text-heading"
           >
             <Settings className="size-6" />
           </button>
@@ -88,6 +88,12 @@ function RouteComponent() {
         </section>
 
         <div className="mt-8 flex flex-col gap-10">
+          <SavedSection
+            title="나의 여행 노트"
+            count={0}
+            emptyText="여행 노트가 없습니다"
+            onClick={() => navigate({ to: '/my/travel-notes' })}
+          />
           <SavedSection
             title="저장한 장소"
             count={myPage?.savedSpots.totalCount ?? 0}
@@ -160,7 +166,7 @@ function SavedSection({
       <button
         type="button"
         onClick={onClick}
-        className="flex w-full items-center justify-between rounded-md text-left"
+        className="flex w-full items-center justify-between rounded-md bg-transparent text-left"
       >
         <div className="flex min-w-0 items-center gap-2">
           <h2 className="text-title3 text-text-heading">{title}</h2>

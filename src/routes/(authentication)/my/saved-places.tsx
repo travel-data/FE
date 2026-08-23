@@ -77,7 +77,7 @@ function RouteComponent() {
             type="button"
             aria-label="뒤로가기"
             onClick={handleBack}
-            className="flex size-8 items-center justify-center rounded-full text-text-heading transition-colors hover:bg-gray-100 active:bg-gray-200"
+            className="flex size-8 items-center justify-center rounded-full text-text-heading"
           >
             <ChevronLeft className="size-6" />
           </button>
@@ -128,7 +128,7 @@ function RouteComponent() {
               onClick={() => handleDelete(place.id)}
               aria-label="삭제"
               disabled={deleteMutation.isPending}
-              className="ml-5 flex size-6 shrink-0 items-center justify-center text-text-subdued transition-colors hover:text-text-heading disabled:opacity-40"
+              className="ml-5 flex size-6 shrink-0 items-center justify-center text-text-subdued disabled:opacity-40"
             >
               <Trash2 className="size-6" />
             </button>

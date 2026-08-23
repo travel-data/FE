@@ -2,7 +2,10 @@ import { apiClient } from '@/lib/api-client'
 import { API_BASE_URL } from '@/constants/api'
 
 export function startKakaoLogin() {
-  window.location.href = `${API_BASE_URL}/oauth2/authorization/kakao`
+  const redirectUrl = `${window.location.origin}/login-success`
+  const searchParams = new URLSearchParams({ redirectUrl })
+
+  window.location.href = `${API_BASE_URL}/oauth2/authorization/kakao?${searchParams.toString()}`
 }
 
 export async function logout() {
