@@ -7,12 +7,26 @@ interface PlaceMemoProps {
     content: string
     images?: string[]
   }
+  editScope?: 'note' | 'my-travel-notes'
 }
 
-function PlaceMemo({ courseId, placeId, memo }: PlaceMemoProps) {
+function PlaceMemo({
+  courseId,
+  placeId,
+  memo,
+  editScope = 'note',
+}: PlaceMemoProps) {
   const navigate = useNavigate()
 
   const handleEdit = () => {
+    if (editScope === 'my-travel-notes') {
+      navigate({
+        to: '/my/travel-notes/$courseId/place/$placeId/edit-memo',
+        params: { courseId, placeId },
+      })
+      return
+    }
+
     navigate({
       to: '/note/$courseId/place/$placeId/edit-memo',
       params: { courseId, placeId },
