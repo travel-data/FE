@@ -9,7 +9,8 @@
     "condition_snowy": "Snowy"
   },
   "course": {
-    "cta_recommend": "Get My Custom Course"
+    "cta_recommend": "Get My Custom Course",
+    "cta_create_course": "Create Custom Course"
   },
   "course_card": {
     "progress_rate_label": "Course Progress",

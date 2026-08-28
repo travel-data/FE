@@ -2,7 +2,8 @@
   "type": {
     "attraction": "Attraction",
     "restaurant": "Restaurant",
-    "cafe": "Cafe"
+    "accommodation": "Accommodation",
+    "all": "All"
   },
   "button": {
     "directions_link": "Directions"
@@ -18,11 +19,15 @@
   },
   "business_hours": "Business Hours",
   "search": {
-    "list_title": "Great Spots Nearby"
+    "list_title": "Great Spots Nearby",
+    "empty": "No results found"
   },
   "storycard": {
     "scroll_hint": "Scroll for More",
     "insight": "What's Here?",
     "tip": "Good to Know!"
+  },
+  "action": {
+    "add": "Add"
   }
 }

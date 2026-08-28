@@ -2,7 +2,8 @@
   "type": {
     "attraction": "관광지",
     "restaurant": "음식점",
-    "cafe": "카페"
+    "accommodation": "숙소",
+    "all": "전체"
   },
   "button": {
     "directions_link": "길찾기"
@@ -18,11 +19,15 @@
   },
   "business_hours": "영업시간",
   "search": {
-    "list_title": "함께 둘러보기 좋은 곳"
+    "list_title": "함께 둘러보기 좋은 곳",
+    "empty": "검색 결과가 존재하지 않습니다"
   },
   "storycard": {
     "scroll_hint": "스크롤하여 더 보기",
     "insight": "이 장소에서 무엇을 보게 되나요?",
     "tip": "알아두면 좋아요!"
+  },
+  "action": {
+    "add": "추가하기"
   }
 }
