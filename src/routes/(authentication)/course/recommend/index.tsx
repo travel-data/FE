@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Trans, useTranslation } from 'react-i18next'
 
-export const Route = createFileRoute('/(authentication)/course/recommend')({
+export const Route = createFileRoute('/(authentication)/course/recommend/')({
   component: RouteComponent,
 })
 
@@ -16,7 +16,10 @@ function RouteComponent() {
 
   const handleSubmit = () => {
     // TODO: API 연동 후 실제 courseId로 교체
-    navigate({ to: '/course/$courseId', params: { courseId: 'mock-course-id' } })
+    navigate({
+      to: '/course/$courseId',
+      params: { courseId: 'mock-course-id' },
+    })
   }
 
   return (
@@ -32,7 +35,11 @@ function RouteComponent() {
         <p className="text-body2 text-text-subdued mb-4">
           {t('form.description')}
         </p>
-        <CourseRecommendForm values={values} setValue={setValue} onSubmit={handleSubmit} />
+        <CourseRecommendForm
+          values={values}
+          setValue={setValue}
+          onSubmit={handleSubmit}
+        />
       </div>
 
       <Button
