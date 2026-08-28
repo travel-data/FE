@@ -45,9 +45,9 @@ function ConfirmModal({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="max-w-99.5 rounded-xl px-4 py-5"
+        className="rounded-xl px-4 py-5 gap-0"
       >
-        <DialogHeader className="text-center flex-1 py-5 justify-center">
+        <DialogHeader className="text-center flex-1 pt-4 pb-2 justify-center gap-0">
           <DialogTitle className="text-center text-title3 font-semibold text-text-heading">
             {title}
           </DialogTitle>
@@ -60,11 +60,18 @@ function ConfirmModal({
 
         {children}
 
-        <div className="mt-2 flex gap-3">
+        <div className="mt-4 flex gap-4">
           <Button variant="soft" className="flex-1" onClick={handleCancel}>
             {cancelLabel || t('button.cancel')}
           </Button>
-          <Button className="flex-1" onClick={onAction} disabled={actionDisabled}>
+          <Button
+            className="flex-1"
+            onClick={() => {
+              onAction()
+              onOpenChange(false)
+            }}
+            disabled={actionDisabled}
+          >
             {actionLabel}
           </Button>
         </div>
