@@ -31,10 +31,12 @@ function RouteComponent() {
               components={[<br />, <span className="text-brand-primary" />]}
             />
           </p>
-          <Button size="sm" className="w-full" asChild>
+          <Button size="sm" className="w-full mb-2" asChild>
             <Link to="/course/recommend">{t('course.cta_recommend')}</Link>
           </Button>
-
+          <Button size="sm" className="w-full" asChild variant={'outline'}>
+            <Link to="/course/create">{t('course.cta_create_course')}</Link>
+          </Button>
           <div className="flex items-center gap-4 py-4">
             {/* TODO: 오늘의 스토리 카드 */}
             <div className="flex-1 aspect-square rounded-lg bg-gray-200"></div>

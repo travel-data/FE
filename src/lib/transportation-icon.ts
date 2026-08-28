@@ -3,9 +3,9 @@ import Car from '@/assets/icons/car-icon.svg?react'
 import Road from '@/assets/icons/road-icon.svg?react'
 
 export const transportationIcon = {
-  walk: Road,
-  bicycle: Bike,
-  car: Car,
+  WALK: Road,
+  BIKE: Bike,
+  CAR: Car,
 }
 
 export default transportationIcon
