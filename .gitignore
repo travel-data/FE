@@ -28,3 +28,7 @@ oiso-i18n-service-account.json
 
 .env
 .env.local
+
+docs
+
+CLAUDE.md
