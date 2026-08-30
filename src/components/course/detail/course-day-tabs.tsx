@@ -1,10 +1,15 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
-import CourseListItem, { type TransportationType } from './course-list-item'
+import CourseListItem from './course-list-item'
 import { useTranslation } from 'react-i18next'
+import { TransportationType } from '@/types/course'
+import { PlaceCategory } from '@/types/place'
 
 export interface CoursePlace {
   id: number
+  placeId: number
+  placeCategory: PlaceCategory
   name: string
+  img: string | null
   address: string
   description: string
   distanceToNext: string | null
@@ -53,7 +58,10 @@ function CourseDayTabs({ days, selectedDay, onDayChange }: CourseDayTabsProps) {
             <CourseListItem
               key={place.id}
               index={index}
+              placeId={place.placeId}
+              placeCategory={place.placeCategory}
               name={place.name}
+              img={place.img}
               address={place.address}
               description={place.description}
               distanceToNext={place.distanceToNext}

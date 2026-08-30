@@ -27,5 +27,8 @@
   "or": "or",
   "confirm": {
     "change_language": "Chnage Language?"
+  },
+  "input": {
+    "search_placeholder": "Enter a search term"
   }
 }

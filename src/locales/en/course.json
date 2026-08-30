@@ -31,25 +31,26 @@
     "address_search_result": "Result",
     "back_confirm_title": "Go back to the beginning?",
     "back_confirm_description": "Your information will not be saved",
-    "back_confirm_button": "Go Back"
-  },
-  "recommend": {
-    "course_type_label": "Recommended",
-    "other_place_title": "Take a break?",
-    "other_place_description": "How about here before your next stop?"
-  },
-  "badge": {
-    "day_badge_label": "Day {{count}}"
+    "back_confirm_button": "Go Back",
+    "create_course_title": "Create Course",
+    "delete_day_modal_title": "Delete Day {{day}} course?",
+    "delete_day_modal_description": "Deleted courses can’t be recovered",
+    "confirm_delete_day": "Delete",
+    "add_place_button": "Add Place"
   },
   "label": {
+    "course": "Travel Course",
     "course_in_progress": "Course {{count}} in Progress",
     "estimated": "Estimated Duration",
     "transportation": "Travel by {{transportation}}"
   },
+  "badge": {
+    "day_badge_label": "Day {{count}}"
+  },
   "transportation": {
-    "walk": "Walking",
-    "car": "Driving",
-    "bicycle": "Cycling",
+    "WALK": "Walking",
+    "CAR": "Driving",
+    "BIKE": "Cycling",
     "public_transportation": "Public Transit"
   },
   "button": {
@@ -64,7 +65,9 @@
     "shared_course": "Share Course",
     "confirm_shared": "Share Course",
     "confirm_stop_sharing": "Stop Sharing",
-    "course_sharing": "Sharing the course"
+    "course_sharing": "Sharing the course",
+    "recommend": "Get Course Recommendations",
+    "create": "Create My Own"
   },
   "shared": {
     "add_shared_password_form_title": "Please enter <br/>a share password",
@@ -95,6 +98,7 @@
     "delete_place_button": "Delete",
     "add_place_button": "Add Place",
     "course_edit_submit_button": "Save Changes",
+    "course_create_submit_button": "Done",
     "confirm_edit_transportation_button": "Save",
     "change_order_button": "Change Order",
     "complete_change_order_button": "Save",
@@ -113,9 +117,31 @@
     "add_course_place_description": "Added places will appear at the bottom of your course list",
     "next_place": "Move to the next place?"
   },
+  "recommend": {
+    "other_place_title": "Take a break?",
+    "other_place_description": "How about here before your next stop?"
+  },
   "traffic_level": {
     "crowded": "Crowded",
     "moderate": "Moderate",
     "relaxed": "Not Crowded"
+  },
+  "empty": {
+    "title": "No courses in progress <br/> just yet",
+    "description": "Create your own course or <br/> get a recommendation to start"
+  },
+  "sheet": {
+    "complete_day_course": "Day {{day}} complete! <br/> Ready to start the next day?",
+    "day_course_spot_list": "Places visited on Day {{day}}",
+    "start_next_day_button": "Start Course"
+  },
+  "create": {
+    "course_name_form_title": "Name Your Course",
+    "course_name_form_description": "Write a name that captures the feel of your course at a glance",
+    "course_name_form_placeholder": "e.g. A Day on Hwangridangil with Cherry Blossoms Falling",
+    "course_name_form_next": "Next",
+    "stop_course_title": "Stop Creating Your Course?",
+    "stop_course_description": "Any places you've added won't be saved",
+    "stop_course_confirm_button": "Quit"
   }
 }

@@ -3,12 +3,14 @@ import { router } from '@/router'
 import { QueryClientProvider } from '@tanstack/react-query'
 import { RouterProvider } from '@tanstack/react-router'
 import LanguageProvider from './language-provider'
+import ModalProvider from './modal-provider'
 
 function Provider() {
   return (
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <RouterProvider router={router} />
+        <ModalProvider />
       </LanguageProvider>
     </QueryClientProvider>
   )

@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/drawer'
 import { useTranslation } from 'react-i18next'
 import transportationIcon from '@/lib/transportation-icon'
-import { TransportationType } from '../detail/course-list-item'
+import { TransportationType } from '@/types/course'
 
 interface EditCourseTransportationSheetProps {
   isOpen: boolean
@@ -18,9 +18,9 @@ interface EditCourseTransportationSheetProps {
 }
 
 const TRANSPORT_OPTIONS = [
-  { value: 'walk', iconKey: 'walk' as const },
-  { value: 'bicycle', iconKey: 'bicycle' as const },
-  { value: 'car', iconKey: 'car' as const },
+  { value: 'WALK', iconKey: 'WALK' as const },
+  { value: 'BIKE', iconKey: 'BIKE' as const },
+  { value: 'CAR', iconKey: 'CAR' as const },
 ] satisfies { value: string; iconKey: keyof typeof transportationIcon }[]
 
 function EditCourseTransportationSheet({
@@ -38,9 +38,9 @@ function EditCourseTransportationSheet({
     (typeof TRANSPORT_OPTIONS)[number]['value'],
     string
   > = {
-    walk: `${t('transportation.walk')} 및 ${t('transportation.public_transportation')}`,
-    bicycle: t('transportation.bicycle'),
-    car: t('transportation.car'),
+    WALK: `${t('transportation.WALK')} 및 ${t('transportation.public_transportation')}`,
+    BIKE: t('transportation.BIKE'),
+    CAR: t('transportation.CAR'),
   }
 
   const isConfirmDisabled = !selected || selected === defaultValue

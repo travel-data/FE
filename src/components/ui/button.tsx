@@ -18,14 +18,15 @@ const buttonVariants = cva(
         icon: 'bg-white shadow-[0_0_15px_rgba(0,0,0,0.1)] rounded-full',
       },
       size: {
-        default: 'h-15 px-4 ',
-        sm: 'h-12 gap-1.5 px-3 ',
+        lg: 'h-15 px-4',
+        sm: 'h-12 gap-1.5 px-3',
+        md: 'h-[54px] px-4',
         icon: 'size-11 p-3',
       },
     },
     defaultVariants: {
       variant: 'solid',
-      size: 'default',
+      size: 'md',
     },
   },
 )

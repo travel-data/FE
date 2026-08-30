@@ -56,6 +56,7 @@ npm run i18n:sync    # Google Sheets에서 번역 파일 동기화
 - 번역 파일: `src/locales/{ko,en}/{namespace}.json` (namespace: `common`, `auth`, `course`, `home`, `my`, `place`)
 - 언어 설정은 localStorage의 `language` 키에 저장
 - `npm run i18n:sync`로 Google Sheets 원본에서 번역 파일 갱신
+- 마크업 중 번역되어 있는 단어가 없다면 json 파일을 직접 수정하지 않고 파일럿에게 번역파일 시트 업데이트를 요청하여야 하고, 시트 수정을 요청 할 때는 ko, en 단어를 각각 번역하여 제공 할 것
 
 ### 스타일링
 
@@ -73,3 +74,45 @@ Tailwind CSS v4 + shadcn/ui (new-york 스타일).
 VITE_API_BASE_URL        # 백엔드 API 기본 URL (기본값: http://localhost:8080)
 VITE_KAKAO_REST_API_KEY  # 카카오 REST API 키
 ```
+
+## API 연동 (Backend)
+
+- Swagger UI: https://oiso.duckdns.org/swagger-ui/index.html
+- 로컬 스펙 캐시: `docs/api-spec.json`
+- API 관련 작업 시 위 로컬 파일을 우선 참고할 것. 네트워크 요청으로 원격 fetch는 하지 말 것.
+- 스펙이 최신인지 확실하지 않거나 새 엔드포인트가 필요하면, 원격 재요청 대신 사용자에게 스펙 갱신을 요청할 것
+
+### 공통 응답 구조
+
+대부분의 응답은 아래 래퍼를 따름:
+
+```ts
+interface CommonResponse<T> {
+  code: number
+  message: string
+  data: T
+}
+```
+
+### 인증
+
+- JWT는 쿠키 기반 (`/api/auth/dev-login`, `/api/auth/refresh`, `/api/auth/logout`, `GET /api/auth/me`)
+- 별도 Authorization 헤더 처리 불필요, axios 인스턴스에 `withCredentials: true` 설정
+
+### 타입 정의 규칙
+
+- Enum, 필드명, nullable 여부 등은 `docs/api-spec.json`의 `components.schemas`를 그대로 반영해서 타입 정의할 것 (하드코딩된 값 목록을 CLAUDE.md에 별도로 두지 않음 — 스펙 변경 시 어긋날 수 있으므로 항상 json 원본이 source of truth)
+- `enum` 필드는 spec에 정의된 문자열 그대로 TypeScript union 또는 enum으로 변환
+- 좌표(latitude/longitude)처럼 "함께 보내거나 둘 다 null"인 필드는 타입에서도 함께 optional 처리
+
+### 코드 생성 규칙
+
+API 요청/타입 코드를 작성할 때:
+
+- 타입은 `src/types/{domain}.ts` 에 위치 (예: `types/festival.ts`, `types/preferences.ts`)
+- 요청 함수는 `src/api/{domain}.ts` 에 위치, axios 인스턴스는 `src/lib/axios.ts` 사용
+- async/await 키워드를 사용하여 함수를 선언할 것
+- TanStack Query 훅은 `src/hooks/queries/{domain}.ts` 에 위치, 쿼리 키는 `[domain, ...params]` 배열 형태
+- `CommonResponse<T>` 래퍼는 훅 내부에서 unwrap해서 컴포넌트에는 `T`만 노출
+
+※ 이 프로젝트는 공모전 MVP로, orval 등 codegen 도구는 도입하지 않고 필요 시점에 위 규칙에 맞춰 수동/AI 생성 코드로 관리함

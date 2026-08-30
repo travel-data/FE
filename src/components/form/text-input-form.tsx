@@ -1,24 +1,27 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
-import { useTranslation } from 'react-i18next'
 
-interface PasswordInputFormProps {
+interface TextInputFormProps {
   title: string | React.ReactNode
   subtitle?: string
+  placeholder?: string
   submitLabel?: string
-  onSubmit: (password: string) => void
+  type?: 'text' | 'password'
+  minLength?: number
+  onSubmit: (value: string) => void
 }
 
-function PasswordInputForm({
+function TextInputForm({
   title,
   subtitle,
+  placeholder,
   submitLabel = '입력완료',
+  type = 'text',
+  minLength = 1,
   onSubmit,
-}: PasswordInputFormProps) {
-  const { t } = useTranslation('course')
-
+}: TextInputFormProps) {
   const [value, setValue] = useState('')
-  const isValid = value.length >= 4
+  const isValid = value.length >= minLength
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -28,21 +31,19 @@ function PasswordInputForm({
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-1 flex-col">
-      <div className="px-5 mb-6">
+      <div className="px-5 mb-4">
         <h1 className="whitespace-pre-line text-title1 text-text-heading">
           {title}
         </h1>
-        {subtitle && (
-          <p className="mt-2 text-label text-text-subdued">{subtitle}</p>
-        )}
+        {subtitle && <p className="text-label text-text-subdued">{subtitle}</p>}
       </div>
 
       <div className="px-5">
         <input
-          type="password"
+          type={type}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder={t('shared.password_input_placeholder')}
+          placeholder={placeholder}
           className="w-full rounded-md h-13 bg-gray-200 px-4 py-3 text-label text-text-default outline-none placeholder:text-text-subdued"
         />
       </div>
@@ -56,4 +57,4 @@ function PasswordInputForm({
   )
 }
 
-export default PasswordInputForm
+export default TextInputForm

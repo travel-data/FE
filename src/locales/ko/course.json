@@ -31,25 +31,26 @@
     "address_search_result": "검색 결과",
     "back_confirm_title": "처음으로 돌아갈까요?",
     "back_confirm_description": "지금까지 입력한 정보가 저장되지 않아요",
-    "back_confirm_button": "돌아가기"
-  },
-  "recommend": {
-    "course_type_label": "추천코스",
-    "other_place_title": "잠깐 쉬어갈까요?",
-    "other_place_description": "다음 장소를 가기 전 이런 곳은 어떤가요?"
-  },
-  "badge": {
-    "day_badge_label": "{{count}}일차"
+    "back_confirm_button": "돌아가기",
+    "create_course_title": "코스 생성",
+    "delete_day_modal_title": "{{day}}일차 코스를 삭제할까요?",
+    "delete_day_modal_description": "삭제한 코스는 되돌릴 수 없어요",
+    "confirm_delete_day": "삭제하기",
+    "add_place_button": "추가하기"
   },
   "label": {
+    "course": "여행 코스",
     "course_in_progress": "{{count}}번째 코스 진행중",
     "estimated": "예상 소요 시간",
     "transportation": "{{transportation}}로 이동"
   },
+  "badge": {
+    "day_badge_label": "{{count}}일차"
+  },
   "transportation": {
-    "walk": "도보",
-    "car": "자동차",
-    "bicycle": "자전거",
+    "WALK": "도보",
+    "CAR": "자동차",
+    "BIKE": "자전거",
     "public_transportation": "대중교통"
   },
   "button": {
@@ -57,14 +58,16 @@
     "course_start": "여행 시작하기",
     "course_stop": "여행 중단하기",
     "directions": "길찾기",
-    "see_all_course": "코스 전체보기",
+    "see_all_course": "",
     "next_place": "다음 장소로 이동",
     "skip": "건너뛰기",
     "move": "이동하기",
     "shared_course": "코스 공유하기",
     "confirm_shared": "공유하기",
     "confirm_stop_sharing": "중단하기",
-    "course_sharing": "코스 공유중"
+    "course_sharing": "코스 공유중",
+    "recommend": "코스 추천받기",
+    "create": "직접 생성하기"
   },
   "shared": {
     "add_shared_password_form_title": "공유 비밀번호를<br/>입력해 주세요",
@@ -95,6 +98,7 @@
     "delete_place_button": "삭제하기",
     "add_place_button": "장소 추가하기",
     "course_edit_submit_button": "수정완료",
+    "course_create_submit_button": "입력완료",
     "confirm_edit_transportation_button": "변경하기",
     "change_order_button": "순서 변경",
     "complete_change_order_button": "저장하기",
@@ -113,9 +117,31 @@
     "add_course_place_description": "추가한 장소들은 코스 목록 맨 아래에 추가돼요",
     "next_place": "다음 장소로 이동하시겠어요?"
   },
+  "recommend": {
+    "other_place_title": "잠깐 쉬어갈까요?",
+    "other_place_description": "다음 장소를 가기 전 이런 곳은 어떤가요?"
+  },
   "traffic_level": {
     "crowded": "혼잡",
     "moderate": "보통",
     "relaxed": "여유"
+  },
+  "empty": {
+    "title": "아직 진행 중인 코스가 <br/> 존재하지 않아요",
+    "description": "나에게 맞는 코스를 직접 만들거나, <br/> 추천 받아 시작해보세요"
+  },
+  "sheet": {
+    "complete_day_course": "{{day}}일차 코스 완료! <br/> 다음날 코스를 진행할까요?",
+    "day_course_spot_list": "{{day}}일차에 방문한 곳들",
+    "start_next_day_button": "코스 시작하기"
+  },
+  "create": {
+    "course_name_form_title": "코스 이름을 지어주세요",
+    "course_name_form_description": "어떤 코스인지 한눈에 느껴지는 이름을 적어주세요",
+    "course_name_form_placeholder": "예) 벚꽃 흩날리는 황리단길 하루",
+    "course_name_form_next": "다음으로",
+    "stop_course_title": "코스 생성을 그만두시겠습니까?",
+    "stop_course_description": "추가한 장소들은 저장되지 않아요",
+    "stop_course_confirm_button": "그만두기"
   }
 }

@@ -19,17 +19,21 @@ import { Route as authenticationSettingsRouteImport } from './routes/(authentica
 import { Route as authenticationMyRouteImport } from './routes/(authentication)/my'
 import { Route as authenticationNoteIndexRouteImport } from './routes/(authentication)/note/index'
 import { Route as authenticationCourseIndexRouteImport } from './routes/(authentication)/course/index'
+import { Route as CourseSharedCourseIdRouteImport } from './routes/course/shared/$courseId'
 import { Route as authenticationNoteCourseIdRouteImport } from './routes/(authentication)/note/$courseId'
 import { Route as authenticationMyTravelNotesRouteImport } from './routes/(authentication)/my/travel-notes'
 import { Route as authenticationMySavedStorycardsRouteImport } from './routes/(authentication)/my/saved-storycards'
 import { Route as authenticationMySavedPlacesRouteImport } from './routes/(authentication)/my/saved-places'
 import { Route as authenticationMyMemosRouteImport } from './routes/(authentication)/my/memos'
-import { Route as authenticationCourseRecommendRouteImport } from './routes/(authentication)/course/recommend'
+import { Route as authenticationCoursePlaceSearchRouteImport } from './routes/(authentication)/course/place-search'
 import { Route as authenticationCourseCourseIdRouteImport } from './routes/(authentication)/course/$courseId'
+import { Route as authenticationCourseRecommendIndexRouteImport } from './routes/(authentication)/course/recommend/index'
+import { Route as authenticationCourseCreateIndexRouteImport } from './routes/(authentication)/course/create/index'
 import { Route as authenticationMyTravelNotesCourseIdRouteImport } from './routes/(authentication)/my/travel-notes/$courseId'
+import { Route as authenticationCourseCreatePlacesRouteImport } from './routes/(authentication)/course/create/places'
 import { Route as authenticationCourseCourseIdShareEditRouteImport } from './routes/(authentication)/course/$courseId_.share-edit'
 import { Route as authenticationCourseCourseIdShareRouteImport } from './routes/(authentication)/course/$courseId_.share'
-import { Route as authenticationCourseCourseIdPlaceSearchRouteImport } from './routes/(authentication)/course/$courseId_.place-search'
+import { Route as authenticationCourseCourseIdProgressRouteImport } from './routes/(authentication)/course/$courseId_.progress'
 import { Route as authenticationCourseCourseIdEditRouteImport } from './routes/(authentication)/course/$courseId_.edit'
 import { Route as authenticationNoteCourseIdPlacePlaceIdRouteImport } from './routes/(authentication)/note/$courseId_.place.$placeId'
 import { Route as authenticationNoteCourseIdPlacePlaceIdEditMemoRouteImport } from './routes/(authentication)/note/$courseId_.place.$placeId_.edit-memo'
@@ -86,6 +90,11 @@ const authenticationCourseIndexRoute =
     path: '/course/',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
+const CourseSharedCourseIdRoute = CourseSharedCourseIdRouteImport.update({
+  id: '/course/shared/$courseId',
+  path: '/course/shared/$courseId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const authenticationNoteCourseIdRoute =
   authenticationNoteCourseIdRouteImport.update({
     id: '/note/$courseId',
@@ -115,10 +124,10 @@ const authenticationMyMemosRoute = authenticationMyMemosRouteImport.update({
   path: '/memos',
   getParentRoute: () => authenticationMyRoute,
 } as any)
-const authenticationCourseRecommendRoute =
-  authenticationCourseRecommendRouteImport.update({
-    id: '/course/recommend',
-    path: '/course/recommend',
+const authenticationCoursePlaceSearchRoute =
+  authenticationCoursePlaceSearchRouteImport.update({
+    id: '/course/place-search',
+    path: '/course/place-search',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
 const authenticationCourseCourseIdRoute =
@@ -127,11 +136,29 @@ const authenticationCourseCourseIdRoute =
     path: '/course/$courseId',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
+const authenticationCourseRecommendIndexRoute =
+  authenticationCourseRecommendIndexRouteImport.update({
+    id: '/course/recommend/',
+    path: '/course/recommend/',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
+const authenticationCourseCreateIndexRoute =
+  authenticationCourseCreateIndexRouteImport.update({
+    id: '/course/create/',
+    path: '/course/create/',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
 const authenticationMyTravelNotesCourseIdRoute =
   authenticationMyTravelNotesCourseIdRouteImport.update({
     id: '/$courseId',
     path: '/$courseId',
     getParentRoute: () => authenticationMyTravelNotesRoute,
+  } as any)
+const authenticationCourseCreatePlacesRoute =
+  authenticationCourseCreatePlacesRouteImport.update({
+    id: '/course/create/places',
+    path: '/course/create/places',
+    getParentRoute: () => authenticationRouteRoute,
   } as any)
 const authenticationCourseCourseIdShareEditRoute =
   authenticationCourseCourseIdShareEditRouteImport.update({
@@ -145,10 +172,10 @@ const authenticationCourseCourseIdShareRoute =
     path: '/course/$courseId/share',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
-const authenticationCourseCourseIdPlaceSearchRoute =
-  authenticationCourseCourseIdPlaceSearchRouteImport.update({
-    id: '/course/$courseId_/place-search',
-    path: '/course/$courseId/place-search',
+const authenticationCourseCourseIdProgressRoute =
+  authenticationCourseCourseIdProgressRouteImport.update({
+    id: '/course/$courseId_/progress',
+    path: '/course/$courseId/progress',
     getParentRoute: () => authenticationRouteRoute,
   } as any)
 const authenticationCourseCourseIdEditRoute =
@@ -191,19 +218,23 @@ export interface FileRoutesByFullPath {
   '/': typeof authenticationIndexRoute
   '/festival/': typeof FestivalIndexRoute
   '/course/$courseId': typeof authenticationCourseCourseIdRoute
-  '/course/recommend': typeof authenticationCourseRecommendRoute
+  '/course/place-search': typeof authenticationCoursePlaceSearchRoute
   '/my/memos': typeof authenticationMyMemosRoute
   '/my/saved-places': typeof authenticationMySavedPlacesRoute
   '/my/saved-storycards': typeof authenticationMySavedStorycardsRoute
   '/my/travel-notes': typeof authenticationMyTravelNotesRouteWithChildren
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/course/shared/$courseId': typeof CourseSharedCourseIdRoute
   '/course/': typeof authenticationCourseIndexRoute
   '/note/': typeof authenticationNoteIndexRoute
   '/course/$courseId/edit': typeof authenticationCourseCourseIdEditRoute
-  '/course/$courseId/place-search': typeof authenticationCourseCourseIdPlaceSearchRoute
+  '/course/$courseId/progress': typeof authenticationCourseCourseIdProgressRoute
   '/course/$courseId/share': typeof authenticationCourseCourseIdShareRoute
   '/course/$courseId/share-edit': typeof authenticationCourseCourseIdShareEditRoute
+  '/course/create/places': typeof authenticationCourseCreatePlacesRoute
   '/my/travel-notes/$courseId': typeof authenticationMyTravelNotesCourseIdRoute
+  '/course/create/': typeof authenticationCourseCreateIndexRoute
+  '/course/recommend/': typeof authenticationCourseRecommendIndexRoute
   '/note/$courseId/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
   '/my/travel-notes/$courseId/place/$placeId': typeof authenticationMyTravelNotesCourseIdPlacePlaceIdRoute
   '/note/$courseId/place/$placeId/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
@@ -218,19 +249,23 @@ export interface FileRoutesByTo {
   '/': typeof authenticationIndexRoute
   '/festival': typeof FestivalIndexRoute
   '/course/$courseId': typeof authenticationCourseCourseIdRoute
-  '/course/recommend': typeof authenticationCourseRecommendRoute
+  '/course/place-search': typeof authenticationCoursePlaceSearchRoute
   '/my/memos': typeof authenticationMyMemosRoute
   '/my/saved-places': typeof authenticationMySavedPlacesRoute
   '/my/saved-storycards': typeof authenticationMySavedStorycardsRoute
   '/my/travel-notes': typeof authenticationMyTravelNotesRouteWithChildren
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/course/shared/$courseId': typeof CourseSharedCourseIdRoute
   '/course': typeof authenticationCourseIndexRoute
   '/note': typeof authenticationNoteIndexRoute
   '/course/$courseId/edit': typeof authenticationCourseCourseIdEditRoute
-  '/course/$courseId/place-search': typeof authenticationCourseCourseIdPlaceSearchRoute
+  '/course/$courseId/progress': typeof authenticationCourseCourseIdProgressRoute
   '/course/$courseId/share': typeof authenticationCourseCourseIdShareRoute
   '/course/$courseId/share-edit': typeof authenticationCourseCourseIdShareEditRoute
+  '/course/create/places': typeof authenticationCourseCreatePlacesRoute
   '/my/travel-notes/$courseId': typeof authenticationMyTravelNotesCourseIdRoute
+  '/course/create': typeof authenticationCourseCreateIndexRoute
+  '/course/recommend': typeof authenticationCourseRecommendIndexRoute
   '/note/$courseId/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
   '/my/travel-notes/$courseId/place/$placeId': typeof authenticationMyTravelNotesCourseIdPlacePlaceIdRoute
   '/note/$courseId/place/$placeId/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
@@ -247,19 +282,23 @@ export interface FileRoutesById {
   '/(authentication)/': typeof authenticationIndexRoute
   '/festival/': typeof FestivalIndexRoute
   '/(authentication)/course/$courseId': typeof authenticationCourseCourseIdRoute
-  '/(authentication)/course/recommend': typeof authenticationCourseRecommendRoute
+  '/(authentication)/course/place-search': typeof authenticationCoursePlaceSearchRoute
   '/(authentication)/my/memos': typeof authenticationMyMemosRoute
   '/(authentication)/my/saved-places': typeof authenticationMySavedPlacesRoute
   '/(authentication)/my/saved-storycards': typeof authenticationMySavedStorycardsRoute
   '/(authentication)/my/travel-notes': typeof authenticationMyTravelNotesRouteWithChildren
   '/(authentication)/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/course/shared/$courseId': typeof CourseSharedCourseIdRoute
   '/(authentication)/course/': typeof authenticationCourseIndexRoute
   '/(authentication)/note/': typeof authenticationNoteIndexRoute
   '/(authentication)/course/$courseId_/edit': typeof authenticationCourseCourseIdEditRoute
-  '/(authentication)/course/$courseId_/place-search': typeof authenticationCourseCourseIdPlaceSearchRoute
+  '/(authentication)/course/$courseId_/progress': typeof authenticationCourseCourseIdProgressRoute
   '/(authentication)/course/$courseId_/share': typeof authenticationCourseCourseIdShareRoute
   '/(authentication)/course/$courseId_/share-edit': typeof authenticationCourseCourseIdShareEditRoute
+  '/(authentication)/course/create/places': typeof authenticationCourseCreatePlacesRoute
   '/(authentication)/my/travel-notes/$courseId': typeof authenticationMyTravelNotesCourseIdRoute
+  '/(authentication)/course/create/': typeof authenticationCourseCreateIndexRoute
+  '/(authentication)/course/recommend/': typeof authenticationCourseRecommendIndexRoute
   '/(authentication)/note/$courseId_/place/$placeId': typeof authenticationNoteCourseIdPlacePlaceIdRoute
   '/(authentication)/my/travel-notes/$courseId_/place/$placeId': typeof authenticationMyTravelNotesCourseIdPlacePlaceIdRoute
   '/(authentication)/note/$courseId_/place/$placeId_/edit-memo': typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
@@ -276,19 +315,23 @@ export interface FileRouteTypes {
     | '/'
     | '/festival/'
     | '/course/$courseId'
-    | '/course/recommend'
+    | '/course/place-search'
     | '/my/memos'
     | '/my/saved-places'
     | '/my/saved-storycards'
     | '/my/travel-notes'
     | '/note/$courseId'
+    | '/course/shared/$courseId'
     | '/course/'
     | '/note/'
     | '/course/$courseId/edit'
-    | '/course/$courseId/place-search'
+    | '/course/$courseId/progress'
     | '/course/$courseId/share'
     | '/course/$courseId/share-edit'
+    | '/course/create/places'
     | '/my/travel-notes/$courseId'
+    | '/course/create/'
+    | '/course/recommend/'
     | '/note/$courseId/place/$placeId'
     | '/my/travel-notes/$courseId/place/$placeId'
     | '/note/$courseId/place/$placeId/edit-memo'
@@ -303,19 +346,23 @@ export interface FileRouteTypes {
     | '/'
     | '/festival'
     | '/course/$courseId'
-    | '/course/recommend'
+    | '/course/place-search'
     | '/my/memos'
     | '/my/saved-places'
     | '/my/saved-storycards'
     | '/my/travel-notes'
     | '/note/$courseId'
+    | '/course/shared/$courseId'
     | '/course'
     | '/note'
     | '/course/$courseId/edit'
-    | '/course/$courseId/place-search'
+    | '/course/$courseId/progress'
     | '/course/$courseId/share'
     | '/course/$courseId/share-edit'
+    | '/course/create/places'
     | '/my/travel-notes/$courseId'
+    | '/course/create'
+    | '/course/recommend'
     | '/note/$courseId/place/$placeId'
     | '/my/travel-notes/$courseId/place/$placeId'
     | '/note/$courseId/place/$placeId/edit-memo'
@@ -331,19 +378,23 @@ export interface FileRouteTypes {
     | '/(authentication)/'
     | '/festival/'
     | '/(authentication)/course/$courseId'
-    | '/(authentication)/course/recommend'
+    | '/(authentication)/course/place-search'
     | '/(authentication)/my/memos'
     | '/(authentication)/my/saved-places'
     | '/(authentication)/my/saved-storycards'
     | '/(authentication)/my/travel-notes'
     | '/(authentication)/note/$courseId'
+    | '/course/shared/$courseId'
     | '/(authentication)/course/'
     | '/(authentication)/note/'
     | '/(authentication)/course/$courseId_/edit'
-    | '/(authentication)/course/$courseId_/place-search'
+    | '/(authentication)/course/$courseId_/progress'
     | '/(authentication)/course/$courseId_/share'
     | '/(authentication)/course/$courseId_/share-edit'
+    | '/(authentication)/course/create/places'
     | '/(authentication)/my/travel-notes/$courseId'
+    | '/(authentication)/course/create/'
+    | '/(authentication)/course/recommend/'
     | '/(authentication)/note/$courseId_/place/$placeId'
     | '/(authentication)/my/travel-notes/$courseId_/place/$placeId'
     | '/(authentication)/note/$courseId_/place/$placeId_/edit-memo'
@@ -356,6 +407,7 @@ export interface RootRouteChildren {
   LoginSuccessRoute: typeof LoginSuccessRoute
   FestivalFestivalIdRoute: typeof FestivalFestivalIdRoute
   FestivalIndexRoute: typeof FestivalIndexRoute
+  CourseSharedCourseIdRoute: typeof CourseSharedCourseIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -430,6 +482,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationCourseIndexRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
+    '/course/shared/$courseId': {
+      id: '/course/shared/$courseId'
+      path: '/course/shared/$courseId'
+      fullPath: '/course/shared/$courseId'
+      preLoaderRoute: typeof CourseSharedCourseIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/(authentication)/note/$courseId': {
       id: '/(authentication)/note/$courseId'
       path: '/note/$courseId'
@@ -465,11 +524,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationMyMemosRouteImport
       parentRoute: typeof authenticationMyRoute
     }
-    '/(authentication)/course/recommend': {
-      id: '/(authentication)/course/recommend'
-      path: '/course/recommend'
-      fullPath: '/course/recommend'
-      preLoaderRoute: typeof authenticationCourseRecommendRouteImport
+    '/(authentication)/course/place-search': {
+      id: '/(authentication)/course/place-search'
+      path: '/course/place-search'
+      fullPath: '/course/place-search'
+      preLoaderRoute: typeof authenticationCoursePlaceSearchRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
     '/(authentication)/course/$courseId': {
@@ -479,12 +538,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationCourseCourseIdRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
+    '/(authentication)/course/recommend/': {
+      id: '/(authentication)/course/recommend/'
+      path: '/course/recommend'
+      fullPath: '/course/recommend/'
+      preLoaderRoute: typeof authenticationCourseRecommendIndexRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/course/create/': {
+      id: '/(authentication)/course/create/'
+      path: '/course/create'
+      fullPath: '/course/create/'
+      preLoaderRoute: typeof authenticationCourseCreateIndexRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
     '/(authentication)/my/travel-notes/$courseId': {
       id: '/(authentication)/my/travel-notes/$courseId'
       path: '/$courseId'
       fullPath: '/my/travel-notes/$courseId'
       preLoaderRoute: typeof authenticationMyTravelNotesCourseIdRouteImport
       parentRoute: typeof authenticationMyTravelNotesRoute
+    }
+    '/(authentication)/course/create/places': {
+      id: '/(authentication)/course/create/places'
+      path: '/course/create/places'
+      fullPath: '/course/create/places'
+      preLoaderRoute: typeof authenticationCourseCreatePlacesRouteImport
+      parentRoute: typeof authenticationRouteRoute
     }
     '/(authentication)/course/$courseId_/share-edit': {
       id: '/(authentication)/course/$courseId_/share-edit'
@@ -500,11 +580,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authenticationCourseCourseIdShareRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
-    '/(authentication)/course/$courseId_/place-search': {
-      id: '/(authentication)/course/$courseId_/place-search'
-      path: '/course/$courseId/place-search'
-      fullPath: '/course/$courseId/place-search'
-      preLoaderRoute: typeof authenticationCourseCourseIdPlaceSearchRouteImport
+    '/(authentication)/course/$courseId_/progress': {
+      id: '/(authentication)/course/$courseId_/progress'
+      path: '/course/$courseId/progress'
+      fullPath: '/course/$courseId/progress'
+      preLoaderRoute: typeof authenticationCourseCourseIdProgressRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
     '/(authentication)/course/$courseId_/edit': {
@@ -589,14 +669,17 @@ interface authenticationRouteRouteChildren {
   authenticationSettingsRoute: typeof authenticationSettingsRoute
   authenticationIndexRoute: typeof authenticationIndexRoute
   authenticationCourseCourseIdRoute: typeof authenticationCourseCourseIdRoute
-  authenticationCourseRecommendRoute: typeof authenticationCourseRecommendRoute
+  authenticationCoursePlaceSearchRoute: typeof authenticationCoursePlaceSearchRoute
   authenticationNoteCourseIdRoute: typeof authenticationNoteCourseIdRoute
   authenticationCourseIndexRoute: typeof authenticationCourseIndexRoute
   authenticationNoteIndexRoute: typeof authenticationNoteIndexRoute
   authenticationCourseCourseIdEditRoute: typeof authenticationCourseCourseIdEditRoute
-  authenticationCourseCourseIdPlaceSearchRoute: typeof authenticationCourseCourseIdPlaceSearchRoute
+  authenticationCourseCourseIdProgressRoute: typeof authenticationCourseCourseIdProgressRoute
   authenticationCourseCourseIdShareRoute: typeof authenticationCourseCourseIdShareRoute
   authenticationCourseCourseIdShareEditRoute: typeof authenticationCourseCourseIdShareEditRoute
+  authenticationCourseCreatePlacesRoute: typeof authenticationCourseCreatePlacesRoute
+  authenticationCourseCreateIndexRoute: typeof authenticationCourseCreateIndexRoute
+  authenticationCourseRecommendIndexRoute: typeof authenticationCourseRecommendIndexRoute
   authenticationNoteCourseIdPlacePlaceIdRoute: typeof authenticationNoteCourseIdPlacePlaceIdRoute
   authenticationNoteCourseIdPlacePlaceIdEditMemoRoute: typeof authenticationNoteCourseIdPlacePlaceIdEditMemoRoute
 }
@@ -606,17 +689,21 @@ const authenticationRouteRouteChildren: authenticationRouteRouteChildren = {
   authenticationSettingsRoute: authenticationSettingsRoute,
   authenticationIndexRoute: authenticationIndexRoute,
   authenticationCourseCourseIdRoute: authenticationCourseCourseIdRoute,
-  authenticationCourseRecommendRoute: authenticationCourseRecommendRoute,
+  authenticationCoursePlaceSearchRoute: authenticationCoursePlaceSearchRoute,
   authenticationNoteCourseIdRoute: authenticationNoteCourseIdRoute,
   authenticationCourseIndexRoute: authenticationCourseIndexRoute,
   authenticationNoteIndexRoute: authenticationNoteIndexRoute,
   authenticationCourseCourseIdEditRoute: authenticationCourseCourseIdEditRoute,
-  authenticationCourseCourseIdPlaceSearchRoute:
-    authenticationCourseCourseIdPlaceSearchRoute,
+  authenticationCourseCourseIdProgressRoute:
+    authenticationCourseCourseIdProgressRoute,
   authenticationCourseCourseIdShareRoute:
     authenticationCourseCourseIdShareRoute,
   authenticationCourseCourseIdShareEditRoute:
     authenticationCourseCourseIdShareEditRoute,
+  authenticationCourseCreatePlacesRoute: authenticationCourseCreatePlacesRoute,
+  authenticationCourseCreateIndexRoute: authenticationCourseCreateIndexRoute,
+  authenticationCourseRecommendIndexRoute:
+    authenticationCourseRecommendIndexRoute,
   authenticationNoteCourseIdPlacePlaceIdRoute:
     authenticationNoteCourseIdPlacePlaceIdRoute,
   authenticationNoteCourseIdPlacePlaceIdEditMemoRoute:
@@ -632,6 +719,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginSuccessRoute: LoginSuccessRoute,
   FestivalFestivalIdRoute: FestivalFestivalIdRoute,
   FestivalIndexRoute: FestivalIndexRoute,
+  CourseSharedCourseIdRoute: CourseSharedCourseIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

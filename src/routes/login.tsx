@@ -76,6 +76,7 @@ function RouteComponent() {
           >
             {t('button.guest')}
           </Button>
+
         </section>
       </main>
     </PhoneShell>

@@ -9,7 +9,8 @@
     "condition_snowy": "눈"
   },
   "course": {
-    "cta_recommend": "나만의 맞춤 코스  추천받기"
+    "cta_recommend": "나만의 맞춤 코스 추천받기",
+    "cta_create_course": "나만의 맞춤 코스 생성하기"
   },
   "course_card": {
     "progress_rate_label": "코스 진행률",

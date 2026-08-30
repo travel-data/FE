@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { Trans, useTranslation } from 'react-i18next'
 import BackButton from '@/components/button/back-button'
 import TopBar from '@/components/layout/top-bar'
-import PasswordInputForm from '@/components/form/password-input-form'
+import TextInputForm from '@/components/form/text-input-form'
 
 export const Route = createFileRoute(
   '/(authentication)/course/$courseId_/share-edit',
@@ -27,10 +27,12 @@ function RouteComponent() {
   return (
     <section className="flex h-svh flex-col">
       <TopBar leftSlot={<BackButton />} />
-      <PasswordInputForm
+      <TextInputForm
         title={<Trans i18nKey="shared.edit_shared_password_form_title" ns="course" />}
         subtitle={t('shared.edit_shared_password_form_description')}
         submitLabel={t('shared.edit_password_submit_button')}
+        type="password"
+        minLength={4}
         onSubmit={handleSubmit}
       />
     </section>

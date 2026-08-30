@@ -27,5 +27,8 @@
   "or": "또는",
   "confirm": {
     "change_language": "언어를 변경하시겠습니까?"
+  },
+  "input": {
+    "search_placeholder": "검색어를 입력해주세요"
   }
 }

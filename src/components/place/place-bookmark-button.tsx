@@ -9,7 +9,7 @@ interface PlaceBookmarkButtonProps {
 
 function PlaceBookmarkButton({ isBookmarked }: PlaceBookmarkButtonProps) {
   return (
-    <Button size="icon" variant={'icon'}>
+    <Button size="icon" variant={'icon'} className="size-10">
       {isBookmarked ? (
         <FillBookmarkIcon className="fill-brand-primary" />
       ) : (
