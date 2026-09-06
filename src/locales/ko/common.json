@@ -5,13 +5,15 @@
     "copy": "복사",
     "korean": "한국어로 변경하기",
     "english": "영어로 변경하기",
-    "close": "닫기"
+    "close": "닫기",
+    "save": "저장"
   },
   "nav": {
     "home": "홈",
     "course": "코스",
     "travel_note": "여행노트",
-    "mypage": "마이페이지"
+    "mypage": "마이페이지",
+    "place": "장소 검색"
   },
   "duration": {
     "hours_one": "{{count}}시간",

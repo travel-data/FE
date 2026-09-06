@@ -67,7 +67,8 @@
     "confirm_stop_sharing": "Stop Sharing",
     "course_sharing": "Sharing the course",
     "recommend": "Get Course Recommendations",
-    "create": "Create My Own"
+    "create": "Create My Own",
+    "end_course": "End Course"
   },
   "shared": {
     "add_shared_password_form_title": "Please enter <br/>a share password",
@@ -128,7 +129,9 @@
   },
   "empty": {
     "title": "No courses in progress <br/> just yet",
-    "description": "Create your own course or <br/> get a recommendation to start"
+    "description": "Create your own course or <br/> get a recommendation to start",
+    "page_title": "No course in progress <br/> right now",
+    "page_description": "Create or get a recommended course <br/> to start your trip"
   },
   "sheet": {
     "complete_day_course": "Day {{day}} complete! <br/> Ready to start the next day?",
@@ -143,5 +146,24 @@
     "stop_course_title": "Stop Creating Your Course?",
     "stop_course_description": "Any places you've added won't be saved",
     "stop_course_confirm_button": "Quit"
+  },
+  "pending_modal": {
+    "title": "You have a course you haven't started",
+    "description": "Unstarted courses are automatically marked as complete",
+    "go_button": "Go to Course",
+    "create_new_course": "Create New Course"
+  },
+  "stop_modal": {
+    "title": "Stop this trip?",
+    "description": "If you stop, this trip will be marked as complete<br/> and can't be resumed.",
+    "confirm": "Stop"
+  },
+  "progress": {
+    "day_course_end": "End of Day {{day}} Course"
+  },
+  "completion": {
+    "completed_title": "You've completed the entire course! 🎉",
+    "completed_description": "You can view completed courses again in Travel Notes",
+    "visited_places": "Places you visited on this course"
   }
 }

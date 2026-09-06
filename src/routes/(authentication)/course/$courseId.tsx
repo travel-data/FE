@@ -14,6 +14,7 @@ import { CourseDetailItem } from '@/types/course'
 import { Spinner } from '@/components/ui/spinner'
 import { useGetCourseDetail } from '@/hooks/queries/course'
 import { useShareLink } from '@/hooks/use-share-link'
+import { useAdvanceCourse, useUpdateCourseStatus } from '@/hooks/mutations/course'
 
 export const Route = createFileRoute('/(authentication)/course/$courseId')({
   component: RouteComponent,
@@ -42,9 +43,12 @@ function RouteComponent() {
 
   const { data: courseDetail, isPending } = useGetCourseDetail(courseId)
 
+  const { mutateAsync: startCourse } = useAdvanceCourse()
+  const { mutateAsync: updateStatus } = useUpdateCourseStatus()
   const days = useMemo(() => {
     if (!courseDetail) return []
     const grouped = new Map<number, CourseDetailItem[]>()
+
     for (const item of courseDetail.items) {
       if (!grouped.has(item.dayNumber)) grouped.set(item.dayNumber, [])
       grouped.get(item.dayNumber)!.push(item)
@@ -82,18 +86,20 @@ function RouteComponent() {
           <TopBar
             leftSlot={<BackButton />}
             rightSlot={
-              <Button
-                onClick={() =>
-                  navigate({
-                    to: '/course/$courseId/edit',
-                    params: { courseId },
-                  })
-                }
-                variant="icon"
-                size="icon"
-              >
-                <Pencil className="text-text-heading" />
-              </Button>
+              courseDetail.status === 'PENDING' && (
+                <Button
+                  onClick={() =>
+                    navigate({
+                      to: '/course/$courseId/edit',
+                      params: { courseId },
+                    })
+                  }
+                  variant="icon"
+                  size="icon"
+                >
+                  <Pencil className="text-text-heading" />
+                </Button>
+              )
             }
           />
 
@@ -117,15 +123,25 @@ function RouteComponent() {
         </div>
 
         <CourseActionBar
+          isInProgress={courseDetail.status === 'IN_PROGRESS'}
           isSharing={isSharing}
           sharingActions={sharingActions}
           onShare={onShare}
-          onStart={() =>
+          onStart={async () => {
+            await Promise.all([
+              startCourse({
+                courseId,
+                complete: [],
+                start: days[0].places[0].id,
+              }),
+              updateStatus({ courseId, status: 'IN_PROGRESS' }),
+            ])
             navigate({
               to: '/course/$courseId/progress',
               params: { courseId },
+              replace: true,
             })
-          }
+          }}
         />
       </section>
 
