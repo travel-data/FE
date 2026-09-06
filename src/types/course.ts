@@ -40,11 +40,27 @@ export function toPlaceItem({
   address: string
 }): PlaceItem {
   return category === 'TOUR_SPOT'
-    ? { itemId, category: 'TOUR_SPOT', spotId: spotId!, nearbyPlaceId: null, name, img: img ?? '', address }
-    : { itemId, category: category as 'RESTAURANT' | 'ACCOMMODATION', spotId: null, nearbyPlaceId: nearbyPlaceId!, name, img: img ?? '', address }
+    ? {
+        itemId,
+        category: 'TOUR_SPOT',
+        spotId: spotId!,
+        nearbyPlaceId: null,
+        name,
+        img: img ?? '',
+        address,
+      }
+    : {
+        itemId,
+        category: category as 'RESTAURANT' | 'ACCOMMODATION',
+        spotId: null,
+        nearbyPlaceId: nearbyPlaceId!,
+        name,
+        img: img ?? '',
+        address,
+      }
 }
 
-export type CourseItemStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'
+export type CourseStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'
 
 export type CourseItemPayload = {
   itemId?: number | null
@@ -55,7 +71,6 @@ export type CourseItemPayload = {
   transportType: TransportationType | null
   dayNumber: number
 }
-
 
 export type CourseRequest = {
   title: string
@@ -88,7 +103,7 @@ export interface CourseDetailItem {
   longitude: number
   like: boolean
   transportType: TransportationType | null
-  status: CourseItemStatus
+  status: CourseStatus
 }
 
 export interface CourseDetail {
@@ -98,6 +113,18 @@ export interface CourseDetail {
   items: CourseDetailItem[]
   totalDistanceMeter: number
   totalDurationSecond: number
+  createdAt: string
+  updatedAt: string
+  status: CourseStatus
+}
+
+export interface CourseListDetail {
+  tourCourseId: number
+  title: string
+  shareYn: boolean
+  status: CourseStatus
+  thumbnailImg: string
+  itemCount: number
   createdAt: string
   updatedAt: string
 }
