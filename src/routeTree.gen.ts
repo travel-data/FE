@@ -16,6 +16,7 @@ import { Route as FestivalIndexRouteImport } from './routes/festival/index'
 import { Route as authenticationIndexRouteImport } from './routes/(authentication)/index'
 import { Route as FestivalFestivalIdRouteImport } from './routes/festival/$festivalId'
 import { Route as authenticationSettingsRouteImport } from './routes/(authentication)/settings'
+import { Route as authenticationPlaceRouteImport } from './routes/(authentication)/place'
 import { Route as authenticationMyRouteImport } from './routes/(authentication)/my'
 import { Route as authenticationNoteIndexRouteImport } from './routes/(authentication)/note/index'
 import { Route as authenticationCourseIndexRouteImport } from './routes/(authentication)/course/index'
@@ -72,6 +73,11 @@ const FestivalFestivalIdRoute = FestivalFestivalIdRouteImport.update({
 const authenticationSettingsRoute = authenticationSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => authenticationRouteRoute,
+} as any)
+const authenticationPlaceRoute = authenticationPlaceRouteImport.update({
+  id: '/place',
+  path: '/place',
   getParentRoute: () => authenticationRouteRoute,
 } as any)
 const authenticationMyRoute = authenticationMyRouteImport.update({
@@ -213,6 +219,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/login-success': typeof LoginSuccessRoute
   '/my': typeof authenticationMyRouteWithChildren
+  '/place': typeof authenticationPlaceRoute
   '/settings': typeof authenticationSettingsRoute
   '/festival/$festivalId': typeof FestivalFestivalIdRoute
   '/': typeof authenticationIndexRoute
@@ -244,6 +251,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/login-success': typeof LoginSuccessRoute
   '/my': typeof authenticationMyRouteWithChildren
+  '/place': typeof authenticationPlaceRoute
   '/settings': typeof authenticationSettingsRoute
   '/festival/$festivalId': typeof FestivalFestivalIdRoute
   '/': typeof authenticationIndexRoute
@@ -277,6 +285,7 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/login-success': typeof LoginSuccessRoute
   '/(authentication)/my': typeof authenticationMyRouteWithChildren
+  '/(authentication)/place': typeof authenticationPlaceRoute
   '/(authentication)/settings': typeof authenticationSettingsRoute
   '/festival/$festivalId': typeof FestivalFestivalIdRoute
   '/(authentication)/': typeof authenticationIndexRoute
@@ -310,6 +319,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-success'
     | '/my'
+    | '/place'
     | '/settings'
     | '/festival/$festivalId'
     | '/'
@@ -341,6 +351,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-success'
     | '/my'
+    | '/place'
     | '/settings'
     | '/festival/$festivalId'
     | '/'
@@ -373,6 +384,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/login-success'
     | '/(authentication)/my'
+    | '/(authentication)/place'
     | '/(authentication)/settings'
     | '/festival/$festivalId'
     | '/(authentication)/'
@@ -459,6 +471,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof authenticationSettingsRouteImport
+      parentRoute: typeof authenticationRouteRoute
+    }
+    '/(authentication)/place': {
+      id: '/(authentication)/place'
+      path: '/place'
+      fullPath: '/place'
+      preLoaderRoute: typeof authenticationPlaceRouteImport
       parentRoute: typeof authenticationRouteRoute
     }
     '/(authentication)/my': {
@@ -666,6 +685,7 @@ const authenticationMyRouteWithChildren =
 
 interface authenticationRouteRouteChildren {
   authenticationMyRoute: typeof authenticationMyRouteWithChildren
+  authenticationPlaceRoute: typeof authenticationPlaceRoute
   authenticationSettingsRoute: typeof authenticationSettingsRoute
   authenticationIndexRoute: typeof authenticationIndexRoute
   authenticationCourseCourseIdRoute: typeof authenticationCourseCourseIdRoute
@@ -686,6 +706,7 @@ interface authenticationRouteRouteChildren {
 
 const authenticationRouteRouteChildren: authenticationRouteRouteChildren = {
   authenticationMyRoute: authenticationMyRouteWithChildren,
+  authenticationPlaceRoute: authenticationPlaceRoute,
   authenticationSettingsRoute: authenticationSettingsRoute,
   authenticationIndexRoute: authenticationIndexRoute,
   authenticationCourseCourseIdRoute: authenticationCourseCourseIdRoute,

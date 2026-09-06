@@ -15,6 +15,7 @@ declare module 'i18next' {
       home: typeof home
       my: typeof my
       place: typeof place
+      festival: typeof festival
     }
   }
 }
