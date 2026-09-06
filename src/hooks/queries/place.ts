@@ -43,3 +43,30 @@ export function useGetNearbyPlaceDetail(nearbyPlaceId: number, { enabled = true 
     enabled,
   })
 }
+
+// 카테고리에 따라 관광지/주변장소 상세를 분기 조회. 해당하는 쪽만 실제 요청됨.
+export function usePlaceDetail({
+  placeId,
+  category,
+  enabled = true,
+}: {
+  placeId: number
+  category: PlaceCategory
+  enabled?: boolean
+}) {
+  const isTourSpot = category === 'TOUR_SPOT'
+
+  const tourSpot = useGetTourSpotDetail(placeId, {
+    enabled: isTourSpot && enabled,
+  })
+  const nearby = useGetNearbyPlaceDetail(placeId, {
+    enabled: !isTourSpot && enabled,
+  })
+
+  return {
+    isTourSpot,
+    tourSpotData: isTourSpot ? tourSpot.data : undefined,
+    nearbyData: !isTourSpot ? nearby.data : undefined,
+    isPending: isTourSpot ? tourSpot.isPending : nearby.isPending,
+  }
+}
