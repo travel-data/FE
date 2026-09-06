@@ -20,7 +20,7 @@ function RouteComponent() {
 
   const handleSubmit = (title: string) => {
     setTitle(title)
-    navigate({ to: '/course/create/places' })
+    navigate({ to: '/course/create/places', replace: true })
   }
 
   return (

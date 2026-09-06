@@ -33,7 +33,7 @@ export const Route = createFileRoute(
 
 function RouteComponent() {
   const { t } = useTranslation('course')
-  const { reset } = useCourseFormActions()
+  const { reset, setSelectedDayIndex } = useCourseFormActions()
   const { courseId } = Route.useParams()
   const { shareYn, title } = Route.useLoaderData()
   const { mutate: updateCourse } = useUpdateCourse()
@@ -45,8 +45,12 @@ function RouteComponent() {
       { courseId, body: { title, shareYn, items } },
       {
         onSuccess: () => {
-          reset()
-          navigate({ to: '/course/$courseId', params: { courseId } })
+          setSelectedDayIndex(0)
+          navigate({
+            to: '/course/$courseId',
+            params: { courseId },
+            replace: true,
+          })
         },
       },
     )
