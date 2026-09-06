@@ -26,12 +26,15 @@ apiClient.interceptors.response.use(
     const status = error.response?.status
     const requestUrl = originalRequest?.url ?? ''
     const isRefreshRequest = requestUrl.includes('/api/auth/refresh')
+    // /api/auth/me 401은 "비로그인"이라는 정상 응답 → refresh/리다이렉트 대상 아님
+    const isAuthCheckRequest = requestUrl.includes('/api/auth/me')
 
     if (
       status !== 401 ||
       !originalRequest ||
       originalRequest._retry ||
-      isRefreshRequest
+      isRefreshRequest ||
+      isAuthCheckRequest
     ) {
       return Promise.reject(error)
     }
@@ -43,7 +46,9 @@ apiClient.interceptors.response.use(
       await refreshPromise
       return apiClient(originalRequest)
     } catch (refreshError) {
-      window.location.assign('/login')
+      if (window.location.pathname !== '/login') {
+        window.location.assign('/login')
+      }
       return Promise.reject(refreshError)
     } finally {
       refreshPromise = null
