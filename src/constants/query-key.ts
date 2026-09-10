@@ -20,10 +20,28 @@ export const QUERY_KEY = {
       nearbyPlaceId,
     ],
   },
+  memo: {
+    tourSpot: (spotId: number) => ['memo', 'tourSpot', spotId] as const,
+  },
+  story: {
+    tourSpot: (spotId: number) => ['story', 'tourSpot', spotId] as const,
+  },
   course: {
+    lists: () => ['tour-course', 'list'] as const,
+    list: (params?: { page?: number; size?: number }) =>
+      params
+        ? (['tour-course', 'list', params] as const)
+        : (['tour-course', 'list'] as const),
     detail: (courseId: string) => ['tour-course', 'detail', courseId],
   },
   my: {
     page: () => ['my', 'page'] as const,
+  },
+  route: {
+    calculate: (params: {
+      origin: { latitude: number; longitude: number }
+      destination: { latitude: number; longitude: number }
+      transportType: string
+    }) => ['route', 'calculate', params] as const,
   },
 }

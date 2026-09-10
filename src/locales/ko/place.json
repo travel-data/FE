@@ -29,5 +29,27 @@
   },
   "action": {
     "add": "추가하기"
-  }
+  },
+  "stamp": {
+    "mission_visit": "장소\n방문하기",
+    "mission_qr": "QR\n스캔하기",
+    "mission_story": "스토리\n카드보기",
+    "acquired": "스탬프를 획득했어요!",
+    "visit_too_far": "관광지 1km 이내에서만 방문 스탬프를 받을 수 있어요",
+    "location_error": "현재 위치를 가져올 수 없어요",
+    "clear_failed": "스탬프 완료에 실패했어요"
+  },
+  "qr": {
+    "title": "QR 스캔",
+    "description": "현장의 QR 코드를 스캔해 미션을 완료하세요",
+    "checking": "스탬프 확인 중...",
+    "permission_denied": "카메라 권한을 허용해 주세요",
+    "camera_error": "카메라를 사용할 수 없어요"
+  },
+  "memo": {
+    "title": "메모",
+    "placeholder": "메모를 입력하세요",
+    "loading": "메모를 불러오는 중..."
+  },
+  "current_location": "현재 위치"
 }

@@ -62,6 +62,7 @@ function RouteComponent() {
                 navigate({
                   to: `/course/$courseId`,
                   params: { courseId: data.tourCourseId.toString() },
+                  replace: true,
                 })
               },
             },

@@ -15,7 +15,9 @@
   "course_card": {
     "progress_rate_label": "코스 진행률",
     "in_progress": "코스 진행중",
-    "shared": "코스 공유중"
+    "shared": "코스 공유중",
+    "progress_days": "{{days}}일차",
+    "inprogress_course_label": "진행중인 코스"
   },
   "recommend_course_section": {
     "title": "오이소가 직접 골라봤어요",

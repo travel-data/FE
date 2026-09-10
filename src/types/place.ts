@@ -1,3 +1,5 @@
+import type { Paginated } from '@/types/response'
+
 export type PlaceTrafficLevel = 'crowded' | 'moderate' | 'relaxed'
 
 export type PlaceCategory = 'TOUR_SPOT' | 'RESTAURANT' | 'ACCOMMODATION'
@@ -18,11 +20,28 @@ export type TourSpotListItem =
 export const getPlaceId = (item: TourSpotListItem) =>
   item.category === 'TOUR_SPOT' ? item.spotId : item.nearbyPlaceId
 
-export interface TourSpotsResponse {
-  places: TourSpotListItem[]
-  page: number
-  size: number
+export type TourSpotsResponse = Paginated<'places', TourSpotListItem>
+
+export type StampMissionType = 'VISIT' | 'QR_SCAN' | 'STORY_CARD'
+
+export interface StampMission {
+  type: StampMissionType
+  cleared: boolean
+  clearedAt: string | null
+}
+
+export interface StampProgress {
+  clearedCount: number
   totalCount: number
+  allCleared: boolean
+  missions: StampMission[]
+}
+
+export interface StampMissionClearResponse {
+  spotId: number
+  missionType: StampMissionType
+  cleared: boolean
+  clearedAt: string
 }
 
 export interface TourSpotDetail {
@@ -42,6 +61,7 @@ export interface TourSpotDetail {
   contentId: number
   contentTypeId: number
   tel: string | null
+  stampProgress: StampProgress
 }
 
 export type NearbyPlaceCategory = 'RESTAURANT' | 'ACCOMMODATION'

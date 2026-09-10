@@ -10,6 +10,7 @@ interface SharingActions {
 }
 
 interface CourseActionBarProps {
+  isInProgress: boolean
   isSharing?: boolean
   sharingActions?: SharingActions
   onShare: () => void
@@ -17,6 +18,7 @@ interface CourseActionBarProps {
 }
 
 function CourseActionBar({
+  isInProgress,
   isSharing = false,
   sharingActions,
   onShare,
@@ -34,9 +36,11 @@ function CourseActionBar({
           {t('button.shared_course')}
         </Button>
       )}
-      <Button className="flex-1" onClick={onStart}>
-        {t('button.course_start')}
-      </Button>
+      {!isInProgress && (
+        <Button className="flex-1" onClick={onStart}>
+          {t('button.course_start')}
+        </Button>
+      )}
     </div>
   )
 }

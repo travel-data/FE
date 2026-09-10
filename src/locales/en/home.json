@@ -15,7 +15,9 @@
   "course_card": {
     "progress_rate_label": "Course Progress",
     "in_progress": "Course in Progress",
-    "shared": "Shared"
+    "shared": "Shared",
+    "progress_days": "Day {{days}}",
+    "inprogress_course_label": "Course in Progress"
   },
   "recommend_course_section": {
     "title": "Picked Just for You by OISO",

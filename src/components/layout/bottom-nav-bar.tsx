@@ -1,6 +1,6 @@
 import HomeIcon from '@/assets/icons/home-icon.svg?react'
 import CourseIcon from '@/assets/icons/map-maker-icon.svg?react'
-import NoteIcon from '@/assets/icons/book-icon.svg?react'
+import PlaceIcon from '@/assets/icons/search-icon.svg?react'
 import MyIcon from '@/assets/icons/user-icon.svg?react'
 import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
@@ -17,9 +17,9 @@ const NAV_CONFIG = [
     Icon: CourseIcon,
   },
   {
-    label: 'travel_note',
-    path: '/note',
-    Icon: NoteIcon,
+    label: 'place',
+    path: '/place',
+    Icon: PlaceIcon,
   },
   {
     label: 'mypage',

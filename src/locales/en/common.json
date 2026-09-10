@@ -5,13 +5,15 @@
     "copy": "Copy",
     "korean": "Switch to Korean",
     "english": "Switch to English",
-    "close": "Close"
+    "close": "Close",
+    "save": "Save"
   },
   "nav": {
     "home": "Home",
     "course": "Course",
     "travel_note": "Notes",
-    "mypage": "My"
+    "mypage": "My",
+    "place": "Place"
   },
   "duration": {
     "hours_one": "{{count}}hr",

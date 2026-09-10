@@ -9,12 +9,14 @@ import PhoneIcon from '@/assets/icons/phone-icon.svg?react'
 import GlobeIcon from '@/assets/icons/globe-icon.svg?react'
 import { Map, MapMarker, useKakaoLoader } from 'react-kakao-maps-sdk'
 import PlaceDirectionsButton from '@/components/place/place-directions-button'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/festival/$festivalId')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { t } = useTranslation('festival')
   const { festivalId } = useParams({ from: Route.id })
 
   const { data, isPending } = useFestivalDetailQuery(Number(festivalId))
@@ -35,7 +37,7 @@ function RouteComponent() {
           className="w-full h-50 rounded-lg mb-3"
         />
 
-        <div className="flex-1 flex flex-col ">
+        <div className="flex flex-col ">
           <h3 className="text-title3 mb-1.5">{data.name}</h3>
 
           <div className="space-y-1">
@@ -74,7 +76,14 @@ function RouteComponent() {
           </div>
 
           {data.overview ? (
-            <p className="mt-2 text-label text-text-subdued">{data.overview}</p>
+            <>
+              <p className="font-semibold mt-3">
+                {t('title.description_title')}
+              </p>
+              <p className="mt-0.5 text-label text-text-subdued">
+                {data.overview}
+              </p>
+            </>
           ) : (
             <p className="text-body2 text-text-subdued flex items-center justify-center flex-1">
               행사 소개가 존재하지 않습니다.
@@ -82,7 +91,7 @@ function RouteComponent() {
           )}
         </div>
 
-        <div className="mt-4">
+        <div className="mt-3">
           <p className="text-body2 text-text-default mb-1 font-semibold">
             오시는 길
           </p>

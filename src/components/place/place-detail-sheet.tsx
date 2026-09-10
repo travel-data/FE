@@ -6,10 +6,7 @@ import DownloadIcon from '@/assets/icons/download-icon.svg?react'
 import PlaceDirectionsButton from './place-directions-button'
 import { useTranslation } from 'react-i18next'
 import { PlaceCategory, TourSpotDetail, NearbyPlaceDetail } from '@/types/place'
-import {
-  useGetNearbyPlaceDetail,
-  useGetTourSpotDetail,
-} from '@/hooks/queries/place'
+import { usePlaceDetail } from '@/hooks/queries/place'
 
 function TourSpotSheet({ data }: { data: TourSpotDetail }) {
   return (
@@ -18,17 +15,19 @@ function TourSpotSheet({ data }: { data: TourSpotDetail }) {
         <div className="flex flex-col gap-0.5 items-start">
           <h2 className="text-title3 text-text-default">{data.name}</h2>
           <p className="flex items-center gap-0.5">
-            <MarkerIcon className="size-2.5" />
-            <span className="text-caption text-text-subdued">
-              {data.address}
-            </span>
+            <MarkerIcon className="size-3" />
+            <span className="text-label text-text-subdued">{data.address}</span>
           </p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="icon" size="icon" className="size-10">
             <DownloadIcon />
           </Button>
-          <PlaceBookmarkButton isBookmarked={data.like} />
+          <PlaceBookmarkButton
+            placeId={data.spotId}
+            category="TOUR_SPOT"
+            isBookmarked={data.like}
+          />
         </div>
       </DrawerHeader>
 
@@ -66,7 +65,11 @@ function NearbyPlaceSheet({ data }: { data: NearbyPlaceDetail }) {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <PlaceBookmarkButton isBookmarked={false} />
+          <PlaceBookmarkButton
+            placeId={data.nearbyPlaceId}
+            category={data.category}
+            isBookmarked={false}
+          />
         </div>
       </DrawerHeader>
 
@@ -97,7 +100,6 @@ function NearbyPlaceSheet({ data }: { data: NearbyPlaceDetail }) {
             영업시간: {data.openTime}
           </p>
         )}
-        {data.homepageUrl && data.homepageUrl}
       </div>
     </>
   )
@@ -119,18 +121,12 @@ function PlaceDetailSheet({
   placeCategory,
 }: PlaceDetailSheetProps) {
   const { t } = useTranslation('common')
-  const isTourSpot = placeCategory === 'TOUR_SPOT'
 
-  const { data: tourSpotData, isPending: isTourSpotPending } =
-    useGetTourSpotDetail(placeId, {
-      enabled: isTourSpot && isOpen,
-    })
-  const { data: nearbyData, isPending: isNearbyDataPending } =
-    useGetNearbyPlaceDetail(placeId, {
-      enabled: !isTourSpot && isOpen,
-    })
-
-  const isPending = isTourSpotPending || isNearbyDataPending
+  const { isTourSpot, tourSpotData, nearbyData, isPending } = usePlaceDetail({
+    placeId,
+    category: placeCategory,
+    enabled: isOpen,
+  })
 
   return (
     <Drawer open={isOpen} onOpenChange={onClose}>
