@@ -1,5 +1,6 @@
 import TopBar from '@/components/layout/top-bar'
-import { useMyPageQuery } from '@/hooks/queries/my'
+import { Button } from '@/components/ui/button'
+import { useSavedStoryCardsInfiniteQuery } from '@/hooks/queries/story-card'
 import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 
@@ -7,45 +8,18 @@ export const Route = createFileRoute('/(authentication)/my/saved-storycards')({
   component: RouteComponent,
 })
 
-const SAVED_STORYCARDS = [
-  {
-    id: 1,
-    placeName: '첨성대',
-    subtitle: '별을 읽던 신라의 탑',
-  },
-  {
-    id: 2,
-    placeName: '첨성대',
-    subtitle: '별을 읽던 신라의 탑',
-  },
-  {
-    id: 3,
-    placeName: '첨성대',
-    subtitle: '별을 읽던 신라의 탑',
-  },
-  {
-    id: 4,
-    placeName: '첨성대',
-    subtitle: '별을 읽던 신라의 탑',
-  },
-]
-
 function RouteComponent() {
   const router = useRouter()
   const navigate = useNavigate()
-  const { data: myPage, isLoading } = useMyPageQuery()
-  const savedStorycards =
-    myPage?.savedStories.items.map((story, index) => {
-      const fallback = SAVED_STORYCARDS.find((item) => item.id === story.storyId)
-
-      return {
-        id: story.storyId,
-        imageUrl: story.imageUrl,
-        placeName: fallback?.placeName ?? `스토리카드 ${index + 1}`,
-        subtitle: fallback?.subtitle ?? '저장한 스토리카드',
-      }
-    }) ?? []
-  const hasStorycards = savedStorycards.length > 0
+  const {
+    data,
+    isLoading,
+    isError,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useSavedStoryCardsInfiniteQuery()
+  const savedStoryCards = data?.pages.flatMap((page) => page.content) ?? []
 
   const handleBack = () => {
     if (router.history.canGoBack()) {
@@ -72,25 +46,35 @@ function RouteComponent() {
         }
       />
 
-      {!isLoading && !hasStorycards ? (
-        <main className="flex flex-1 items-center justify-center px-5 pb-24">
-          <p className="text-center text-body1 text-text-default">
-            저장한 스토리카드가 없습니다
-          </p>
-        </main>
+      {isLoading ? (
+        <StatusMessage message="스토리카드를 불러오는 중입니다." />
+      ) : isError ? (
+        <StatusMessage
+          message="저장한 스토리카드를 불러오지 못했습니다."
+          error
+        />
+      ) : savedStoryCards.length === 0 ? (
+        <StatusMessage message="저장한 스토리카드가 없습니다." />
       ) : (
         <main className="flex-1 overflow-y-auto px-5 pb-24 pt-4">
           <div className="flex flex-col gap-3">
-            {savedStorycards.map((storycard) => (
-              <article
-                key={storycard.id}
-                className="flex items-center px-2 py-3"
+            {savedStoryCards.map((storyCard) => (
+              <button
+                key={storyCard.storyId}
+                type="button"
+                onClick={() =>
+                  navigate({
+                    to: '/storycards/$spotId',
+                    params: { spotId: String(storyCard.spotId) },
+                  })
+                }
+                className="flex items-center px-2 py-3 text-left"
               >
                 <div className="h-[100px] w-[77px] shrink-0 overflow-hidden rounded-[4px] bg-gray-300">
-                  {storycard.imageUrl ? (
+                  {storyCard.imageUrl ? (
                     <img
-                      src={storycard.imageUrl}
-                      alt={storycard.placeName}
+                      src={storyCard.imageUrl}
+                      alt={storyCard.tourSpotName}
                       className="h-full w-full object-cover"
                     />
                   ) : null}
@@ -98,17 +82,51 @@ function RouteComponent() {
 
                 <div className="ml-6 flex min-w-0 flex-col justify-center">
                   <h2 className="truncate text-title2 text-black">
-                    {storycard.placeName}
+                    {storyCard.tourSpotName}
                   </h2>
                   <p className="mt-2 truncate text-body1 text-black">
-                    {storycard.subtitle}
+                    {storyCard.subTitle || storyCard.title}
                   </p>
                 </div>
-              </article>
+              </button>
             ))}
+
+            {hasNextPage ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="mt-2 w-full"
+              >
+                {isFetchingNextPage ? '불러오는 중' : '더 보기'}
+              </Button>
+            ) : null}
           </div>
         </main>
       )}
     </div>
+  )
+}
+
+function StatusMessage({
+  message,
+  error = false,
+}: {
+  message: string
+  error?: boolean
+}) {
+  return (
+    <main className="flex flex-1 items-center justify-center px-5 pb-24">
+      <p
+        className={
+          error
+            ? 'text-center text-body1 text-status-error'
+            : 'text-center text-body1 text-text-default'
+        }
+      >
+        {message}
+      </p>
+    </main>
   )
 }

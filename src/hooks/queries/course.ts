@@ -1,4 +1,4 @@
-import { getCourseDetail, getMycourses } from '@/api/course'
+import { getCourseDetail, getCourseList, getMycourses } from '@/api/course'
 import { QUERY_KEY } from '@/constants/query-key'
 import { useQuery } from '@tanstack/react-query'
 
@@ -39,5 +39,12 @@ export function usePendingCourse() {
     queryFn: () => getMycourses({ size: COURSE_SCAN_SIZE }),
     select: (data) =>
       data.tourCourses.find((c) => c.status === 'PENDING') ?? null,
+  })
+}
+
+export function useGetCourseList() {
+  return useQuery({
+    queryKey: QUERY_KEY.course.list(),
+    queryFn: getCourseList,
   })
 }

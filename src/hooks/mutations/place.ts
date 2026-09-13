@@ -14,6 +14,8 @@ export const useTogglePlaceSave = () => {
             ? QUERY_KEY.place.tourSpot(placeId)
             : QUERY_KEY.place.nearbyPlace(placeId),
       })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.place.savedPlaces() })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.my.page() })
     },
   })
 }

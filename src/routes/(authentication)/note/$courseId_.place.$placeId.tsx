@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 import PlaceInfo from '@/components/note/place-info'
 import PlaceMemo from '@/components/note/place-memo'
+import { useTourSpotMemoQuery } from '@/hooks/queries/memo'
 
 export const Route = createFileRoute(
   '/(authentication)/note/$courseId_/place/$placeId',
@@ -18,22 +19,10 @@ const MOCK_PLACE_INFO = {
   hasStoryCard: true,
 }
 
-const MOCK_PLACE_DATA = {
-  withMemo: {
-    content:
-      '신라시대의 천문 관측대로 정말 인상적이었습니다.\n돌을 쌓아 만든 구조가 신기했어요.',
-    images: [],
-  },
-  withMemoAndImages: {
-    content: '야경이 정말 아름다웠습니다!\n사진으로 담기 어려울 정도로 멋졌어요.',
-    images: ['image1', 'image2'],
-  },
-  empty: undefined,
-}
-
 function RouteComponent() {
   const navigate = useNavigate()
   const { courseId, placeId } = Route.useParams()
+  const { data: memoData } = useTourSpotMemoQuery(Number(placeId))
 
   const handleBack = () => {
     navigate({ to: '/note/$courseId', params: { courseId } })
@@ -65,7 +54,16 @@ function RouteComponent() {
         <PlaceMemo
           courseId={courseId}
           placeId={placeId}
-          memo={MOCK_PLACE_DATA.withMemoAndImages}
+          memo={
+            memoData?.memo
+              ? {
+                  content: memoData.memo.content,
+                  images: memoData.memo.imageUrl
+                    ? [memoData.memo.imageUrl]
+                    : [],
+                }
+              : undefined
+          }
         />
       </main>
     </div>

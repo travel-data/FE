@@ -1,7 +1,12 @@
+import {
+  deleteSavedNearbyPlace,
+  deleteSavedTourSpot,
+} from '@/api/tour-spot'
 import TopBar from '@/components/layout/top-bar'
-import { deleteSavedTourSpot } from '@/api/tour-spot'
-import { useMyPageQuery } from '@/hooks/queries/my'
 import { QUERY_KEY } from '@/constants/query-key'
+import { useSavedPlacesQuery } from '@/hooks/queries/place'
+import { usePlaceDetailSheetStore } from '@/stores/place-detail-sheet-store'
+import type { SavedPlaceListItem } from '@/types/place'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { ChevronLeft, Trash2 } from 'lucide-react'
@@ -10,47 +15,37 @@ export const Route = createFileRoute('/(authentication)/my/saved-places')({
   component: RouteComponent,
 })
 
-const SAVED_PLACES = [
-  {
-    id: 1,
-    name: '첨성대',
-    category: '관광지',
-    address: '경상북도 경주시 인왕동 839-1',
-  },
-  {
-    id: 2,
-    name: '동궁과 월지',
-    category: '관광지',
-    address: '경상북도 경주시 원화로 102',
-  },
-  {
-    id: 3,
-    name: '황리단길',
-    category: '거리',
-    address: '경상북도 경주시 포석로 일대',
-  },
-]
+const CATEGORY_LABEL = {
+  TOUR_SPOT: '관광지',
+  RESTAURANT: '음식점',
+  ACCOMMODATION: '숙소',
+} as const
+
+function getSavedPlaceKey(place: SavedPlaceListItem) {
+  return place.category === 'TOUR_SPOT'
+    ? `spot-${place.spotId}`
+    : `nearby-${place.nearbyPlaceId}`
+}
 
 function RouteComponent() {
   const router = useRouter()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { data: myPage, isLoading } = useMyPageQuery()
-  const savedPlaces = myPage?.savedSpots.items.map((spot) => {
-    const fallback = SAVED_PLACES.find((place) => place.id === spot.spotId)
-
-    return {
-      id: spot.spotId,
-      imageUrl: spot.imageUrl,
-      name: fallback?.name ?? `관광지 ${spot.spotId}`,
-      category: fallback?.category ?? '관광지',
-      address: fallback?.address ?? '주소 정보가 제공되지 않았습니다',
-    }
-  }) ?? SAVED_PLACES.map((place) => ({ ...place, imageUrl: '' }))
+  const { data, isLoading } = useSavedPlacesQuery()
+  const openPlaceDetail = usePlaceDetailSheetStore((state) => state.open)
+  const savedPlaces = data?.items ?? []
 
   const deleteMutation = useMutation({
-    mutationFn: deleteSavedTourSpot,
+    mutationFn: async (place: SavedPlaceListItem) => {
+      if (place.category === 'TOUR_SPOT') {
+        await deleteSavedTourSpot(place.spotId)
+        return
+      }
+
+      await deleteSavedNearbyPlace(place.nearbyPlaceId)
+    },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.place.savedPlaces() })
       queryClient.invalidateQueries({ queryKey: QUERY_KEY.my.page() })
     },
   })
@@ -62,10 +57,6 @@ function RouteComponent() {
     }
 
     navigate({ to: '/my' })
-  }
-
-  const handleDelete = (id: number) => {
-    deleteMutation.mutate(id)
   }
 
   return (
@@ -95,8 +86,27 @@ function RouteComponent() {
 
         {savedPlaces.map((place) => (
           <article
-            key={place.id}
-            className="flex items-center rounded-[8px] bg-primary-50 p-3"
+            role="button"
+            tabIndex={0}
+            key={getSavedPlaceKey(place)}
+            onClick={() =>
+              openPlaceDetail(
+                place.category === 'TOUR_SPOT'
+                  ? place.spotId
+                  : place.nearbyPlaceId,
+                place.category,
+              )
+            }
+            onKeyDown={(event) => {
+              if (event.key !== 'Enter' && event.key !== ' ') return
+              openPlaceDetail(
+                place.category === 'TOUR_SPOT'
+                  ? place.spotId
+                  : place.nearbyPlaceId,
+                place.category,
+              )
+            }}
+            className="flex items-center rounded-[8px] bg-primary-50 p-3 text-left"
           >
             <div className="flex min-w-0 flex-1 flex-col">
               <div className="flex min-w-0 items-center gap-2">
@@ -104,7 +114,7 @@ function RouteComponent() {
                   {place.name}
                 </h2>
                 <span className="shrink-0 rounded-[40px] bg-brand-primary px-3 py-1 text-caption text-primary-50">
-                  {place.category}
+                  {CATEGORY_LABEL[place.category]}
                 </span>
               </div>
 
@@ -114,9 +124,9 @@ function RouteComponent() {
             </div>
 
             <div className="ml-3 size-[72px] shrink-0 overflow-hidden rounded-[8px] bg-white">
-              {place.imageUrl ? (
+              {place.imageUrl || place.img ? (
                 <img
-                  src={place.imageUrl}
+                  src={place.imageUrl ?? place.img}
                   alt={place.name}
                   className="h-full w-full object-cover"
                 />
@@ -125,7 +135,10 @@ function RouteComponent() {
 
             <button
               type="button"
-              onClick={() => handleDelete(place.id)}
+              onClick={(event) => {
+                event.stopPropagation()
+                deleteMutation.mutate(place)
+              }}
               aria-label="삭제"
               disabled={deleteMutation.isPending}
               className="ml-5 flex size-6 shrink-0 items-center justify-center text-text-subdued disabled:opacity-40"

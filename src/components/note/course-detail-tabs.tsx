@@ -26,7 +26,7 @@ function CourseDetailTabs({ activeTab, onTabChange }: CourseDetailTabsProps) {
             : 'shrink-0 text-title3 font-medium text-text-subdued'
         }
       >
-        저장한 스토리카드
+        스토리카드
       </button>
     </div>
   )

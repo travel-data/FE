@@ -26,11 +26,14 @@ function PlaceBookmarkButton({
 
   return (
     <Button
+      type="button"
       size="icon"
-      variant={'icon'}
+      variant="icon"
       className="size-10 disabled:opacity-100"
       onClick={handleClick}
       disabled={isPending}
+      aria-label={saved ? '관광지 저장 취소' : '관광지 저장'}
+      aria-pressed={saved}
     >
       {saved ? (
         <FillBookmarkIcon className="fill-brand-primary" />

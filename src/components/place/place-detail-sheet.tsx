@@ -7,20 +7,95 @@ import PlaceDirectionsButton from './place-directions-button'
 import { useTranslation } from 'react-i18next'
 import { PlaceCategory, TourSpotDetail, NearbyPlaceDetail } from '@/types/place'
 import { usePlaceDetail } from '@/hooks/queries/place'
+import { toPng } from 'html-to-image'
+import { useRef, useState } from 'react'
+import { toast } from 'sonner'
+
+const TOUR_IMAGE_HOST = 'tong.visitkorea.or.kr'
+const TOUR_IMAGE_PROXY_PATH = '/tour-image-proxy'
+const CAPTURE_IMAGE_PLACEHOLDER =
+  'data:image/svg+xml;charset=utf-8,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="450"%3E%3Crect width="100%25" height="100%25" fill="%23f0f1f4"/%3E%3C/svg%3E'
+
+function createImageFileName(placeName: string) {
+  const safePlaceName = placeName.trim().replace(/[\\/:*?"<>|]/g, '-')
+  return `${safePlaceName || '관광지'}.png`
+}
+
+function getCaptureSafeImageUrl(imageUrl: string) {
+  try {
+    const url = new URL(imageUrl)
+
+    if (url.hostname !== TOUR_IMAGE_HOST) return imageUrl
+
+    return `${TOUR_IMAGE_PROXY_PATH}${url.pathname}${url.search}`
+  } catch {
+    return imageUrl
+  }
+}
 
 function TourSpotSheet({ data }: { data: TourSpotDetail }) {
+  const captureRef = useRef<HTMLDivElement>(null)
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const handleDownload = async () => {
+    if (!captureRef.current || isDownloading) return
+
+    setIsDownloading(true)
+
+    try {
+      await document.fonts.ready
+
+      const imageUrl = await toPng(captureRef.current, {
+        backgroundColor: '#fdfbfa',
+        cacheBust: true,
+        imagePlaceholder: CAPTURE_IMAGE_PLACEHOLDER,
+        pixelRatio: Math.min(window.devicePixelRatio || 2, 3),
+        style: { margin: '0' },
+        filter: (node) =>
+          !(
+            node instanceof HTMLElement &&
+            node.dataset.captureExclude === 'true'
+          ),
+      })
+
+      const downloadLink = document.createElement('a')
+      downloadLink.download = createImageFileName(data.name)
+      downloadLink.href = imageUrl
+      downloadLink.click()
+
+      toast.success('관광지 이미지를 저장했습니다.')
+    } catch {
+      toast.error('이미지를 저장하지 못했습니다. 잠시 후 다시 시도해주세요.')
+    } finally {
+      setIsDownloading(false)
+    }
+  }
+
   return (
-    <>
+    <div ref={captureRef} className="-m-3.5 space-y-4 bg-bg-main p-3.5">
       <DrawerHeader className="flex justify-between items-center p-0">
         <div className="flex flex-col gap-0.5 items-start">
           <h2 className="text-title3 text-text-default">{data.name}</h2>
           <p className="flex items-center gap-0.5">
-            <MarkerIcon className="size-3" />
-            <span className="text-label text-text-subdued">{data.address}</span>
+            <MarkerIcon className="size-2.5" />
+            <span className="text-caption text-text-subdued">
+              {data.address}
+            </span>
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="icon" size="icon" className="size-10">
+        <div
+          data-capture-exclude="true"
+          className="flex items-center gap-2"
+        >
+          <Button
+            variant="icon"
+            size="icon"
+            className="size-10"
+            aria-label="관광지 이미지 다운로드"
+            aria-busy={isDownloading}
+            disabled={isDownloading}
+            onClick={handleDownload}
+          >
             <DownloadIcon />
           </Button>
           <PlaceBookmarkButton
@@ -35,7 +110,7 @@ function TourSpotSheet({ data }: { data: TourSpotDetail }) {
         {data.img ? (
           <img
             className="h-56.75 w-full rounded-md object-cover"
-            src={data.img}
+            src={getCaptureSafeImageUrl(data.img)}
             alt={data.name}
           />
         ) : (
@@ -45,11 +120,11 @@ function TourSpotSheet({ data }: { data: TourSpotDetail }) {
             </p>
           </div>
         )}
-        <p className="text-label text-text-subdued max-h-40 overflow-scroll">
+        <p className="text-label text-text-subdued overflow-scroll">
           {data.overview}
         </p>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -100,6 +175,7 @@ function NearbyPlaceSheet({ data }: { data: NearbyPlaceDetail }) {
             영업시간: {data.openTime}
           </p>
         )}
+        {data.homepageUrl && data.homepageUrl}
       </div>
     </>
   )

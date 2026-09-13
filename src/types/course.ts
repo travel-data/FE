@@ -87,6 +87,24 @@ export type CreateCourseResponse = {
   createdAt: string
 }
 
+export interface CourseListItem {
+  tourCourseId: number
+  title: string
+  shareYn?: boolean
+  status?: CourseStatus
+  thumbnailImg?: string
+  itemCount?: number
+  totalDistanceMeter?: number
+  totalDurationSecond?: number
+  createdAt?: string
+  updatedAt?: string
+}
+
+export interface CourseListResponse {
+  items: CourseListItem[]
+  totalCount: number
+}
+
 export interface CourseDetailItem {
   itemId: number
   dayNumber: number

@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 
 import { Spinner } from '@/components/ui/spinner'
 import StampLogo from '@/assets/icons/stamp-logo.svg?react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useClearStampMission } from '@/hooks/mutations/place'
 import { useTourSpotStoryCard } from '@/hooks/queries/story'
 import { distanceMeters, getCurrentPosition } from '@/lib/geo'
@@ -21,17 +21,20 @@ const MISSION_LABEL_KEY = {
 } as const satisfies Record<StampMissionType, string>
 
 interface TourSpotContentProps {
+  courseId: string
   spotId: number
-  stampProgress: StampProgress
+  stampProgress: StampProgress | null
   location: { lat: number; lng: number }
 }
 
 function TourSpotContent({
+  courseId,
   spotId,
   stampProgress,
   location,
 }: TourSpotContentProps) {
   const { t } = useTranslation('place')
+  const navigate = useNavigate()
   const { mutate: clearMission, isPending } = useClearStampMission()
   const { data: storyCard } = useTourSpotStoryCard(spotId)
   const [qrOpen, setQrOpen] = useState(false)
@@ -66,6 +69,13 @@ function TourSpotContent({
     if (isPending || locating) return
     if (type === 'VISIT') handleVisit()
     else if (type === 'QR_SCAN') setQrOpen(true)
+    else if (type === 'STORY_CARD') {
+      navigate({
+        to: '/storycards/$spotId',
+        params: { spotId: String(spotId) },
+        search: { from: 'course-progress', courseId },
+      })
+    }
   }
 
   return (
@@ -81,7 +91,9 @@ function TourSpotContent({
             </span>
           </div>
           <Link
-            to={'.'}
+            to="/storycards/$spotId"
+            params={{ spotId: String(spotId) }}
+            search={{ from: 'course-progress', courseId }}
             className="relative rounded-lg overflow-hidden border border-border-1"
           >
             {storyCard.imageUrl ? (
@@ -112,11 +124,9 @@ function TourSpotContent({
         </span>
 
         <ul className="flex items-center gap-3 flex-nowrap overflow-x-scroll">
-          {stampProgress.missions.map((mission) => {
-            const isStoryCard = mission.type === 'STORY_CARD'
+          {(stampProgress?.missions ?? []).map((mission) => {
             const isLocatingVisit = mission.type === 'VISIT' && locating
-            const disabled =
-              mission.cleared || isStoryCard || isPending || isLocatingVisit
+            const disabled = mission.cleared || isPending || isLocatingVisit
             return (
               <li key={mission.type}>
                 <button
@@ -128,7 +138,6 @@ function TourSpotContent({
                     mission.cleared
                       ? 'bg-primary-50 text-brand-primary'
                       : 'bg-gray-100 text-text-default',
-                    isStoryCard && !mission.cleared && 'opacity-40',
                   )}
                 >
                   {isLocatingVisit ? (

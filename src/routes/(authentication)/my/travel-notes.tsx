@@ -1,12 +1,12 @@
 import TopBar from '@/components/layout/top-bar'
 import NoteCourseCard from '@/components/note/note-course-card'
 import { Button } from '@/components/ui/button'
+import { useGetCourseList } from '@/hooks/queries/course'
 import {
   Outlet,
   createFileRoute,
   useLocation,
   useNavigate,
-  useRouter,
 } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 
@@ -14,22 +14,42 @@ export const Route = createFileRoute('/(authentication)/my/travel-notes')({
   component: RouteComponent,
 })
 
+function formatDateRange(createdAt?: string, updatedAt?: string) {
+  const start = createdAt ? createdAt.slice(2, 10).replace(/-/g, '.') : ''
+  const end = updatedAt ? updatedAt.slice(2, 10).replace(/-/g, '.') : start
+
+  if (!start) return '날짜 정보 없음'
+  return `${start} ~ ${end}`
+}
+
+function formatDistance(distanceMeter?: number) {
+  if (!distanceMeter) return '거리 정보 없음'
+  return `${(distanceMeter / 1000).toFixed(1)}km`
+}
+
+function formatDuration(durationSecond?: number) {
+  if (!durationSecond) return '소요 시간 정보 없음'
+
+  const hours = Math.floor(durationSecond / 3600)
+  const minutes = Math.round((durationSecond % 3600) / 60)
+
+  if (hours <= 0) return `${minutes}분`
+  if (minutes <= 0) return `${hours}시간`
+  return `${hours}시간 ${minutes}분`
+}
+
 function RouteComponent() {
-  const router = useRouter()
   const navigate = useNavigate()
   const location = useLocation()
+  const { data: courseList, isLoading } = useGetCourseList()
+  const courses = courseList?.items ?? []
 
   if (location.pathname !== '/my/travel-notes') {
     return <Outlet />
   }
 
   const handleBack = () => {
-    if (router.history.canGoBack()) {
-      router.history.back()
-      return
-    }
-
-    navigate({ to: '/my' })
+    navigate({ to: '/my', replace: true })
   }
 
   const handleCourseClick = (courseId: number) => {
@@ -56,7 +76,7 @@ function RouteComponent() {
       />
 
       <main className="flex flex-1 flex-col overflow-y-auto px-5 pb-24">
-        {MOCK_COURSES.length === 0 ? (
+        {!isLoading && courses.length === 0 ? (
           <div className="relative flex flex-1 items-center justify-center">
             <p className="text-body1 text-text-default">
               등록된 여행 노트가 없습니다
@@ -72,14 +92,24 @@ function RouteComponent() {
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            {MOCK_COURSES.map((course) => (
+            {courses.map((course) => (
               <NoteCourseCard
-                key={course.id}
-                courseName={course.courseName}
-                dateRange={course.dateRange}
-                distance={course.distance}
-                duration={course.duration}
-                onClick={() => handleCourseClick(course.id)}
+                key={course.tourCourseId}
+                imageUrl={course.thumbnailImg}
+                courseName={course.title}
+                dateRange={formatDateRange(course.createdAt, course.updatedAt)}
+                distance={
+                  course.totalDistanceMeter
+                    ? formatDistance(course.totalDistanceMeter)
+                    : undefined
+                }
+                duration={
+                  course.totalDurationSecond
+                    ? formatDuration(course.totalDurationSecond)
+                    : undefined
+                }
+                itemCount={course.itemCount}
+                onClick={() => handleCourseClick(course.tourCourseId)}
               />
             ))}
           </div>
@@ -88,34 +118,3 @@ function RouteComponent() {
     </div>
   )
 }
-
-const MOCK_COURSES = [
-  {
-    id: 1,
-    courseName: '신라 야경 코스',
-    dateRange: '26-06-09 ~ 26-06-09',
-    distance: '5.2km',
-    duration: '2시간 30분',
-  },
-  {
-    id: 2,
-    courseName: '신라 야경 코스',
-    dateRange: '26-06-09 ~ 26-06-09',
-    distance: '5.2km',
-    duration: '2시간 30분',
-  },
-  {
-    id: 3,
-    courseName: '신라 야경 코스',
-    dateRange: '26-06-09 ~ 26-06-09',
-    distance: '5.2km',
-    duration: '2시간 30분',
-  },
-  {
-    id: 4,
-    courseName: '신라 야경 코스',
-    dateRange: '26-06-09 ~ 26-06-09',
-    distance: '5.2km',
-    duration: '2시간 30분',
-  },
-]

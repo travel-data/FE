@@ -2,8 +2,9 @@ interface NoteCourseCardProps {
   imageUrl?: string
   courseName: string
   dateRange: string
-  distance: string
-  duration: string
+  distance?: string
+  duration?: string
+  itemCount?: number
   onClick?: () => void
 }
 
@@ -13,6 +14,7 @@ function NoteCourseCard({
   dateRange,
   distance,
   duration,
+  itemCount,
   onClick,
 }: NoteCourseCardProps) {
   return (
@@ -27,6 +29,7 @@ function NoteCourseCard({
             <img
               src={imageUrl}
               alt={courseName}
+              draggable={false}
               className="h-full w-full object-cover"
             />
           )}
@@ -37,9 +40,13 @@ function NoteCourseCard({
             {courseName}
           </h3>
           <p className="text-label text-gray-600">{dateRange}</p>
-          <p className="text-label text-gray-600">
-            {distance} · {duration}
-          </p>
+          {distance && duration ? (
+            <p className="text-label text-gray-600">
+              {distance} · {duration}
+            </p>
+          ) : typeof itemCount === 'number' ? (
+            <p className="text-label text-gray-600">장소 {itemCount}개</p>
+          ) : null}
         </div>
       </div>
     </button>
