@@ -19,4 +19,13 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  server: {
+    proxy: {
+      '/tour-image-proxy': {
+        target: 'https://tong.visitkorea.or.kr',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/tour-image-proxy/, ''),
+      },
+    },
+  },
 })

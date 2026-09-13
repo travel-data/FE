@@ -1,5 +1,6 @@
 import TopBar from '@/components/layout/top-bar'
-import { useMyPageQuery } from '@/hooks/queries/my'
+import { Button } from '@/components/ui/button'
+import { useMemoListInfiniteQuery } from '@/hooks/queries/memo'
 import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 
@@ -7,58 +8,32 @@ export const Route = createFileRoute('/(authentication)/my/memos')({
   component: RouteComponent,
 })
 
-const MEMOS = [
-  {
-    id: 1,
-    courseId: '1',
-    placeId: '101',
-    placeName: '첨성대',
-    category: '관광지',
-    date: '2026.03.23',
-    content:
-      '본문을쓸 다날라마다해야 ㄷㄴㅏㅇ마밈라다리라리라ㅣ 더마다ㅣ 냐라마 그네 이거는 아마마다라며 ㅈ주 처리 처리 ㄷ며ㅏㅁ나 다ㅏ니 나니 3줄까지만나오게',
-    images: [{ id: 1 }, { id: 2 }, { id: 3 }],
-  },
-  {
-    id: 2,
-    courseId: '1',
-    placeId: '102',
-    placeName: '첨성대',
-    category: '관광지',
-    date: '2026.03.23',
-    content:
-      '본문을쓸 다날라마다해야 ㄷㄴㅏㅇ마밈라다리라리라ㅣ 더마다ㅣ 냐라마 그네 이거는 아마마다라며 ㅈ주 처리 처리 ㄷ며ㅏㅁ나 다ㅏ니 나니 3줄까지만나오게',
-    images: [],
-  },
-  {
-    id: 3,
-    courseId: '1',
-    placeId: '103',
-    placeName: '첨성대',
-    category: '관광지',
-    date: '2026.03.23',
-    content:
-      '본문을쓸 다날라마다해야 ㄷㄴㅏㅇ마밈라다리라리라ㅣ 더마다ㅣ 냐라마 그네 이거는 아마마다라며 ㅈ주 처리 처리 ㄷ며ㅏㅁ나 다ㅏ니 나니 3줄까지만나오게',
-    images: [{ id: 1 }, { id: 2 }],
-  },
-]
+function formatDate(value: string) {
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return ''
+
+  return new Intl.DateTimeFormat('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+    .format(date)
+    .replace(/\. /g, '.')
+    .replace(/\.$/, '')
+}
 
 function RouteComponent() {
   const router = useRouter()
   const navigate = useNavigate()
-  const { data: myPage, isLoading } = useMyPageQuery()
-  const memos =
-    myPage?.memos.items.map((memo) => ({
-      id: memo.memoId,
-      placeName: memo.courseTitle,
-      category: '메모',
-      date: '',
-      content: memo.content,
-      images: [],
-      courseId: undefined,
-      placeId: undefined,
-    })) ?? MEMOS
-  const hasMemos = memos.length > 0
+  const {
+    data,
+    isLoading,
+    isError,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useMemoListInfiniteQuery()
+  const memos = data?.pages.flatMap((page) => page.content) ?? []
 
   const handleBack = () => {
     if (router.history.canGoBack()) {
@@ -76,7 +51,7 @@ function RouteComponent() {
         leftSlot={
           <button
             type="button"
-            aria-label="뒤로가기"
+            aria-label="뒤로 가기"
             onClick={handleBack}
             className="flex size-8 items-center justify-center rounded-full text-text-heading"
           >
@@ -85,72 +60,86 @@ function RouteComponent() {
         }
       />
 
-      {!isLoading && !hasMemos ? (
-        <main className="flex flex-1 items-center justify-center px-5 pb-24">
-          <p className="text-center text-body1 text-text-default">
-            작성한 메모가 없습니다
-          </p>
-        </main>
-      ) : (
-        <main className="flex-1 overflow-y-auto px-5 pb-24 pt-2">
+      <main className="flex-1 overflow-y-auto px-5 pb-24 pt-2">
+        {isLoading ? (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-body1 text-text-default">
+              메모를 불러오는 중입니다.
+            </p>
+          </div>
+        ) : isError ? (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-body1 text-status-error">
+              메모 목록을 불러오지 못했습니다.
+            </p>
+          </div>
+        ) : memos.length === 0 ? (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-center text-body1 text-text-default">
+              작성한 메모가 없습니다.
+            </p>
+          </div>
+        ) : (
           <div className="flex flex-col gap-3">
             {memos.map((memo) => (
               <button
-                key={memo.id}
+                key={memo.memoId}
                 type="button"
-                onClick={() => {
-                  if (!memo.courseId || !memo.placeId) return
-
+                onClick={() =>
                   navigate({
                     to: '/note/$courseId/place/$placeId/edit-memo',
                     params: {
-                      courseId: memo.courseId,
-                      placeId: memo.placeId,
+                      courseId: 'memo',
+                      placeId: String(memo.spotId),
                     },
-                    search: {
-                      from: 'mypage',
-                    },
+                    search: { from: 'mypage' },
                   })
-                }}
+                }
                 className="rounded-[12px] bg-primary-50 px-3 py-4 text-left"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex min-w-0 items-center">
                     <h2 className="truncate text-title3 text-black">
-                      {memo.placeName}
+                      {memo.spotName}
                     </h2>
                     <span className="ml-2 shrink-0 rounded-[40px] bg-brand-primary px-3 py-1 text-caption text-primary-50">
-                      {memo.category}
+                      관광지
                     </span>
                   </div>
 
-                  {memo.date ? (
-                    <time className="shrink-0 text-caption text-text-subdued">
-                      {memo.date}
-                    </time>
-                  ) : null}
+                  <time className="shrink-0 text-caption text-text-subdued">
+                    {formatDate(memo.updatedAt)}
+                  </time>
                 </div>
 
-                <p className="mt-4 line-clamp-3 text-caption text-text-subdued">
+                <p className="mt-4 line-clamp-3 whitespace-pre-wrap text-caption text-text-subdued">
                   {memo.content}
                 </p>
 
-                {memo.images.length > 0 && (
-                  <div className="mt-3 flex gap-2 overflow-x-auto">
-                    {memo.images.map((image) => (
-                      <div
-                        key={image.id}
-                        className="size-[120px] shrink-0 rounded-[4px] bg-white"
-                        aria-label={`${memo.placeName} 메모 이미지 ${image.id}`}
-                      />
-                    ))}
-                  </div>
-                )}
+                {memo.imageUrl ? (
+                  <img
+                    src={memo.imageUrl}
+                    alt={`${memo.spotName} 메모 이미지`}
+                    className="mt-3 h-[120px] w-[120px] rounded-[4px] object-cover"
+                  />
+                ) : null}
               </button>
             ))}
+
+            {hasNextPage ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+                className="mt-2 w-full"
+              >
+                {isFetchingNextPage ? '불러오는 중' : '메모 더 보기'}
+              </Button>
+            ) : null}
           </div>
-        </main>
-      )}
+        )}
+      </main>
     </div>
   )
 }

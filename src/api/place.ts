@@ -6,6 +6,8 @@ import {
   StampMissionClearResponse,
   StampMissionType,
   StampProgress,
+  SavedPlaceListItem,
+  SavedPlacesResponse,
   TourSpotDetail,
   TourSpotsResponse,
 } from '@/types/place'
@@ -32,12 +34,23 @@ export const getTourSpotDetail = async (spotId: number) => {
   const res = await apiClient.get<
     CommonResponse<{
       tourSpot: Omit<TourSpotDetail, 'stampProgress'>
-      stampProgress: StampProgress
+      stampProgress: StampProgress | null
     }>
   >(`/api/v1/tour-spots/${spotId}`)
 
   // stampProgress를 tourSpot에 병합해 기존 필드 접근을 유지하면서 미션 상태도 노출
-  return { ...res.data.data.tourSpot, stampProgress: res.data.data.stampProgress }
+  const stampProgress = res.data.data.stampProgress ?? {
+    clearedCount: 0,
+    totalCount: 3,
+    allCleared: false,
+    missions: [
+      { type: 'VISIT' as const, cleared: false, clearedAt: null },
+      { type: 'QR_SCAN' as const, cleared: false, clearedAt: null },
+      { type: 'STORY_CARD' as const, cleared: false, clearedAt: null },
+    ],
+  }
+
+  return { ...res.data.data.tourSpot, stampProgress }
 }
 
 export const clearStampMission = async ({
@@ -79,4 +92,29 @@ export const savePlace = async ({
 
   if (save) await apiClient.post(path)
   else await apiClient.delete(path)
+}
+
+type SavedPlacesApiData =
+  | SavedPlacesResponse
+  | SavedPlaceListItem[]
+  | { places: SavedPlaceListItem[]; totalCount?: number }
+
+export const getSavedPlaces = async (): Promise<SavedPlacesResponse> => {
+  const res = await apiClient.get<CommonResponse<SavedPlacesApiData>>(
+    '/api/v1/tour-spots/saved',
+  )
+  const data = res.data.data
+
+  if (Array.isArray(data)) {
+    return { items: data, totalCount: data.length }
+  }
+
+  if ('places' in data) {
+    return {
+      items: data.places,
+      totalCount: data.totalCount ?? data.places.length,
+    }
+  }
+
+  return data
 }

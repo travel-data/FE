@@ -21,6 +21,7 @@ import { Route as authenticationMyRouteImport } from './routes/(authentication)/
 import { Route as authenticationNoteIndexRouteImport } from './routes/(authentication)/note/index'
 import { Route as authenticationCourseIndexRouteImport } from './routes/(authentication)/course/index'
 import { Route as CourseSharedCourseIdRouteImport } from './routes/course/shared/$courseId'
+import { Route as authenticationStorycardsSpotIdRouteImport } from './routes/(authentication)/storycards/$spotId'
 import { Route as authenticationNoteCourseIdRouteImport } from './routes/(authentication)/note/$courseId'
 import { Route as authenticationMyTravelNotesRouteImport } from './routes/(authentication)/my/travel-notes'
 import { Route as authenticationMySavedStorycardsRouteImport } from './routes/(authentication)/my/saved-storycards'
@@ -101,6 +102,12 @@ const CourseSharedCourseIdRoute = CourseSharedCourseIdRouteImport.update({
   path: '/course/shared/$courseId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const authenticationStorycardsSpotIdRoute =
+  authenticationStorycardsSpotIdRouteImport.update({
+    id: '/storycards/$spotId',
+    path: '/storycards/$spotId',
+    getParentRoute: () => authenticationRouteRoute,
+  } as any)
 const authenticationNoteCourseIdRoute =
   authenticationNoteCourseIdRouteImport.update({
     id: '/note/$courseId',
@@ -231,6 +238,7 @@ export interface FileRoutesByFullPath {
   '/my/saved-storycards': typeof authenticationMySavedStorycardsRoute
   '/my/travel-notes': typeof authenticationMyTravelNotesRouteWithChildren
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/storycards/$spotId': typeof authenticationStorycardsSpotIdRoute
   '/course/shared/$courseId': typeof CourseSharedCourseIdRoute
   '/course/': typeof authenticationCourseIndexRoute
   '/note/': typeof authenticationNoteIndexRoute
@@ -263,6 +271,7 @@ export interface FileRoutesByTo {
   '/my/saved-storycards': typeof authenticationMySavedStorycardsRoute
   '/my/travel-notes': typeof authenticationMyTravelNotesRouteWithChildren
   '/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/storycards/$spotId': typeof authenticationStorycardsSpotIdRoute
   '/course/shared/$courseId': typeof CourseSharedCourseIdRoute
   '/course': typeof authenticationCourseIndexRoute
   '/note': typeof authenticationNoteIndexRoute
@@ -297,6 +306,7 @@ export interface FileRoutesById {
   '/(authentication)/my/saved-storycards': typeof authenticationMySavedStorycardsRoute
   '/(authentication)/my/travel-notes': typeof authenticationMyTravelNotesRouteWithChildren
   '/(authentication)/note/$courseId': typeof authenticationNoteCourseIdRoute
+  '/(authentication)/storycards/$spotId': typeof authenticationStorycardsSpotIdRoute
   '/course/shared/$courseId': typeof CourseSharedCourseIdRoute
   '/(authentication)/course/': typeof authenticationCourseIndexRoute
   '/(authentication)/note/': typeof authenticationNoteIndexRoute
@@ -331,6 +341,7 @@ export interface FileRouteTypes {
     | '/my/saved-storycards'
     | '/my/travel-notes'
     | '/note/$courseId'
+    | '/storycards/$spotId'
     | '/course/shared/$courseId'
     | '/course/'
     | '/note/'
@@ -363,6 +374,7 @@ export interface FileRouteTypes {
     | '/my/saved-storycards'
     | '/my/travel-notes'
     | '/note/$courseId'
+    | '/storycards/$spotId'
     | '/course/shared/$courseId'
     | '/course'
     | '/note'
@@ -396,6 +408,7 @@ export interface FileRouteTypes {
     | '/(authentication)/my/saved-storycards'
     | '/(authentication)/my/travel-notes'
     | '/(authentication)/note/$courseId'
+    | '/(authentication)/storycards/$spotId'
     | '/course/shared/$courseId'
     | '/(authentication)/course/'
     | '/(authentication)/note/'
@@ -507,6 +520,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/course/shared/$courseId'
       preLoaderRoute: typeof CourseSharedCourseIdRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(authentication)/storycards/$spotId': {
+      id: '/(authentication)/storycards/$spotId'
+      path: '/storycards/$spotId'
+      fullPath: '/storycards/$spotId'
+      preLoaderRoute: typeof authenticationStorycardsSpotIdRouteImport
+      parentRoute: typeof authenticationRouteRoute
     }
     '/(authentication)/note/$courseId': {
       id: '/(authentication)/note/$courseId'
@@ -691,6 +711,7 @@ interface authenticationRouteRouteChildren {
   authenticationCourseCourseIdRoute: typeof authenticationCourseCourseIdRoute
   authenticationCoursePlaceSearchRoute: typeof authenticationCoursePlaceSearchRoute
   authenticationNoteCourseIdRoute: typeof authenticationNoteCourseIdRoute
+  authenticationStorycardsSpotIdRoute: typeof authenticationStorycardsSpotIdRoute
   authenticationCourseIndexRoute: typeof authenticationCourseIndexRoute
   authenticationNoteIndexRoute: typeof authenticationNoteIndexRoute
   authenticationCourseCourseIdEditRoute: typeof authenticationCourseCourseIdEditRoute
@@ -712,6 +733,7 @@ const authenticationRouteRouteChildren: authenticationRouteRouteChildren = {
   authenticationCourseCourseIdRoute: authenticationCourseCourseIdRoute,
   authenticationCoursePlaceSearchRoute: authenticationCoursePlaceSearchRoute,
   authenticationNoteCourseIdRoute: authenticationNoteCourseIdRoute,
+  authenticationStorycardsSpotIdRoute: authenticationStorycardsSpotIdRoute,
   authenticationCourseIndexRoute: authenticationCourseIndexRoute,
   authenticationNoteIndexRoute: authenticationNoteIndexRoute,
   authenticationCourseCourseIdEditRoute: authenticationCourseCourseIdEditRoute,

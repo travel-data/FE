@@ -2,6 +2,7 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@/constants/query-key'
 import {
   getNearbyPlaceDetail,
+  getSavedPlaces,
   getTourSpotDetail,
   getTourSpots,
 } from '@/api/place'
@@ -68,5 +69,13 @@ export function usePlaceDetail({
     tourSpotData: isTourSpot ? tourSpot.data : undefined,
     nearbyData: !isTourSpot ? nearby.data : undefined,
     isPending: isTourSpot ? tourSpot.isPending : nearby.isPending,
+    isError: isTourSpot ? tourSpot.isError : nearby.isError,
   }
+}
+
+export function useSavedPlacesQuery() {
+  return useQuery({
+    queryKey: QUERY_KEY.place.savedPlaces(),
+    queryFn: getSavedPlaces,
+  })
 }
