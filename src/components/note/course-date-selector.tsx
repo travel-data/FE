@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 interface CourseDateSelectorProps {
   selectedDay: number
   totalDays: number
@@ -9,6 +11,8 @@ function CourseDateSelector({
   totalDays,
   onDayChange,
 }: CourseDateSelectorProps) {
+  const { t } = useTranslation('course')
+
   return (
     <div className="overflow-x-auto py-2">
       <div className="flex gap-3 px-5">
@@ -23,7 +27,7 @@ function CourseDateSelector({
                 : 'shrink-0 rounded-[40px] bg-primary-100 px-4 py-2 text-primary-400'
             }
           >
-            {day}일차
+            {t('badge.day_badge_label', { count: day })}
           </button>
         ))}
       </div>

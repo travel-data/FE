@@ -8,10 +8,15 @@ import { useGetCourseDetail } from '@/hooks/queries/course'
 import { useDeleteCourse } from '@/hooks/mutations/course'
 import { useStoryCardDetailsQueries } from '@/hooks/queries/story-card'
 import { useConfirmModalStore } from '@/stores/confirm-modal-store'
-import type { CourseDetailItem, TransportationType } from '@/types/course'
-import type { PlaceCategory } from '@/types/place'
+import type { CourseDetailItem } from '@/types/course'
+import {
+  formatCourseDateRange,
+  placeCategoryLabel,
+  transportationLabel,
+} from '@/lib/format-course'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute(
   '/(authentication)/my/travel-notes/$courseId',
@@ -22,36 +27,12 @@ export const Route = createFileRoute(
   component: RouteComponent,
 })
 
-const CATEGORY_LABEL: Record<PlaceCategory, string> = {
-  TOUR_SPOT: '관광지',
-  RESTAURANT: '음식점',
-  ACCOMMODATION: '숙소',
-}
-
-const TRANSPORTATION_LABEL: Record<TransportationType, string> = {
-  WALK: '도보',
-  CAR: '자동차',
-  BIKE: '자전거',
-}
-
-function formatDate(date?: string) {
-  if (!date) return ''
-  return date.slice(2, 10).replace(/-/g, '.')
-}
-
-function formatDateRange(createdAt?: string, updatedAt?: string) {
-  const start = formatDate(createdAt)
-  const end = formatDate(updatedAt) || start
-
-  if (!start) return '날짜 정보 없음'
-  return `${start} ~ ${end}`
-}
-
 function getTotalDays(items: CourseDetailItem[]) {
   return Math.max(...items.map((item) => item.dayNumber), 1)
 }
 
 function RouteComponent() {
+  const { t } = useTranslation(['my', 'common'])
   const navigate = useNavigate()
   const { courseId } = Route.useParams()
   const { tab } = Route.useSearch()
@@ -94,9 +75,9 @@ function RouteComponent() {
     if (deleteCourseMutation.isPending) return
 
     openConfirmModal({
-      title: '여행 코스를 삭제할까요?',
-      description: '코스에 포함된 장소도 함께 삭제되며 복구할 수 없습니다.',
-      actionLabel: '삭제',
+      title: t('travel_note.delete_title'),
+      description: t('travel_note.delete_description'),
+      actionLabel: t('common:button.delete'),
       onAction: () => {
         deleteCourseMutation.mutate(courseId, {
           onSuccess: handleBack,
@@ -131,11 +112,15 @@ function RouteComponent() {
     <div className="relative flex h-svh flex-col">
       <CourseDetailHeader
         courseName={courseDetail.title}
-        dateRange={formatDateRange(
+        dateRange={formatCourseDateRange(
           courseDetail.createdAt,
           courseDetail.updatedAt,
         )}
-        tags={['#여행지', '#경주', '#코스']}
+        tags={[
+          t('travel_note.tag_destination'),
+          t('travel_note.tag_gyeongju'),
+          t('travel_note.tag_course'),
+        ]}
         onBack={handleBack}
         onDelete={handleDelete}
       />
@@ -154,7 +139,7 @@ function RouteComponent() {
               {schedules.length === 0 ? (
                 <div className="flex min-h-40 items-center justify-center px-5">
                   <p className="text-body1 text-text-default">
-                    등록된 장소가 없습니다
+                    {t('travel_note.empty_places')}
                   </p>
                 </div>
               ) : (
@@ -168,12 +153,12 @@ function RouteComponent() {
                     }
                     time={`${index + 1}`}
                     placeName={schedule.name}
-                    category={CATEGORY_LABEL[schedule.category]}
+                    category={placeCategoryLabel(schedule.category)}
                     memo={schedule.overview ?? undefined}
                     transportation={
                       schedule.transportType
-                        ? TRANSPORTATION_LABEL[schedule.transportType]
-                        : '이동수단 정보 없음'
+                        ? transportationLabel(schedule.transportType)
+                        : t('travel_note.no_transportation')
                     }
                     imageUrl={schedule.img ?? undefined}
                     isFirst={index === 0}
@@ -192,7 +177,7 @@ function RouteComponent() {
               <Spinner className="mx-auto mt-12" />
             ) : storyCards.length === 0 ? (
               <p className="py-12 text-center text-body1 text-text-subdued">
-                이 코스에서 볼 수 있는 스토리카드가 없습니다.
+                {t('travel_note.empty_storycards')}
               </p>
             ) : (
               storyCards.map((storyCard) => (

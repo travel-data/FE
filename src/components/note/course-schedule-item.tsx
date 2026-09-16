@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 interface CourseScheduleItemProps {
   placeId: number
   time: string
@@ -21,6 +23,8 @@ function CourseScheduleItem({
   isLast,
   onClick,
 }: CourseScheduleItemProps) {
+  const { t } = useTranslation('my')
+
   return (
     <button
       type="button"
@@ -47,7 +51,7 @@ function CourseScheduleItem({
         </div>
 
         <p className="min-w-0 truncate text-caption text-text-heading">
-          {memo || '작성된 메모가 존재하지 않습니다.'}
+          {memo || t('travel_note.no_memo')}
         </p>
 
         <span className="min-w-0 truncate text-caption text-text-subdued">

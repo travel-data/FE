@@ -46,6 +46,8 @@ function FestivalListItem({
   status,
   spotId,
 }: FestivalResponse) {
+  const { t } = useTranslation('home')
+
   return (
     <Link
       to="/festival/$festivalId"
@@ -67,7 +69,9 @@ function FestivalListItem({
               status === 'ONGOING' ? 'text-brand-primary' : 'text-text-subdued',
             )}
           >
-            {status === 'ONGOING' ? '진행 중' : '진행 예정'}
+            {status === 'ONGOING'
+              ? t('festival_section.status_ongoing')
+              : t('festival_section.status_upcoming')}
           </span>
         </p>
       </div>

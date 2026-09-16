@@ -1,9 +1,13 @@
+import { useTranslation } from 'react-i18next'
+
 interface CourseDetailTabsProps {
   activeTab: 'timeline' | 'story'
   onTabChange: (tab: 'timeline' | 'story') => void
 }
 
 function CourseDetailTabs({ activeTab, onTabChange }: CourseDetailTabsProps) {
+  const { t } = useTranslation('my')
+
   return (
     <div className="flex gap-4 overflow-hidden p-5">
       <button
@@ -15,7 +19,7 @@ function CourseDetailTabs({ activeTab, onTabChange }: CourseDetailTabsProps) {
             : 'shrink-0 text-title3 font-medium text-text-subdued'
         }
       >
-        여행 타임라인
+        {t('travel_note.timeline')}
       </button>
       <button
         type="button"
@@ -26,7 +30,7 @@ function CourseDetailTabs({ activeTab, onTabChange }: CourseDetailTabsProps) {
             : 'shrink-0 text-title3 font-medium text-text-subdued'
         }
       >
-        스토리카드
+        {t('travel_note.tab_story')}
       </button>
     </div>
   )

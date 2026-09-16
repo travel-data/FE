@@ -4,6 +4,7 @@ import FillBookmarkIcon from '@/assets/icons/fill-bookmark-icon.svg?react'
 import { cn } from '@/lib/utils'
 import { ChevronDown, Lightbulb } from 'lucide-react'
 import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
 const SHEET_SNAP_POINTS = [0.3, 0.98] as const
@@ -64,6 +65,8 @@ function StoryTitleSection({
   StoryCardDetailProps,
   'name' | 'subtitle' | 'summary' | 'tags' | 'introContent'
 >) {
+  const { t } = useTranslation('place')
+
   return (
     <section>
       <h1 className="text-title1 text-text-default">{name}</h1>
@@ -87,11 +90,8 @@ function StoryTitleSection({
 
       <div className="mt-4">
         <StoryInfoBox
-          title="이 장소에서 무엇을 보게 되나요?"
-          content={
-            introContent ??
-            '장소의 분위기와 역사, 여행자가 머물며 느낄 수 있는 장면을 스토리로 정리해 보여줍니다.'
-          }
+          title={t('storycard.insight')}
+          content={introContent ?? t('storycard.insight_fallback')}
         />
       </div>
     </section>
@@ -131,22 +131,22 @@ function StoryDidYouKnowSection({
   content?: string
   tip?: StoryCardInfoBox
 }) {
+  const { t } = useTranslation('place')
+
   return (
     <section className="mt-4">
-      <h2 className="text-title3 text-text-default">알고 있었나요?</h2>
+      <h2 className="text-title3 text-text-default">
+        {t('storycard.did_you_know')}
+      </h2>
       <p className="mt-1 text-body2 text-text-default">
-        {content ??
-          '이야기 속 장소는 시대와 사람들의 생활 방식이 겹쳐진 공간입니다. 지금 보이는 풍경 너머에 쌓인 시간을 함께 떠올려 보면 여행의 장면이 더 선명해집니다.'}
+        {content ?? t('storycard.did_you_know_fallback')}
       </p>
 
       <div className="mt-4">
         <StoryInfoBox
           icon
-          title={tip?.title ?? '알아두면 좋아요!'}
-          content={
-            tip?.content ??
-            '방문 전 운영 시간과 주변 동선을 함께 확인하면 더 편하게 둘러볼 수 있습니다.'
-          }
+          title={tip?.title ?? t('storycard.tip')}
+          content={tip?.content ?? t('storycard.tip_fallback')}
         />
       </div>
     </section>
@@ -169,6 +169,7 @@ function StoryCardDetail({
   onBack,
   onReadProgress,
 }: StoryCardDetailProps) {
+  const { t } = useTranslation('place')
   const [isSheetOpen, setIsSheetOpen] = useState(false)
   const [activeSnapPoint, setActiveSnapPoint] = useState<
     number | string | null
@@ -269,7 +270,9 @@ function StoryCardDetail({
           onClick={openSheet}
           className="flex w-full flex-col items-center justify-center p-2.5"
         >
-          <span className="text-body2 text-white">스크롤하여 더 보기</span>
+          <span className="text-body2 text-white">
+            {t('storycard.scroll_hint')}
+          </span>
           <ChevronDown className="mt-1 size-6 text-primary-50" />
         </button>
       </div>

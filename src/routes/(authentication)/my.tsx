@@ -7,7 +7,7 @@ import { useMyPageQuery } from '@/hooks/queries/my'
 import { useSavedPlacesQuery } from '@/hooks/queries/place'
 import { useSavedStoryCardsInfiniteQuery } from '@/hooks/queries/story-card'
 import { usePlaceDetailSheetStore } from '@/stores/place-detail-sheet-store'
-import { getPlaceId, type PlaceCategory } from '@/types/place'
+import { getPlaceId } from '@/types/place'
 import {
   Outlet,
   createFileRoute,
@@ -17,42 +17,20 @@ import {
 import { ChevronRight, Settings } from 'lucide-react'
 import { useRef } from 'react'
 import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
+import {
+  formatCourseDateRange,
+  formatCourseDistance,
+  formatCourseDuration,
+  placeCategoryLabel,
+} from '@/lib/format-course'
 
 export const Route = createFileRoute('/(authentication)/my')({
   component: RouteComponent,
 })
 
-const CATEGORY_LABEL: Record<PlaceCategory, string> = {
-  TOUR_SPOT: '관광지',
-  RESTAURANT: '음식점',
-  ACCOMMODATION: '숙소',
-}
-
-function formatDateRange(createdAt?: string, updatedAt?: string) {
-  const start = createdAt ? createdAt.slice(2, 10).replace(/-/g, '.') : ''
-  const end = updatedAt ? updatedAt.slice(2, 10).replace(/-/g, '.') : start
-
-  if (!start) return '날짜 정보 없음'
-  return `${start} ~ ${end}`
-}
-
-function formatDistance(distanceMeter?: number) {
-  if (!distanceMeter) return '거리 정보 없음'
-  return `${(distanceMeter / 1000).toFixed(1)}km`
-}
-
-function formatDuration(durationSecond?: number) {
-  if (!durationSecond) return '소요 시간 정보 없음'
-
-  const hours = Math.floor(durationSecond / 3600)
-  const minutes = Math.round((durationSecond % 3600) / 60)
-
-  if (hours <= 0) return `${minutes}분`
-  if (minutes <= 0) return `${hours}시간`
-  return `${hours}시간 ${minutes}분`
-}
-
 function RouteComponent() {
+  const { t } = useTranslation(['my', 'common'])
   const courseDragRef = useRef({
     pointerId: null as number | null,
     startX: 0,
@@ -74,7 +52,8 @@ function RouteComponent() {
   const savedPlaces = savedPlaceList?.items.slice(0, 3) ?? []
   const savedStories =
     savedStoryPages?.pages.flatMap((page) => page.content).slice(0, 3) ?? []
-  const memos = memoPages?.pages.flatMap((page) => page.content).slice(0, 3) ?? []
+  const memos =
+    memoPages?.pages.flatMap((page) => page.content).slice(0, 3) ?? []
   const savedStoryCount =
     savedStoryPages?.pages[0]?.totalElements ??
     myPage?.savedStories.totalCount ??
@@ -124,7 +103,7 @@ function RouteComponent() {
   return (
     <div className="relative flex h-svh flex-col bg-white">
       <TopBar
-        title="마이페이지"
+        title={t('common:nav.mypage')}
         rightSlot={
           <button
             type="button"
@@ -149,15 +128,15 @@ function RouteComponent() {
             ) : null}
           </div>
           <p className="ml-3 text-title3 font-medium text-text-heading">
-            {myPage?.profile.nickname || '이름'}
+            {myPage?.profile.nickname || t('profile.name_fallback')}
           </p>
         </section>
 
         <div className="mt-8 flex flex-col gap-10">
           <SavedSection
-            title="나의 여행 노트"
+            title={t('travel_note.my_title')}
             count={courseList?.totalCount ?? 0}
-            emptyText="여행 노트가 없습니다"
+            emptyText={t('travel_note.section_empty')}
             onClick={() => navigate({ to: '/my/travel-notes' })}
           >
             {previewCourses.length > 0 ? (
@@ -187,18 +166,18 @@ function RouteComponent() {
                       <NoteCourseCard
                         imageUrl={course.thumbnailImg}
                         courseName={course.title}
-                        dateRange={formatDateRange(
+                        dateRange={formatCourseDateRange(
                           course.createdAt,
                           course.updatedAt,
                         )}
                         distance={
                           course.totalDistanceMeter
-                            ? formatDistance(course.totalDistanceMeter)
+                            ? formatCourseDistance(course.totalDistanceMeter)
                             : undefined
                         }
                         duration={
                           course.totalDurationSecond
-                            ? formatDuration(course.totalDurationSecond)
+                            ? formatCourseDuration(course.totalDurationSecond)
                             : undefined
                         }
                         itemCount={course.itemCount}
@@ -219,11 +198,11 @@ function RouteComponent() {
           </SavedSection>
 
           <SavedSection
-            title="저장한 장소"
+            title={t('place.title')}
             count={
               savedPlaceList?.totalCount ?? myPage?.savedSpots.totalCount ?? 0
             }
-            emptyText="저장한 장소가 없습니다"
+            emptyText={t('place.empty_title')}
             onClick={() => navigate({ to: '/my/saved-places' })}
           >
             {areSavedPlacesLoading ? (
@@ -253,7 +232,7 @@ function RouteComponent() {
                         {place.name}
                       </p>
                       <p className="mt-0.5 truncate text-caption text-text-subdued">
-                        {CATEGORY_LABEL[place.category]}
+                        {placeCategoryLabel(place.category)}
                       </p>
                     </div>
                   </button>
@@ -263,9 +242,9 @@ function RouteComponent() {
           </SavedSection>
 
           <SavedSection
-            title="저장한 스토리카드"
+            title={t('storycard.title')}
             count={savedStoryCount}
-            emptyText="저장한 스토리카드가 없습니다"
+            emptyText={t('storycard.empty_description')}
             onClick={() => navigate({ to: '/my/saved-storycards' })}
           >
             {areSavedStoriesLoading ? (
@@ -305,9 +284,9 @@ function RouteComponent() {
           </SavedSection>
 
           <SavedSection
-            title="내가 작성한 메모"
+            title={t('memo.title')}
             count={memoCount}
-            emptyText="작성한 메모가 없습니다"
+            emptyText={t('memo.empty_title')}
             onClick={() => navigate({ to: '/my/memos' })}
             className="pb-2"
           >

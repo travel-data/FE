@@ -1,4 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
+import { useTranslation } from 'react-i18next'
 
 interface PlaceMemoProps {
   courseId: string
@@ -17,6 +18,7 @@ function PlaceMemo({
   editScope = 'note',
 }: PlaceMemoProps) {
   const navigate = useNavigate()
+  const { t } = useTranslation(['my', 'place'])
 
   const handleEdit = () => {
     if (editScope === 'my-travel-notes') {
@@ -37,22 +39,24 @@ function PlaceMemo({
   return (
     <section className="px-5 py-3">
       <div className="flex items-center justify-between">
-        <h2 className="text-body1 font-medium text-gray-800">메모</h2>
+        <h2 className="text-body1 font-medium text-gray-800">
+          {t('place:memo.title')}
+        </h2>
         <button
           type="button"
           onClick={handleEdit}
           className="text-body2 text-primary-400"
         >
-          수정
+          {t('memo.edit_button')}
         </button>
       </div>
 
       <div className="mt-2">
         {!memo || !memo.content ? (
           <p className="text-label text-text-subdued">
-            작성된 메모가 없어요
+            {t('memo.empty_title')}
             <br />
-            해당 장소에서 느낀 점을 작성하고 이미지를 추가해보세요
+            {t('memo.empty_description')}
           </p>
         ) : (
           <div className="flex flex-col gap-3">

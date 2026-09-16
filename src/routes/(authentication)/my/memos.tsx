@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button'
 import { useMemoListInfiniteQuery } from '@/hooks/queries/memo'
 import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/(authentication)/my/memos')({
   component: RouteComponent,
@@ -23,6 +24,7 @@ function formatDate(value: string) {
 }
 
 function RouteComponent() {
+  const { t } = useTranslation(['my', 'place', 'common'])
   const router = useRouter()
   const navigate = useNavigate()
   const {
@@ -47,7 +49,7 @@ function RouteComponent() {
   return (
     <div className="relative flex h-svh flex-col bg-white">
       <TopBar
-        title="내가 작성한 메모"
+        title={t('memo.title')}
         leftSlot={
           <button
             type="button"
@@ -76,7 +78,7 @@ function RouteComponent() {
         ) : memos.length === 0 ? (
           <div className="flex h-full items-center justify-center">
             <p className="text-center text-body1 text-text-default">
-              작성한 메모가 없습니다.
+              {t('memo.empty_title')}
             </p>
           </div>
         ) : (
@@ -103,7 +105,7 @@ function RouteComponent() {
                       {memo.spotName}
                     </h2>
                     <span className="ml-2 shrink-0 rounded-[40px] bg-brand-primary px-3 py-1 text-caption text-primary-50">
-                      관광지
+                      {t('place:type.attraction')}
                     </span>
                   </div>
 
@@ -134,7 +136,9 @@ function RouteComponent() {
                 disabled={isFetchingNextPage}
                 className="mt-2 w-full"
               >
-                {isFetchingNextPage ? '불러오는 중' : '메모 더 보기'}
+                {isFetchingNextPage
+                  ? t('common:button.loading')
+                  : t('common:button.load_more')}
               </Button>
             ) : null}
           </div>

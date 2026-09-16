@@ -7,12 +7,14 @@ import { useQueryClient } from '@tanstack/react-query'
 import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { ChevronLeft, Square, SquareCheckBig } from 'lucide-react'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/(authentication)/settings')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { t } = useTranslation(['common', 'auth'])
   const router = useRouter()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -58,7 +60,7 @@ function RouteComponent() {
   return (
     <div className="relative flex h-svh flex-col bg-white">
       <TopBar
-        title="설정"
+        title={t('setting.title')}
         leftSlot={
           <button
             type="button"
@@ -80,7 +82,7 @@ function RouteComponent() {
             onClick={() => setIsLogoutModalOpen(true)}
             disabled={isLoggingOut}
           >
-            로그아웃
+            {t('auth:button.logout')}
           </Button>
 
           <Button
@@ -89,7 +91,7 @@ function RouteComponent() {
             className="mt-8 w-full border-border-1 bg-white text-text-heading hover:border-border-1 hover:bg-gray-50 hover:text-text-heading active:bg-gray-100"
             onClick={() => setIsWithdrawModalOpen(true)}
           >
-            회원탈퇴
+            {t('auth:button.withdraw_account')}
           </Button>
         </div>
       </main>
@@ -97,16 +99,16 @@ function RouteComponent() {
       <ConfirmModal
         open={isLogoutModalOpen}
         onOpenChange={setIsLogoutModalOpen}
-        title="로그아웃 하시겠습니까?"
-        actionLabel="로그아웃"
+        title={t('auth:confirm.logout')}
+        actionLabel={t('auth:button.logout')}
         onAction={handleLogout}
       />
 
       <ConfirmModal
         open={isWithdrawModalOpen}
         onOpenChange={handleWithdrawModalChange}
-        title="회원 탈퇴 하시겠습니까?"
-        actionLabel="탈퇴하기"
+        title={t('auth:confirm.withdraw_title')}
+        actionLabel={t('auth:button.withdraw')}
         actionDisabled={!isWithdrawChecked}
         onAction={() => undefined}
       >
@@ -121,7 +123,7 @@ function RouteComponent() {
             <Square className="size-6 shrink-0 text-text-subdued" />
           )}
           <span className="text-label text-text-subdued">
-            모든 정보는 삭제되어 복구되지 않아요
+            {t('auth:confirm.withdraw_description')}
           </span>
         </button>
       </ConfirmModal>

@@ -6,7 +6,9 @@ import { useTourSpotMemoQuery } from '@/hooks/queries/memo'
 import { useStoryCardDetailQuery } from '@/hooks/queries/story-card'
 import type { PlaceCategory } from '@/types/place'
 import { usePlaceDetail } from '@/hooks/queries/place'
+import { placeCategoryLabel } from '@/lib/format-course'
 import { Spinner } from '@/components/ui/spinner'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute(
   '/(authentication)/my/travel-notes/$courseId_/place/$placeId',
@@ -17,13 +19,8 @@ export const Route = createFileRoute(
   }),
 })
 
-const CATEGORY_LABEL: Record<PlaceCategory, string> = {
-  TOUR_SPOT: '관광지',
-  RESTAURANT: '음식점',
-  ACCOMMODATION: '숙소',
-}
-
 function RouteComponent() {
+  const { t } = useTranslation('place')
   const navigate = useNavigate()
   const { courseId, placeId } = Route.useParams()
   const { category } = Route.useSearch()
@@ -74,10 +71,10 @@ function RouteComponent() {
         ) : (
           <>
             <PlaceInfo
-              category={CATEGORY_LABEL[category]}
+              category={placeCategoryLabel(category)}
               placeName={place.name}
               address={place.address}
-              description={place.overview || '장소 설명이 없습니다.'}
+              description={place.overview || t('detail.empty_description')}
               hasStoryCard={Boolean(storyCard)}
               storyCardImageUrl={storyCard?.imageUrl}
               onStoryCardClick={
