@@ -90,10 +90,7 @@ function TourSpotSheet({
           </p>
         </div>
         {!readOnly && (
-          <div
-            data-capture-exclude="true"
-            className="flex items-center gap-2"
-          >
+          <div data-capture-exclude="true" className="flex items-center gap-2">
             <Button
               variant="icon"
               size="icon"
@@ -191,7 +188,6 @@ function NearbyPlaceSheet({
             영업시간: {data.openTime}
           </p>
         )}
-        {data.homepageUrl && data.homepageUrl}
       </div>
     </>
   )
