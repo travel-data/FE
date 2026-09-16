@@ -47,9 +47,17 @@ function CourseProgressCard({ courseId }: CourseProgressCardProps) {
     <div className="bg-brand-primary/5 mt-4 p-5 -mx-5">
       <div className="flex items-center justify-between mb-2">
         <div>
-          <span className="text-brand-primary text-label font-semibold">
-            {t('course_card.inprogress_course_label')}
-          </span>
+          <div className="flex items-center gap-1.5">
+            <span className="text-brand-primary text-label font-semibold">
+              {t('course_card.inprogress_course_label')}
+            </span>
+            {detail.shareYn && (
+              <span className="text-caption bg-brand-primary text-primary-50 rounded-full px-2 py-0.5">
+                {t('course_card.shared')}
+              </span>
+            )}
+          </div>
+
           <h4 className="text-title2 text-text-default">{`${detail.title} - ${t('course_card.progress_days', { days: currentPlace?.dayNumber })}`}</h4>
         </div>
 
@@ -67,7 +75,7 @@ function CourseProgressCard({ courseId }: CourseProgressCardProps) {
             {currentPlace.img ? (
               <img src={currentPlace.img} className="size-15 rounded-md" />
             ) : (
-              <div className="size-15 bg-text-subdued rounded-md" />
+              <div className="size-15 bg-gray-200 rounded-md" />
             )}
 
             <div className="flex flex-col">

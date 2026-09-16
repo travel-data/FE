@@ -4,7 +4,9 @@ import { checkAuth } from '@/api/auth'
 import { useEffect } from 'react'
 
 export function useAuthCheck() {
-  const { setAuthenticated, setLoading, setAuthRole } = useAuthStore()
+  const setAuthenticated = useAuthStore((s) => s.setAuthenticated)
+  const setLoading = useAuthStore((s) => s.setLoading)
+  const setAuthRole = useAuthStore((s) => s.setAuthRole)
 
   const { data: authenticated, isLoading: queryLoading } = useQuery({
     queryKey: ['auth', 'check'],
@@ -18,7 +20,12 @@ export function useAuthCheck() {
     setLoading(queryLoading)
     if (authenticated !== undefined) {
       setAuthenticated(authenticated)
-      setAuthRole(authenticated ? 'user' : null)
+      // me 성공 → user. 실패해도 게스트로 둘러보던 중이면 게스트 유지, 그 외엔 비로그인.
+      // role은 getState로 읽어 deps에 넣지 않는다(리렌더 루프 방지).
+      const currentRole = useAuthStore.getState().role
+      setAuthRole(
+        authenticated ? 'user' : currentRole === 'guest' ? 'guest' : null,
+      )
     }
   }, [authenticated, queryLoading, setAuthenticated, setLoading, setAuthRole])
 

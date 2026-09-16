@@ -7,6 +7,8 @@ import { useInProgressCourse } from '@/hooks/queries/course'
 import { usePendingCourseGuard } from '@/hooks/use-pending-course-guard'
 import TopBar from '@/components/layout/top-bar'
 import BackButton from '@/components/button/back-button'
+import { useAuth } from '@/stores/auth-store'
+import { useRequireAuth } from '@/hooks/use-require-auth'
 
 export const Route = createFileRoute('/(authentication)/course/')({
   component: RouteComponent,
@@ -14,19 +16,26 @@ export const Route = createFileRoute('/(authentication)/course/')({
 
 function RouteComponent() {
   const { t } = useTranslation(['home', 'course'])
-  const { data: inProgressCourse, isPending } = useInProgressCourse()
+  const { role } = useAuth()
+  const requireAuth = useRequireAuth()
+  const isUser = role === 'user'
+
+  // 내 진행 코스는 로그인 사용자만 조회 (게스트는 빈 상태 + CTA)
+  const { data: inProgressCourse, isPending } = useInProgressCourse({
+    enabled: isUser,
+  })
   const { handleCtaClick, pendingModal } = usePendingCourseGuard({
     replace: true,
   })
 
-  if (isPending)
+  if (isUser && isPending)
     return (
       <section className="flex flex-col h-svh items-center justify-center">
         <Spinner className="text-brand-primary size-10" />
       </section>
     )
 
-  if (inProgressCourse)
+  if (isUser && inProgressCourse)
     return (
       <Navigate
         to="/course/$courseId/progress"
@@ -59,7 +68,7 @@ function RouteComponent() {
         <Button
           size="md"
           className="w-full"
-          onClick={() => handleCtaClick('/course/recommend')}
+          onClick={() => requireAuth(() => handleCtaClick('/course/recommend'))}
         >
           {t('course.cta_recommend')}
         </Button>
@@ -67,7 +76,7 @@ function RouteComponent() {
           size="md"
           className="w-full"
           variant={'outline'}
-          onClick={() => handleCtaClick('/course/create')}
+          onClick={() => requireAuth(() => handleCtaClick('/course/create'))}
         >
           {t('course.cta_create_course')}
         </Button>

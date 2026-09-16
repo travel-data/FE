@@ -5,10 +5,13 @@ import { Button } from '@/components/ui/button'
 import { Trans, useTranslation } from 'react-i18next'
 import BottomNavBar from '@/components/layout/bottom-nav-bar'
 import RecommedCourseSection from '@/components/main/recommed-course-section'
+import TodayStoryCard from '@/components/main/today-story-card'
 import FestivalSection from '@/components/main/festival-section'
 import ChangeLanguageButton from '@/components/button/change-language-button'
 import { useInProgressCourse } from '@/hooks/queries/course'
 import { usePendingCourseGuard } from '@/hooks/use-pending-course-guard'
+import { useAuth } from '@/stores/auth-store'
+import { useRequireAuth } from '@/hooks/use-require-auth'
 import CourseProgressCard, {
   CourseProgressCardFallback,
 } from '@/components/main/course-progress-card'
@@ -19,8 +22,14 @@ export const Route = createFileRoute('/(authentication)/')({
 
 function RouteComponent() {
   const { t } = useTranslation('home')
+  const { role } = useAuth()
+  const requireAuth = useRequireAuth()
+  const isUser = role === 'user'
 
-  const { data: inProgressCourse, isPending } = useInProgressCourse()
+  // 진행 중 코스는 로그인 사용자만 조회 (게스트는 401 방지)
+  const { data: inProgressCourse, isPending } = useInProgressCourse({
+    enabled: isUser,
+  })
   const { handleCtaClick, pendingModal } = usePendingCourseGuard()
 
   return (
@@ -33,9 +42,9 @@ function RouteComponent() {
             <ChangeLanguageButton />
           </header>
 
-          {isPending ? (
+          {isUser && isPending ? (
             <CourseProgressCardFallback />
-          ) : inProgressCourse ? (
+          ) : isUser && inProgressCourse ? (
             <CourseProgressCard courseId={inProgressCourse.tourCourseId} />
           ) : (
             <>
@@ -49,7 +58,9 @@ function RouteComponent() {
               <Button
                 size="sm"
                 className="w-full mb-2"
-                onClick={() => handleCtaClick('/course/recommend')}
+                onClick={() =>
+                  requireAuth(() => handleCtaClick('/course/recommend'))
+                }
               >
                 {t('course.cta_recommend')}
               </Button>
@@ -57,17 +68,17 @@ function RouteComponent() {
                 size="sm"
                 className="w-full"
                 variant={'outline'}
-                onClick={() => handleCtaClick('/course/create')}
+                onClick={() =>
+                  requireAuth(() => handleCtaClick('/course/create'))
+                }
               >
                 {t('course.cta_create_course')}
               </Button>
             </>
           )}
-          <div className="flex items-center gap-4 py-4">
-            {/* TODO: 오늘의 스토리 카드 */}
-            <div className="flex-1 aspect-square rounded-lg bg-gray-200"></div>
+          <div className="pt-4 h-47 flex">
+            <TodayStoryCard />
             {/* TODO: 오늘 경주 날씨 카드 */}
-            <div className="flex-1 aspect-square rounded-lg bg-gray-200"></div>
           </div>
         </section>
 

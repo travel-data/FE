@@ -13,7 +13,11 @@ import { getCurrentPosition, type LatLng } from '@/lib/geo'
 
 const CATEGORY_FILTERS: {
   key: PlaceCategory | 'all'
-  labelKey: 'type.all' | 'type.attraction' | 'type.restaurant' | 'type.accommodation'
+  labelKey:
+    | 'type.all'
+    | 'type.attraction'
+    | 'type.restaurant'
+    | 'type.accommodation'
 }[] = [
   { key: 'all', labelKey: 'type.all' },
   { key: 'TOUR_SPOT', labelKey: 'type.attraction' },
@@ -168,7 +172,7 @@ function PlaceExploreView({
             type="button"
             onClick={moveToCurrentLocation}
             aria-label={t('current_location')}
-            className="absolute right-4 top-64 z-20 flex size-11 items-center justify-center rounded-full bg-white shadow-[0_0_15px_rgba(0,0,0,0.1)]"
+            className="absolute right-4 top-60 z-20 flex size-11 items-center justify-center rounded-full bg-white shadow-[0_0_15px_rgba(0,0,0,0.1)]"
           >
             <LocateFixed className="size-5 text-brand-primary" />
           </button>
@@ -197,12 +201,19 @@ function PlaceExploreView({
           </div>
         </div>
 
-        <ul onScroll={handleScroll} className="mt-2 flex-1 overflow-y-auto px-5">
+        <ul
+          onScroll={handleScroll}
+          className="mt-2 flex-1 overflow-y-auto px-5"
+        >
           {isPending &&
-            Array.from({ length: 5 }).map((_, i) => <PlaceCardSkeleton key={i} />)}
+            Array.from({ length: 5 }).map((_, i) => (
+              <PlaceCardSkeleton key={i} />
+            ))}
           {!isPending && places.length === 0 && (
             <div className="flex-1 flex items-center justify-center h-full">
-              <p className="text-text-subdued text-label">{t('search.empty')}</p>
+              <p className="text-text-subdued text-label">
+                {t('search.empty')}
+              </p>
             </div>
           )}
           {places.map((place) => (
@@ -214,7 +225,9 @@ function PlaceExploreView({
           ))}
 
           {isFetchingNextPage &&
-            Array.from({ length: 3 }).map((_, i) => <PlaceCardSkeleton key={i} />)}
+            Array.from({ length: 3 }).map((_, i) => (
+              <PlaceCardSkeleton key={i} />
+            ))}
         </ul>
       </div>
     </section>
