@@ -11,11 +11,8 @@ function TodayStoryCard() {
   const { data: story, isPending } = useFeaturedStoryCard()
   const navigate = useNavigate()
   if (isPending)
-    return (
-      <div className="aspect-square flex-1 animate-pulse rounded-lg bg-gray-200" />
-    )
-  if (!story)
-    return <div className="aspect-square flex-1 rounded-lg bg-gray-200" />
+    return <div className=" flex-1 animate-pulse rounded-lg bg-gray-200" />
+  if (!story) return <div className=" flex-1 rounded-lg bg-gray-200" />
 
   return (
     <button
