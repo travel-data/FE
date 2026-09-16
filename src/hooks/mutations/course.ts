@@ -4,6 +4,7 @@ import {
   deleteCourse,
   patchCourseStatus,
   updateCourseDetail,
+  updateCourseSharing,
 } from '@/api/course'
 import { generateRecommendedCourse } from '@/api/recommendation'
 import { QUERY_KEY } from '@/constants/query-key'
@@ -38,6 +39,19 @@ export const useUpdateCourse = () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEY.course.detail(data.tourCourseId.toString()),
       })
+    },
+  })
+}
+
+// 공유 설정/중단/비밀번호 수정 공통. 상세 갱신 + 목록(공유 여부 뱃지 등)도 무효화
+export const useUpdateCourseSharing = () => {
+  return useMutation({
+    mutationFn: updateCourseSharing,
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: QUERY_KEY.course.detail(data.tourCourseId.toString()),
+      })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.course.lists() })
     },
   })
 }

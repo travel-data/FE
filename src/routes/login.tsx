@@ -27,7 +27,13 @@ function RouteComponent() {
   if (isLoading) {
     return (
       <div className="flex min-h-svh items-center justify-center">
-        <p>로딩 중...</p>
+        <LogoSymbol
+          aria-label="OISO 로고"
+          className="translate-y-[clamp(-16px,calc(8svh-59.2px),16px)] transition-transform duration-300"
+          height={100}
+          role="img"
+          width={100}
+        />
       </div>
     )
   }
@@ -83,7 +89,6 @@ function RouteComponent() {
           >
             {t('button.guest')}
           </Button>
-
         </section>
       </main>
     </PhoneShell>

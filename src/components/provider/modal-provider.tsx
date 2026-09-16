@@ -15,6 +15,7 @@ function ModalProvider() {
         placeId={placeSheet.placeId!}
         placeCategory={placeSheet.placeCategory!}
         actionButton={placeSheet.actionButton}
+        readOnly={placeSheet.readOnly}
       />
       <ConfirmModal
         open={confirm.isOpen}

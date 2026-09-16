@@ -12,6 +12,7 @@ import MarkerIcon from '@/assets/icons/maker-icon.svg?react'
 import type { CourseDetailItem, TransportationType } from '@/types/course'
 import type { RouteTransportType } from '@/types/route'
 import { useRouteCalculation } from '@/hooks/queries/movement'
+import NearbySuggestionSection from './nearby-suggestion-section'
 
 const TRANSPORT_TYPE_MAP: Record<TransportationType, RouteTransportType> = {
   WALK: 'WALK',
@@ -35,6 +36,9 @@ interface NextPlaceSheetProps {
   onSkip: () => void
   disableSkip?: boolean
   isPending: boolean
+  courseId: string
+  // 현재(진행 중) 관광지 ID. 다음 장소가 관광지일 때 주변 추천을 노출
+  suggestionSpotId: number | null
 }
 
 function NextPlaceSheet({
@@ -46,6 +50,8 @@ function NextPlaceSheet({
   onSkip,
   disableSkip = false,
   isPending,
+  courseId,
+  suggestionSpotId,
 }: NextPlaceSheetProps) {
   const transportType = TRANSPORT_TYPE_MAP[place.transportType ?? 'WALK']
   const { data: route, isPending: isRoutePending } = useRouteCalculation({
@@ -109,6 +115,13 @@ function NextPlaceSheet({
             <div className="bg-gray-300 h-44 rounded-xl my-4" />
           )}
         </div>
+
+        {place.category === 'TOUR_SPOT' && suggestionSpotId != null && (
+          <NearbySuggestionSection
+            spotId={suggestionSpotId}
+            courseId={courseId}
+          />
+        )}
 
         <DrawerFooter className="p-0 flex-row items-center gap-4">
           <Button

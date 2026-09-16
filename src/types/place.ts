@@ -70,7 +70,8 @@ export interface TourSpotDetail {
   contentId: number
   contentTypeId: number
   tel: string | null
-  stampProgress: StampProgress
+  // 비로그인 조회 시 null (서버 스펙)
+  stampProgress: StampProgress | null
 }
 
 export type NearbyPlaceCategory = 'RESTAURANT' | 'ACCOMMODATION'
@@ -97,4 +98,8 @@ export interface NearbyPlaceDetail {
   petInfo: string | null
   firstMenu: string | null
   treatMenu: string | null
+  like: boolean
 }
+
+// 주변 장소 목록 응답 (목록 아이템은 상세와 동일 스키마)
+export type NearbyPlaceListResponse = Paginated<'nearbyPlaces', NearbyPlaceDetail>

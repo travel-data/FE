@@ -128,6 +128,7 @@ export interface CourseDetail {
   tourCourseId: number
   title: string
   shareYn: boolean
+  sharedPassword: string | null
   items: CourseDetailItem[]
   totalDistanceMeter: number
   totalDurationSecond: number
@@ -145,4 +146,12 @@ export interface CourseListDetail {
   itemCount: number
   createdAt: string
   updatedAt: string
+}
+
+// featured(홈 추천 코스) 응답은 목록 아이템과 동일 구조 → CourseListDetail 재사용
+
+// 공유 코스 비밀번호 검증 응답
+export interface VerifyPasswordResponse {
+  verified: boolean
+  accessToken: string
 }

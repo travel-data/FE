@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+
 interface NoteCourseCardProps {
   imageUrl?: string
   courseName: string
@@ -17,6 +19,8 @@ function NoteCourseCard({
   itemCount,
   onClick,
 }: NoteCourseCardProps) {
+  const { t } = useTranslation('my')
+
   return (
     <button
       type="button"
@@ -45,7 +49,9 @@ function NoteCourseCard({
               {distance} · {duration}
             </p>
           ) : typeof itemCount === 'number' ? (
-            <p className="text-label text-gray-600">장소 {itemCount}개</p>
+            <p className="text-label text-gray-600">
+              {t('travel_note.place_count', { count: itemCount })}
+            </p>
           ) : null}
         </div>
       </div>

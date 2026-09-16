@@ -3,12 +3,14 @@ import { Button } from '@/components/ui/button'
 import { useSavedStoryCardsInfiniteQuery } from '@/hooks/queries/story-card'
 import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export const Route = createFileRoute('/(authentication)/my/saved-storycards')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const { t } = useTranslation(['my', 'common'])
   const router = useRouter()
   const navigate = useNavigate()
   const {
@@ -33,7 +35,7 @@ function RouteComponent() {
   return (
     <div className="relative flex h-svh flex-col bg-white">
       <TopBar
-        title="저장한 스토리카드"
+        title={t('storycard.title')}
         leftSlot={
           <button
             type="button"
@@ -54,7 +56,7 @@ function RouteComponent() {
           error
         />
       ) : savedStoryCards.length === 0 ? (
-        <StatusMessage message="저장한 스토리카드가 없습니다." />
+        <StatusMessage message={t('storycard.empty_description')} />
       ) : (
         <main className="flex-1 overflow-y-auto px-5 pb-24 pt-4">
           <div className="flex flex-col gap-3">
@@ -99,7 +101,9 @@ function RouteComponent() {
                 disabled={isFetchingNextPage}
                 className="mt-2 w-full"
               >
-                {isFetchingNextPage ? '불러오는 중' : '더 보기'}
+                {isFetchingNextPage
+                  ? t('common:button.loading')
+                  : t('common:button.load_more')}
               </Button>
             ) : null}
           </div>

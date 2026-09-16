@@ -9,36 +9,19 @@ import {
   useNavigate,
 } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import {
+  formatCourseDateRange,
+  formatCourseDistance,
+  formatCourseDuration,
+} from '@/lib/format-course'
 
 export const Route = createFileRoute('/(authentication)/my/travel-notes')({
   component: RouteComponent,
 })
 
-function formatDateRange(createdAt?: string, updatedAt?: string) {
-  const start = createdAt ? createdAt.slice(2, 10).replace(/-/g, '.') : ''
-  const end = updatedAt ? updatedAt.slice(2, 10).replace(/-/g, '.') : start
-
-  if (!start) return '날짜 정보 없음'
-  return `${start} ~ ${end}`
-}
-
-function formatDistance(distanceMeter?: number) {
-  if (!distanceMeter) return '거리 정보 없음'
-  return `${(distanceMeter / 1000).toFixed(1)}km`
-}
-
-function formatDuration(durationSecond?: number) {
-  if (!durationSecond) return '소요 시간 정보 없음'
-
-  const hours = Math.floor(durationSecond / 3600)
-  const minutes = Math.round((durationSecond % 3600) / 60)
-
-  if (hours <= 0) return `${minutes}분`
-  if (minutes <= 0) return `${hours}시간`
-  return `${hours}시간 ${minutes}분`
-}
-
 function RouteComponent() {
+  const { t } = useTranslation('my')
   const navigate = useNavigate()
   const location = useLocation()
   const { data: courseList, isLoading } = useGetCourseList()
@@ -62,7 +45,7 @@ function RouteComponent() {
   return (
     <div className="relative flex h-svh flex-col bg-white">
       <TopBar
-        title="나의 여행 노트"
+        title={t('travel_note.my_title')}
         leftSlot={
           <button
             type="button"
@@ -79,7 +62,7 @@ function RouteComponent() {
         {!isLoading && courses.length === 0 ? (
           <div className="relative flex flex-1 items-center justify-center">
             <p className="text-body1 text-text-default">
-              등록된 여행 노트가 없습니다
+              {t('travel_note.fallback')}
             </p>
             <Button
               type="button"
@@ -87,7 +70,7 @@ function RouteComponent() {
               className="absolute inset-x-0 bottom-2 w-full"
               onClick={() => navigate({ to: '/course/recommend' })}
             >
-              코스 추천받으러 가기
+              {t('travel_note.course_cta_button')}
             </Button>
           </div>
         ) : (
@@ -97,15 +80,18 @@ function RouteComponent() {
                 key={course.tourCourseId}
                 imageUrl={course.thumbnailImg}
                 courseName={course.title}
-                dateRange={formatDateRange(course.createdAt, course.updatedAt)}
+                dateRange={formatCourseDateRange(
+                  course.createdAt,
+                  course.updatedAt,
+                )}
                 distance={
                   course.totalDistanceMeter
-                    ? formatDistance(course.totalDistanceMeter)
+                    ? formatCourseDistance(course.totalDistanceMeter)
                     : undefined
                 }
                 duration={
                   course.totalDurationSecond
-                    ? formatDuration(course.totalDurationSecond)
+                    ? formatCourseDuration(course.totalDurationSecond)
                     : undefined
                 }
                 itemCount={course.itemCount}

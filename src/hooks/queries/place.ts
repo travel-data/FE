@@ -2,11 +2,20 @@ import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@/constants/query-key'
 import {
   getNearbyPlaceDetail,
+  getNearbyPlaces,
   getSavedPlaces,
   getTourSpotDetail,
   getTourSpots,
 } from '@/api/place'
 import type { PlaceCategory } from '@/types/place'
+
+export function useNearbyPlaces(spotId: number, { enabled = true } = {}) {
+  return useQuery({
+    queryKey: QUERY_KEY.place.nearbyPlaces(spotId),
+    queryFn: () => getNearbyPlaces({ spotId }),
+    enabled,
+  })
+}
 
 const PAGE_SIZE = 20
 

@@ -1,8 +1,10 @@
 {
   "title": {
-    "description_title": "상세 설명"
+    "description_title": "상세 설명",
+    "event_info": "행사 정보"
   },
   "label": {
     "direction": "오시는 길"
-  }
+  },
+  "empty_overview": "행사 소개가 존재하지 않습니다."
 }

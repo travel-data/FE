@@ -1,8 +1,10 @@
 {
   "title": {
-    "description_title": "Overview"
+    "description_title": "Overview",
+    "event_info": "Event Info"
   },
   "label": {
     "direction": "Location"
-  }
+  },
+  "empty_overview": "No event description available."
 }

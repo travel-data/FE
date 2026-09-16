@@ -14,7 +14,7 @@ function FestivalSection() {
     <section className="py-6 bg-gray-50 flex flex-col items-center justify-center gap-2.5">
       <div className="text-center">
         <h3 className="text-body2 font-bold">{t('festival_section.title')}</h3>
-        <p className="text-text-subdued text-caption">
+        <p className="text-text-subdued text-label">
           {t('festival_section.description')}
         </p>
       </div>
@@ -46,6 +46,8 @@ function FestivalListItem({
   status,
   spotId,
 }: FestivalResponse) {
+  const { t } = useTranslation('home')
+
   return (
     <Link
       to="/festival/$festivalId"
@@ -67,7 +69,9 @@ function FestivalListItem({
               status === 'ONGOING' ? 'text-brand-primary' : 'text-text-subdued',
             )}
           >
-            {status === 'ONGOING' ? '진행 중' : '진행 예정'}
+            {status === 'ONGOING'
+              ? t('festival_section.status_ongoing')
+              : t('festival_section.status_upcoming')}
           </span>
         </p>
       </div>

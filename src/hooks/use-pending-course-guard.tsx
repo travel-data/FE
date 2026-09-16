@@ -5,13 +5,18 @@ import { useTranslation } from 'react-i18next'
 import ConfirmModal from '@/components/modal/confirm-modal'
 import { usePendingCourse } from '@/hooks/queries/course'
 import { useUpdateCourseStatus } from '@/hooks/mutations/course'
+import { useAuth } from '@/stores/auth-store'
 
 type CtaDest = '/course/recommend' | '/course/create'
 
 export function usePendingCourseGuard({ replace = false } = {}) {
   const { t } = useTranslation('course')
   const navigate = useNavigate()
-  const { data: pendingCourse } = usePendingCourse()
+  const { role } = useAuth()
+  // 로그인 사용자만 대기 코스를 조회한다 (게스트는 401 방지)
+  const { data: pendingCourse } = usePendingCourse({
+    enabled: role === 'user',
+  })
   const { mutate: updateStatus } = useUpdateCourseStatus()
   const [pendingDest, setPendingDest] = useState<CtaDest | null>(null)
 

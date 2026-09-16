@@ -91,7 +91,10 @@
     "stop_sharing_button_description": "Once stopped, your companions<br/>will no longer be able to access this course",
     "close_option_sheet": "Close",
     "view_link_title": "Shared course link",
-    "edit_password_submit_button": "Update"
+    "edit_password_submit_button": "Update",
+    "password_mismatch": "The password does not match.",
+    "access_denied": "You no longer have access to this course.",
+    "go_home": "Go to Home"
   },
   "edit": {
     "course_edit": "Edit Course",
@@ -120,7 +123,11 @@
   },
   "recommend": {
     "other_place_title": "Take a break?",
-    "other_place_description": "How about here before your next stop?"
+    "other_place_description": "How about here before your next stop?",
+    "start_course_button": "Start This Course",
+    "course_created": "Your course has been created",
+    "course_create_failed": "Something went wrong while creating the course",
+    "in_progress_exists": "You already have a course in progress"
   },
   "traffic_level": {
     "crowded": "Crowded",

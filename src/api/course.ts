@@ -8,6 +8,7 @@ import {
   CourseStatus,
   CreateCourseResponse,
 } from '@/types/course'
+import { toCourseItemPayload } from '@/mappers/course'
 import { CommonResponse, Paginated } from '@/types/response'
 
 export const createCourse = async (courseInfo: CourseRequest) => {
@@ -70,6 +71,37 @@ export const updateCourseDetail = async ({
   const res = await apiClient.put<CommonResponse<CourseDetail>>(
     `/api/v1/tour-courses/${courseId}`,
     body,
+  )
+
+  return res.data.data
+}
+
+// 공유 설정/중단/비밀번호 수정: items는 그대로 두고 공유 필드만 바꿔 전체수정 API 재사용
+export const updateCourseSharing = async ({
+  detail,
+  shareYn,
+  sharedPassword,
+}: {
+  detail: CourseDetail
+  shareYn: boolean
+  sharedPassword: string | null
+}) => {
+  return updateCourseDetail({
+    courseId: String(detail.tourCourseId),
+    body: {
+      title: detail.title,
+      shareYn,
+      sharedPassword,
+      items: detail.items.map(toCourseItemPayload),
+    },
+  })
+}
+
+// 홈 화면 추천 코스 랜덤 조회
+export const getFeaturedCourses = async (size?: number) => {
+  const res = await apiClient.get<CommonResponse<CourseListDetail[]>>(
+    '/api/v1/tour-courses/featured',
+    { params: { size } },
   )
 
   return res.data.data

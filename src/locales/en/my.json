@@ -7,7 +7,23 @@
     "confirm_delete_notes_description": "Deleted notes can't be recovered",
     "confirm_delete_button": "Delete",
     "timeline": "Timeline",
-    "saved_storycard": "Saved Story Cards"
+    "saved_storycard": "Saved Story Cards",
+    "my_title": "My Travel Notes",
+    "section_empty": "No travel notes yet",
+    "empty_places": "No places added",
+    "empty_storycards": "There are no story cards for this course.",
+    "tab_story": "Story Cards",
+    "no_memo": "No memo written.",
+    "place_count": "{{count}} places",
+    "delete_title": "Delete this travel course?",
+    "delete_description": "The places in this course will be deleted too and cannot be recovered.",
+    "no_date": "No date info",
+    "no_distance": "No distance info",
+    "no_duration": "No duration info",
+    "no_transportation": "No transportation info",
+    "tag_destination": "#Travel",
+    "tag_gyeongju": "#Gyeongju",
+    "tag_course": "#Course"
   },
   "memo": {
     "title": "My Journal",
@@ -24,5 +40,8 @@
   "storycard": {
     "title": "Saved Story Cards",
     "empty_description": "No Saved Story Cards"
+  },
+  "profile": {
+    "name_fallback": "Name"
   }
 }
