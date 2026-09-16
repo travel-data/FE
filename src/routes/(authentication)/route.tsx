@@ -3,6 +3,7 @@ import { checkAuth } from '@/api/auth'
 import { queryClient } from '@/lib/query-client'
 import { useAuthStore } from '@/stores/auth-store'
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import LogoSymbol from '@/assets/icons/symbol.svg?react'
 
 export const Route = createFileRoute('/(authentication)')({
   // 렌더 사이클 밖(라우팅 매칭)에서 접근 제어 → useLocation/Navigate 없이 무한 루프 위험 없음.
@@ -29,7 +30,13 @@ export const Route = createFileRoute('/(authentication)')({
   },
   pendingComponent: () => (
     <div className="flex min-h-svh items-center justify-center">
-      <p>로딩 중...</p>
+      <LogoSymbol
+        aria-label="OISO 로고"
+        className="animate-pulse translate-y-[clamp(-16px,calc(8svh-59.2px),16px)] transition-transform duration-300"
+        height={100}
+        role="img"
+        width={100}
+      />
     </div>
   ),
   component: RouteComponent,
