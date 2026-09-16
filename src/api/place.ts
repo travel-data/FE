@@ -1,7 +1,9 @@
 import { apiClient } from '@/lib/api-client'
 import { CommonResponse } from '@/types/response'
 import {
+  NearbyPlaceCategory,
   NearbyPlaceDetail,
+  NearbyPlaceListResponse,
   PlaceCategory,
   StampMissionClearResponse,
   StampMissionType,
@@ -57,6 +59,26 @@ export const clearStampMission = async ({
 export const getNearbyPlaceDetail = async (nearbyPlaceId: number) => {
   const res = await apiClient.get<CommonResponse<NearbyPlaceDetail>>(
     `/api/v1/nearby-places/${nearbyPlaceId}`,
+  )
+
+  return res.data.data
+}
+
+// 관광지 주변 장소(식당·숙소) 목록 조회
+export const getNearbyPlaces = async ({
+  spotId,
+  category,
+  page = 0,
+  size = 20,
+}: {
+  spotId: number
+  category?: NearbyPlaceCategory
+  page?: number
+  size?: number
+}): Promise<NearbyPlaceListResponse> => {
+  const res = await apiClient.get<CommonResponse<NearbyPlaceListResponse>>(
+    `/api/v1/tour-spots/${spotId}/nearby-places`,
+    { params: { category, page, size } },
   )
 
   return res.data.data

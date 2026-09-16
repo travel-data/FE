@@ -252,6 +252,10 @@ function RouteComponent() {
           onSkip={handleSkip}
           disableSkip={!canSkip}
           isPending={advancePending}
+          courseId={courseId}
+          suggestionSpotId={
+            current.category === 'TOUR_SPOT' ? current.spotId : null
+          }
         />
       )}
 
