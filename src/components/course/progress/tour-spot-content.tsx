@@ -11,6 +11,7 @@ import { useTourSpotStoryCard } from '@/hooks/queries/story'
 import { distanceMeters, getCurrentPosition } from '@/lib/geo'
 import type { StampMissionType, StampProgress } from '@/types/place'
 import QrScanDialog from './qr-scan-dialog'
+import StoryCardPreview from '@/components/story/story-card-preview'
 
 const VISIT_RADIUS_M = 1000
 
@@ -22,7 +23,7 @@ const MISSION_LABEL_KEY = {
 
 interface TourSpotContentProps {
   spotId: number
-  stampProgress: StampProgress
+  stampProgress: StampProgress | null
   location: { lat: number; lng: number }
 }
 
@@ -80,73 +81,64 @@ function TourSpotContent({
               {t('detail.storycard_description')}
             </span>
           </div>
-          <Link
-            to={'.'}
-            className="relative rounded-lg overflow-hidden border border-border-1"
-          >
-            {storyCard.imageUrl ? (
-              <img
-                src={storyCard.imageUrl}
-                alt={storyCard.title}
-                className="bg-gray-300 w-full h-46 object-cover"
-              />
-            ) : (
-              <div className="bg-gray-300 w-full h-46" />
-            )}
-            <div className="p-4 flex flex-col justify-end bg-linear-to-t from-black/40 to-transparent from-5% absolute bottom-0 left-0 w-full h-full">
-              <span className="bg-white rounded-full text-caption font-bold px-3 py-0.5 text-text-default w-fit flex items-center justify-center">
-                {t('detail.storycard_badge')}
-              </span>
-              <p className="text-body2 font-semibold text-white pt-1">
-                {storyCard.subTitle}
-              </p>
-            </div>
+          <Link to={'.'}>
+            <StoryCardPreview
+              imageUrl={storyCard.imageUrl}
+              title={storyCard.title}
+              subTitle={storyCard.subTitle}
+              label={t('detail.storycard_badge')}
+              className="h-46"
+            />
           </Link>
         </div>
       )}
 
-      <div className="p-5 pb-1">
-        <p className="text-body2 font-semibold">{t('detail.stamp_title')}</p>
-        <span className="text-text-subdued text-label block mb-4">
-          {t('detail.stamp_description')}
-        </span>
+      {stampProgress && (
+        <div className="p-5 pb-1">
+          <p className="text-body2 font-semibold">{t('detail.stamp_title')}</p>
+          <span className="text-text-subdued text-label block mb-4">
+            {t('detail.stamp_description')}
+          </span>
 
-        <ul className="flex items-center gap-3 flex-nowrap overflow-x-scroll">
-          {stampProgress.missions.map((mission) => {
-            const isStoryCard = mission.type === 'STORY_CARD'
-            const isLocatingVisit = mission.type === 'VISIT' && locating
-            const disabled =
-              mission.cleared || isStoryCard || isPending || isLocatingVisit
-            return (
-              <li key={mission.type}>
-                <button
-                  type="button"
-                  disabled={disabled}
-                  onClick={() => handleMissionClick(mission.type)}
-                  className={cn(
-                    'p-4 flex text-center text-label flex-col gap-2.5 items-center justify-center min-w-26 rounded-lg whitespace-pre-line',
-                    mission.cleared
-                      ? 'bg-primary-50 text-brand-primary'
-                      : 'bg-gray-100 text-text-default',
-                    isStoryCard && !mission.cleared && 'opacity-40',
-                  )}
-                >
-                  {isLocatingVisit ? (
-                    <Spinner className="text-brand-primary size-6" />
-                  ) : (
-                    <StampLogo
-                      className={cn(
-                        mission.cleared ? 'fill-brand-primary' : 'fill-gray-400',
-                      )}
-                    />
-                  )}
-                  <span>{t(MISSION_LABEL_KEY[mission.type])}</span>
-                </button>
-              </li>
-            )
-          })}
-        </ul>
-      </div>
+          <ul className="flex items-center gap-3 flex-nowrap overflow-x-scroll">
+            {stampProgress.missions.map((mission) => {
+              const isStoryCard = mission.type === 'STORY_CARD'
+              const isLocatingVisit = mission.type === 'VISIT' && locating
+              const disabled =
+                mission.cleared || isStoryCard || isPending || isLocatingVisit
+              return (
+                <li key={mission.type}>
+                  <button
+                    type="button"
+                    disabled={disabled}
+                    onClick={() => handleMissionClick(mission.type)}
+                    className={cn(
+                      'p-4 flex text-center text-label flex-col gap-2.5 items-center justify-center min-w-26 rounded-lg whitespace-pre-line',
+                      mission.cleared
+                        ? 'bg-primary-50 text-brand-primary'
+                        : 'bg-gray-100 text-text-default',
+                      isStoryCard && !mission.cleared && 'opacity-40',
+                    )}
+                  >
+                    {isLocatingVisit ? (
+                      <Spinner className="text-brand-primary size-6" />
+                    ) : (
+                      <StampLogo
+                        className={cn(
+                          mission.cleared
+                            ? 'fill-brand-primary'
+                            : 'fill-gray-400',
+                        )}
+                      />
+                    )}
+                    <span>{t(MISSION_LABEL_KEY[mission.type])}</span>
+                  </button>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      )}
 
       <QrScanDialog
         isOpen={qrOpen}
