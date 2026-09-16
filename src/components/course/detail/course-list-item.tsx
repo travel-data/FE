@@ -14,6 +14,7 @@ export interface CourseListItemProps {
   distanceToNext: string | null
   transportToNext: TransportationType | null
   isLast: boolean
+  readOnly?: boolean
 }
 
 function CourseListItem({
@@ -27,6 +28,7 @@ function CourseListItem({
   distanceToNext,
   transportToNext,
   isLast,
+  readOnly = false,
 }: CourseListItemProps) {
   const openPlaceDetail = usePlaceDetailSheetStore((s) => s.open)
 
@@ -44,7 +46,7 @@ function CourseListItem({
 
         <div className={`flex-1 ${!isLast ? 'pb-3' : ''}`}>
           <div
-            onClick={() => openPlaceDetail(placeId, placeCategory)}
+            onClick={() => openPlaceDetail(placeId, placeCategory, { readOnly })}
             className="flex items-start gap-4"
           >
             <div className="flex-1">

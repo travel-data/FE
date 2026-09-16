@@ -10,14 +10,13 @@ import {
 import { Button } from '@/components/ui/button'
 import { useTranslation } from 'react-i18next'
 
-const MOCK_SHARE_LINK = 'https://oiso.co.kr/course/shared/60381abc'
-const MOCK_PASSWORD = '12521'
-
 interface ShareLinkDrawerProps {
   sheetTitle: string
   sheetDescription: string
   open: boolean
   onOpenChange: (open: boolean) => void
+  shareLink: string
+  password: string | null
 }
 
 interface CopyRowProps {
@@ -58,19 +57,20 @@ function ShareLinkDrawer({
   onOpenChange,
   sheetTitle,
   sheetDescription,
+  shareLink,
+  password,
 }: ShareLinkDrawerProps) {
   const { t } = useTranslation('course')
 
+  const shareText = password
+    ? `${shareLink}\n${t('shared.create_course_password')}: ${password}`
+    : shareLink
+
   const handleShare = async () => {
     if (navigator.share) {
-      await navigator.share({
-        url: MOCK_SHARE_LINK,
-        text: `공유 비밀번호: ${MOCK_PASSWORD}`,
-      })
+      await navigator.share({ url: shareLink, text: shareText })
     } else {
-      navigator.clipboard.writeText(
-        `${MOCK_SHARE_LINK}\n공유 비밀번호: ${MOCK_PASSWORD}`,
-      )
+      navigator.clipboard.writeText(shareText)
     }
   }
 
@@ -91,14 +91,13 @@ function ShareLinkDrawer({
         </DrawerHeader>
 
         <div className="flex flex-col gap-3 mb-4">
-          <CopyRow
-            label={t('shared.create_course_link')}
-            value={MOCK_SHARE_LINK}
-          />
-          <CopyRow
-            label={t('shared.create_course_password')}
-            value={MOCK_PASSWORD}
-          />
+          <CopyRow label={t('shared.create_course_link')} value={shareLink} />
+          {password && (
+            <CopyRow
+              label={t('shared.create_course_password')}
+              value={password}
+            />
+          )}
         </div>
 
         <DrawerFooter className="flex-row gap-3 p-0">

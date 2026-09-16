@@ -8,6 +8,7 @@ interface TextInputFormProps {
   submitLabel?: string
   type?: 'text' | 'password'
   minLength?: number
+  maxLength?: number
   onSubmit: (value: string) => void
 }
 
@@ -18,6 +19,7 @@ function TextInputForm({
   submitLabel = '입력완료',
   type = 'text',
   minLength = 1,
+  maxLength,
   onSubmit,
 }: TextInputFormProps) {
   const [value, setValue] = useState('')
@@ -44,6 +46,7 @@ function TextInputForm({
           value={value}
           onChange={(e) => setValue(e.target.value)}
           placeholder={placeholder}
+          maxLength={maxLength}
           className="w-full rounded-md h-13 bg-gray-200 px-4 py-3 text-label text-text-default outline-none placeholder:text-text-subdued"
         />
       </div>

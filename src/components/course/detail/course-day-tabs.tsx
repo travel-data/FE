@@ -26,9 +26,15 @@ interface CourseDayTabsProps {
   days: CourseDay[]
   selectedDay: number
   onDayChange: (day: number) => void
+  readOnly?: boolean
 }
 
-function CourseDayTabs({ days, selectedDay, onDayChange }: CourseDayTabsProps) {
+function CourseDayTabs({
+  days,
+  selectedDay,
+  onDayChange,
+  readOnly = false,
+}: CourseDayTabsProps) {
   const { t } = useTranslation('course')
   return (
     <Tabs
@@ -67,6 +73,7 @@ function CourseDayTabs({ days, selectedDay, onDayChange }: CourseDayTabsProps) {
               distanceToNext={place.distanceToNext}
               transportToNext={place.transportToNext}
               isLast={index === day.places.length - 1}
+              readOnly={readOnly}
             />
           ))}
         </TabsContent>

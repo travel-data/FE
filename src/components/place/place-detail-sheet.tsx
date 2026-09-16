@@ -8,7 +8,13 @@ import { useTranslation } from 'react-i18next'
 import { PlaceCategory, TourSpotDetail, NearbyPlaceDetail } from '@/types/place'
 import { usePlaceDetail } from '@/hooks/queries/place'
 
-function TourSpotSheet({ data }: { data: TourSpotDetail }) {
+function TourSpotSheet({
+  data,
+  readOnly,
+}: {
+  data: TourSpotDetail
+  readOnly?: boolean
+}) {
   return (
     <>
       <DrawerHeader className="flex justify-between items-center p-0">
@@ -19,16 +25,18 @@ function TourSpotSheet({ data }: { data: TourSpotDetail }) {
             <span className="text-label text-text-subdued">{data.address}</span>
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <Button variant="icon" size="icon" className="size-10">
-            <DownloadIcon />
-          </Button>
-          <PlaceBookmarkButton
-            placeId={data.spotId}
-            category="TOUR_SPOT"
-            isBookmarked={data.like}
-          />
-        </div>
+        {!readOnly && (
+          <div className="flex items-center gap-2">
+            <Button variant="icon" size="icon" className="size-10">
+              <DownloadIcon />
+            </Button>
+            <PlaceBookmarkButton
+              placeId={data.spotId}
+              category="TOUR_SPOT"
+              isBookmarked={data.like}
+            />
+          </div>
+        )}
       </DrawerHeader>
 
       <div className="space-y-3.5">
@@ -53,7 +61,13 @@ function TourSpotSheet({ data }: { data: TourSpotDetail }) {
   )
 }
 
-function NearbyPlaceSheet({ data }: { data: NearbyPlaceDetail }) {
+function NearbyPlaceSheet({
+  data,
+  readOnly,
+}: {
+  data: NearbyPlaceDetail
+  readOnly?: boolean
+}) {
   return (
     <>
       <DrawerHeader className="flex justify-between items-center p-0">
@@ -64,13 +78,15 @@ function NearbyPlaceSheet({ data }: { data: NearbyPlaceDetail }) {
             <span className="text-label text-text-subdued">{data.address}</span>
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <PlaceBookmarkButton
-            placeId={data.nearbyPlaceId}
-            category={data.category}
-            isBookmarked={false}
-          />
-        </div>
+        {!readOnly && (
+          <div className="flex items-center gap-2">
+            <PlaceBookmarkButton
+              placeId={data.nearbyPlaceId}
+              category={data.category}
+              isBookmarked={data.like}
+            />
+          </div>
+        )}
       </DrawerHeader>
 
       <div className="space-y-3.5">
@@ -111,6 +127,7 @@ interface PlaceDetailSheetProps {
   placeId: number
   actionButton?: React.ReactNode
   placeCategory: PlaceCategory
+  readOnly?: boolean
 }
 
 function PlaceDetailSheet({
@@ -119,6 +136,7 @@ function PlaceDetailSheet({
   placeId,
   actionButton,
   placeCategory,
+  readOnly = false,
 }: PlaceDetailSheetProps) {
   const { t } = useTranslation('common')
 
@@ -155,8 +173,12 @@ function PlaceDetailSheet({
             </div>
           </>
         )}
-        {isTourSpot && tourSpotData && <TourSpotSheet data={tourSpotData} />}
-        {!isTourSpot && nearbyData && <NearbyPlaceSheet data={nearbyData} />}
+        {isTourSpot && tourSpotData && (
+          <TourSpotSheet data={tourSpotData} readOnly={readOnly} />
+        )}
+        {!isTourSpot && nearbyData && (
+          <NearbyPlaceSheet data={nearbyData} readOnly={readOnly} />
+        )}
 
         <DrawerFooter className="p-0 flex-row items-center gap-4">
           {isPending && !tourSpotData && !nearbyData ? (

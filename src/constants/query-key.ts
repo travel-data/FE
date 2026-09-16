@@ -19,12 +19,14 @@ export const QUERY_KEY = {
       'detail',
       nearbyPlaceId,
     ],
+    nearbyPlaces: (spotId: number) => ['place', 'nearbyPlaces', spotId] as const,
   },
   memo: {
     tourSpot: (spotId: number) => ['memo', 'tourSpot', spotId] as const,
   },
   story: {
     tourSpot: (spotId: number) => ['story', 'tourSpot', spotId] as const,
+    featured: () => ['story', 'featured'] as const,
   },
   course: {
     lists: () => ['tour-course', 'list'] as const,
@@ -33,6 +35,8 @@ export const QUERY_KEY = {
         ? (['tour-course', 'list', params] as const)
         : (['tour-course', 'list'] as const),
     detail: (courseId: string) => ['tour-course', 'detail', courseId],
+    featured: () => ['tour-course', 'featured'] as const,
+    shared: (courseId: string) => ['tour-course', 'shared', courseId] as const,
   },
   my: {
     page: () => ['my', 'page'] as const,

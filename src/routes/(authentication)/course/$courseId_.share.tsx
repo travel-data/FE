@@ -3,6 +3,8 @@ import BackButton from '@/components/button/back-button'
 import TopBar from '@/components/layout/top-bar'
 import TextInputForm from '@/components/form/text-input-form'
 import { Trans, useTranslation } from 'react-i18next'
+import { useGetCourseDetail } from '@/hooks/queries/course'
+import { useUpdateCourseSharing } from '@/hooks/mutations/course'
 
 export const Route = createFileRoute(
   '/(authentication)/course/$courseId_/share',
@@ -15,13 +17,23 @@ function RouteComponent() {
   const { courseId } = Route.useParams()
   const navigate = useNavigate()
 
-  const handleSubmit = (_password: string) => {
-    // TODO: 공유 비밀번호 API 연동
-    navigate({
-      to: '/course/$courseId',
-      params: { courseId },
-      state: { shareSuccess: true },
-    })
+  const { data: courseDetail } = useGetCourseDetail(courseId)
+  const { mutate: updateSharing, isPending } = useUpdateCourseSharing()
+
+  const handleSubmit = (password: string) => {
+    if (!courseDetail || isPending) return
+    updateSharing(
+      { detail: courseDetail, shareYn: true, sharedPassword: password },
+      {
+        onSuccess: () =>
+          navigate({
+            to: '/course/$courseId',
+            params: { courseId },
+            state: { shareSuccess: true },
+            replace: true,
+          }),
+      },
+    )
   }
 
   return (
@@ -35,9 +47,11 @@ function RouteComponent() {
           />
         }
         onSubmit={handleSubmit}
+        placeholder={t('shared.password_input_placeholder')}
         submitLabel={t('shared.password_complete_button')}
         type="password"
-        minLength={4}
+        minLength={1}
+        maxLength={5}
       />
     </section>
   )

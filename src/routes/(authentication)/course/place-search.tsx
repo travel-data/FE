@@ -29,30 +29,30 @@ function useAddPlaceFlow() {
   const router = useRouter()
 
   return (place: TourSpotListItem) =>
-    openPlaceDetail(
-      getPlaceId(place),
-      place.category,
-      <Button
-        className="w-full flex-1"
-        onClick={() => {
-          closePlaceDetail()
-          openConfirm({
-            title: t('confirm.add_course_place_title', { ns: 'course' }),
-            description: t('confirm.add_course_place_description', {
-              ns: 'course',
-            }),
-            cancelLabel: t('button.cancel', { ns: 'common' }),
-            actionLabel: t('form.add_place_button', { ns: 'course' }),
-            onAction: () => {
-              addPlace(toPlaceItem(place))
-              router.history.back()
-            },
-          })
-        }}
-      >
-        {t('action.add', { ns: 'place' })}
-      </Button>,
-    )
+    openPlaceDetail(getPlaceId(place), place.category, {
+      actionButton: (
+        <Button
+          className="w-full flex-1"
+          onClick={() => {
+            closePlaceDetail()
+            openConfirm({
+              title: t('confirm.add_course_place_title', { ns: 'course' }),
+              description: t('confirm.add_course_place_description', {
+                ns: 'course',
+              }),
+              cancelLabel: t('button.cancel', { ns: 'common' }),
+              actionLabel: t('form.add_place_button', { ns: 'course' }),
+              onAction: () => {
+                addPlace(toPlaceItem(place))
+                router.history.back()
+              },
+            })
+          }}
+        >
+          {t('action.add', { ns: 'place' })}
+        </Button>
+      ),
+    })
 }
 
 function RouteComponent() {
