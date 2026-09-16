@@ -24,12 +24,12 @@ function RouteComponent() {
     appkey: import.meta.env.VITE_KAKAO_JS_KEY ?? '',
   })
 
-  //   TODO : 스켈레톤 적용 필요
-  if (isPending || !data) return null
+  if (isPending || !data)
+    return <FestivalDetailSkeleton title={t('title.event_info')} />
 
   return (
     <section className="flex flex-1 flex-col justify-between h-full">
-      <TopBar leftSlot={<BackButton />} title="행사 정보" />
+      <TopBar leftSlot={<BackButton />} title={t('title.event_info')} />
       <div className="px-5 flex-1 h-full flex flex-col">
         <img
           src={data.img}
@@ -86,14 +86,14 @@ function RouteComponent() {
             </>
           ) : (
             <p className="text-body2 text-text-subdued flex items-center justify-center flex-1">
-              행사 소개가 존재하지 않습니다.
+              {t('empty_overview')}
             </p>
           )}
         </div>
 
         <div className="mt-3">
           <p className="text-body2 text-text-default mb-1 font-semibold">
-            오시는 길
+            {t('label.direction')}
           </p>
           <div className="h-50 relative rounded-lg overflow-hidden ">
             {!mapLoading && !mapError && (
@@ -115,6 +115,48 @@ function RouteComponent() {
           latitude={data.mapY}
           longitude={data.mapX}
         />
+      </div>
+    </section>
+  )
+}
+
+function FestivalDetailSkeleton({ title }: { title: string }) {
+  return (
+    <section className="flex flex-1 flex-col justify-between h-full">
+      <TopBar leftSlot={<BackButton />} title={title} />
+      <div className="px-5 flex-1 h-full flex flex-col">
+        <div className="w-full h-50 rounded-lg mb-3 bg-gray-200 animate-pulse" />
+
+        <div className="flex flex-col">
+          <div className="h-6 w-40 rounded bg-gray-200 animate-pulse mb-2.5" />
+
+          <div className="space-y-1.5">
+            <div className="h-4 w-52 rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-44 rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-32 rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-48 rounded bg-gray-200 animate-pulse" />
+          </div>
+
+          <div className="h-5 w-20 rounded bg-gray-200 animate-pulse mt-3" />
+          <div className="mt-1.5 space-y-1.5">
+            <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-full rounded bg-gray-200 animate-pulse" />
+            <div className="h-4 w-4/5 rounded bg-gray-200 animate-pulse" />
+          </div>
+        </div>
+
+        <div className="mt-3">
+          <div className="h-5 w-24 rounded bg-gray-200 animate-pulse mb-2" />
+          <div className="h-50 rounded-lg bg-gray-200 animate-pulse" />
+        </div>
+      </div>
+
+      <div className="px-5 py-4">
+        <div className="h-13.5 w-full rounded-md bg-gray-200 animate-pulse" />
       </div>
     </section>
   )
