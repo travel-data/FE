@@ -117,7 +117,7 @@ function StoryMainSection({
         <img
           src={imageUrl}
           alt=""
-          className="mt-2 aspect-[4/3] w-full rounded-[24px] object-cover"
+          className="mt-2 h-60 w-full rounded-lg object-cover"
         />
       ) : null}
     </section>
@@ -233,7 +233,7 @@ function StoryCardDetail({
         type="button"
         aria-label="뒤로가기"
         onClick={onBack}
-        className="absolute left-5 top-[calc(env(safe-area-inset-top)+10px)] z-20 flex size-11 items-center justify-center"
+        className="absolute left-4 top-[calc(env(safe-area-inset-top)+10px)] z-20 flex size-11 items-center justify-center"
       >
         <LeftArrowIcon className="size-5 [&_path]:fill-white" />
       </button>
@@ -244,7 +244,7 @@ function StoryCardDetail({
         aria-pressed={saved}
         onClick={onToggleSave}
         disabled={isSavePending}
-        className="absolute right-5 top-[calc(env(safe-area-inset-top)+10px)] z-20 flex size-11 items-center justify-center rounded-full bg-black/20 disabled:opacity-50"
+        className="absolute right-4 top-[calc(env(safe-area-inset-top)+10px)] z-10 flex size-11 items-center justify-center rounded-full bg-black/20 disabled:opacity-50"
       >
         {saved ? (
           <FillBookmarkIcon className="fill-brand-primary" />
@@ -288,6 +288,7 @@ function StoryCardDetail({
         <DrawerPrimitive.Portal>
           <DrawerPrimitive.Content
             className="fixed inset-x-0 bottom-0 z-10 mx-auto flex h-[98dvh] max-w-107.5 flex-col overflow-hidden rounded-t-3xl bg-white outline-none"
+            onPointerDownOutside={() => setIsSheetOpen(false)}
             onWheel={(event) => {
               if (!isFullyExpanded && event.deltaY > 0) {
                 event.preventDefault()
@@ -295,11 +296,11 @@ function StoryCardDetail({
               }
             }}
           >
-            <DrawerPrimitive.Handle className="my-3 shrink-0" />
+            <DrawerPrimitive.Handle className="my-3 shrink-0 opacity-0" />
 
             <div
               className={cn(
-                'min-h-0 flex-1 px-5 pb-[calc(env(safe-area-inset-bottom)+20px)] pt-1',
+                'min-h-0 flex-1 px-5 pb-[calc(env(safe-area-inset-bottom)+46px)] pt-1',
                 isFullyExpanded
                   ? 'overflow-y-auto overscroll-contain'
                   : 'overflow-y-hidden',
