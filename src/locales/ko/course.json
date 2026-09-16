@@ -91,7 +91,10 @@
     "stop_sharing_button_description": "공유를 중단하면 동행자가 더 이상<br/>이 코스에 접근 할 수 없어요",
     "close_option_sheet": "닫기",
     "view_link_title": "공유 중인 코스 링크에요",
-    "edit_password_submit_button": "수정하기"
+    "edit_password_submit_button": "수정하기",
+    "password_mismatch": "비밀번호가 일치하지 않습니다",
+    "access_denied": "접근 권한이 없습니다",
+    "go_home": "홈으로 이동"
   },
   "edit": {
     "course_edit": "코스 수정",
@@ -120,7 +123,11 @@
   },
   "recommend": {
     "other_place_title": "잠깐 쉬어갈까요?",
-    "other_place_description": "다음 장소를 가기 전 이런 곳은 어떤가요?"
+    "other_place_description": "다음 장소를 가기 전 이런 곳은 어떤가요?",
+    "start_course_button": "이 코스 시작하기",
+    "course_created": "코스가 생성되었습니다",
+    "course_create_failed": "코스 생성에 문제가 발생했습니다",
+    "in_progress_exists": "현재 진행중인 코스가 있습니다"
   },
   "traffic_level": {
     "crowded": "혼잡",

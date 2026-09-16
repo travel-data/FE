@@ -28,7 +28,8 @@
     "tip": "알아두면 좋아요!"
   },
   "action": {
-    "add": "추가하기"
+    "add": "추가하기",
+    "visit": "방문하기"
   },
   "stamp": {
     "mission_visit": "장소\n방문하기",

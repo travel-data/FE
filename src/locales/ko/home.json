@@ -21,7 +21,8 @@
   },
   "recommend_course_section": {
     "title": "오이소가 직접 골라봤어요",
-    "description": "경주를 제대로 느낄 수 있는 코스들만 모아놨어요"
+    "description": "경주를 제대로 느낄 수 있는 코스들만 모아놨어요",
+    "item_count": "{{count}}곳"
   },
   "festival_section": {
     "title": "지금 경주에서는",

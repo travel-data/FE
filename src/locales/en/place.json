@@ -28,7 +28,8 @@
     "tip": "Good to Know!"
   },
   "action": {
-    "add": "Add"
+    "add": "Add",
+    "visit": "Visit"
   },
   "stamp": {
     "mission_visit": "Visit\nHere",

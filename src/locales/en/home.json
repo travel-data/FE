@@ -21,7 +21,8 @@
   },
   "recommend_course_section": {
     "title": "Picked Just for You by OISO",
-    "description": "Courses that let you experience Gyeongju at its best"
+    "description": "Courses that let you experience Gyeongju at its best",
+    "item_count": "{{count}} places"
   },
   "festival_section": {
     "title": "What's On in Gyeongju",
