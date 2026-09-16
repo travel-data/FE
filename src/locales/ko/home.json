@@ -26,6 +26,8 @@
   },
   "festival_section": {
     "title": "지금 경주에서는",
-    "description": "방문 전, 놓치면 아쉬운 행사들을 먼저 확인해보세요"
+    "description": "방문 전, 놓치면 아쉬운 행사들을 먼저 확인해보세요",
+    "status_ongoing": "진행 중",
+    "status_upcoming": "진행 예정"
   }
 }

@@ -26,6 +26,8 @@
   },
   "festival_section": {
     "title": "What's On in Gyeongju",
-    "description": "Check out events you won't want to miss before you visit"
+    "description": "Check out events you won't want to miss before you visit",
+    "status_ongoing": "Ongoing",
+    "status_upcoming": "Upcoming"
   }
 }

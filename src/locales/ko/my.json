@@ -7,7 +7,23 @@
     "confirm_delete_notes_description": "삭제된 여행노트는 복구되지 않아요",
     "confirm_delete_button": "삭제하기",
     "timeline": "여행 타임라인",
-    "saved_storycard": "저장한 스토리카드"
+    "saved_storycard": "저장한 스토리카드",
+    "my_title": "나의 여행 노트",
+    "section_empty": "여행 노트가 없습니다",
+    "empty_places": "등록된 장소가 없습니다",
+    "empty_storycards": "이 코스에서 볼 수 있는 스토리카드가 없습니다.",
+    "tab_story": "스토리카드",
+    "no_memo": "작성된 메모가 존재하지 않습니다.",
+    "place_count": "장소 {{count}}개",
+    "delete_title": "여행 코스를 삭제할까요?",
+    "delete_description": "코스에 포함된 장소도 함께 삭제되며 복구할 수 없습니다.",
+    "no_date": "날짜 정보 없음",
+    "no_distance": "거리 정보 없음",
+    "no_duration": "소요 시간 정보 없음",
+    "no_transportation": "이동수단 정보 없음",
+    "tag_destination": "#여행지",
+    "tag_gyeongju": "#경주",
+    "tag_course": "#코스"
   },
   "memo": {
     "title": "내가 작성한 메모",
@@ -24,5 +40,8 @@
   "storycard": {
     "title": "저장한 스토리카드",
     "empty_description": "저장된 스토리카드가 없습니다"
+  },
+  "profile": {
+    "name_fallback": "이름"
   }
 }

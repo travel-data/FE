@@ -15,7 +15,8 @@
     "storycard_description": "이 장소에 얽힌 역사와 설화를 만나보세요",
     "storycard_badge": "스토리카드",
     "stamp_title": "여행에 재미를 더하는 스탬프 미션",
-    "stamp_description": "미션을 완료할수록 여행이 더 특별해져요"
+    "stamp_description": "미션을 완료할수록 여행이 더 특별해져요",
+    "empty_description": "장소 설명이 없습니다."
   },
   "business_hours": "영업시간",
   "search": {
@@ -25,7 +26,11 @@
   "storycard": {
     "scroll_hint": "스크롤하여 더 보기",
     "insight": "이 장소에서 무엇을 보게 되나요?",
-    "tip": "알아두면 좋아요!"
+    "tip": "알아두면 좋아요!",
+    "did_you_know": "알고 있었나요?",
+    "insight_fallback": "장소의 분위기와 역사, 여행자가 머물며 느낌 수 있는 장면을 스토리로 정리해 보여줍니다.",
+    "did_you_know_fallback": "이야기 속 장소는 시대와 사람들의 생활 방식이 겹체진 공간입니다. 지금 보이는 풍경 너머에 쌓인 시간을 함께 떠올려 보면 여행의 장면이 더 선명해집니다.",
+    "tip_fallback": "방문 전 운영 시간과 주변 동선을 함께 확인하면 더 편하게 둘러볼 수 있습니다."
   },
   "action": {
     "add": "추가하기",

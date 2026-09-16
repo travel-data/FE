@@ -6,7 +6,10 @@
     "korean": "Switch to Korean",
     "english": "Switch to English",
     "close": "Close",
-    "save": "Save"
+    "save": "Save",
+    "delete": "Delete",
+    "load_more": "See More",
+    "loading": "Loading"
   },
   "nav": {
     "home": "Home",
@@ -24,7 +27,8 @@
     "confirm_language_title": "Would you use OISO in {{language}}?",
     "confirm_language_description": "You can change the language anytime from Home",
     "confirm_button": "Yes, Keep Current Language",
-    "select_another_language": "Switch to {{language}}"
+    "select_another_language": "Switch to {{language}}",
+    "title": "Settings"
   },
   "or": "or",
   "confirm": {

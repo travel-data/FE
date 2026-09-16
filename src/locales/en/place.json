@@ -15,7 +15,8 @@
     "storycard_description": "Discover the history and folklore behind this place",
     "storycard_badge": "Story Card",
     "stamp_title": "Stamp mission",
-    "stamp_description": "The more missions you complete, the more special your trip becomes"
+    "stamp_description": "The more missions you complete, the more special your trip becomes",
+    "empty_description": "No description available."
   },
   "business_hours": "Business Hours",
   "search": {
@@ -25,7 +26,11 @@
   "storycard": {
     "scroll_hint": "Scroll for More",
     "insight": "What's Here?",
-    "tip": "Good to Know!"
+    "tip": "Good to Know!",
+    "did_you_know": "Did You Know?",
+    "insight_fallback": "We capture the mood, history, and quiet moments of this place in a story you can feel.",
+    "did_you_know_fallback": "Every place layers together eras and ways of life. Picture the time built up beyond the view, and the journey comes into sharper focus.",
+    "tip_fallback": "Check the opening hours and nearby routes before you go for a smoother visit."
   },
   "action": {
     "add": "Add",
