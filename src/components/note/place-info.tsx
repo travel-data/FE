@@ -4,6 +4,8 @@ interface PlaceInfoProps {
   address: string
   description: string
   hasStoryCard?: boolean
+  storyCardImageUrl?: string | null
+  onStoryCardClick?: () => void
 }
 
 function PlaceInfo({
@@ -12,6 +14,8 @@ function PlaceInfo({
   address,
   description,
   hasStoryCard,
+  storyCardImageUrl,
+  onStoryCardClick,
 }: PlaceInfoProps) {
   return (
     <section className="px-5 py-3">
@@ -26,9 +30,33 @@ function PlaceInfo({
           <p className="text-caption text-text-subdued">{address}</p>
         </div>
 
-        {hasStoryCard && (
-          <div className="h-25 w-[77px] shrink-0 rounded-[8px] bg-gray-100" />
-        )}
+        {hasStoryCard &&
+          (onStoryCardClick ? (
+            <button
+              type="button"
+              aria-label={`${placeName} 스토리카드 보기`}
+              onClick={onStoryCardClick}
+              className="h-25 w-[77px] shrink-0 overflow-hidden rounded-[8px] bg-gray-100"
+            >
+              {storyCardImageUrl ? (
+                <img
+                  src={storyCardImageUrl}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              ) : null}
+            </button>
+          ) : (
+            <div className="h-25 w-[77px] shrink-0 overflow-hidden rounded-[8px] bg-gray-100">
+              {storyCardImageUrl ? (
+                <img
+                  src={storyCardImageUrl}
+                  alt=""
+                  className="h-full w-full object-cover"
+                />
+              ) : null}
+            </div>
+          ))}
       </div>
 
       <p className="mt-6 text-label text-text-default">{description}</p>

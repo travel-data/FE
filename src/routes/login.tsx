@@ -8,6 +8,7 @@ import { useAuthCheck } from '@/hooks/use-auth-check'
 
 import GoogleIcon from '@/assets/icons/logo-google.svg?react'
 import KakaoIcon from '@/assets/icons/logo-kakao.svg?react'
+import LogoSymbol from '@/assets/icons/symbol.svg?react'
 
 export const Route = createFileRoute('/login')({
   component: RouteComponent,
@@ -39,7 +40,13 @@ function RouteComponent() {
     <PhoneShell>
       <main className="flex min-h-svh flex-col px-6 pt-[max(48px,env(safe-area-inset-top))] pb-[calc(34px+env(safe-area-inset-bottom))]">
         <section className="flex flex-1 items-center flex-col justify-center">
-          <p className="text-title1 font-bold text-text-heading">로고</p>
+          <LogoSymbol
+            aria-label="OISO 로고"
+            className="translate-y-[clamp(-16px,calc(8svh-59.2px),16px)] transition-transform duration-300"
+            height={100}
+            role="img"
+            width={100}
+          />
         </section>
 
         <section className="flex flex-col">

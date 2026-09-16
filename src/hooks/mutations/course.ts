@@ -1,10 +1,12 @@
 import {
   advanceCourse,
   createCourse,
+  deleteCourse,
   patchCourseStatus,
   updateCourseDetail,
   updateCourseSharing,
 } from '@/api/course'
+import { generateRecommendedCourse } from '@/api/recommendation'
 import { QUERY_KEY } from '@/constants/query-key'
 import { queryClient } from '@/lib/query-client'
 import { useMutation } from '@tanstack/react-query'
@@ -16,6 +18,16 @@ export const useCreateCourse = () => {
       queryClient.invalidateQueries({
         queryKey: QUERY_KEY.course.lists(),
       })
+    },
+  })
+}
+
+export const useGenerateRecommendedCourse = () => {
+  return useMutation({
+    mutationFn: generateRecommendedCourse,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.course.list() })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.my.page() })
     },
   })
 }
@@ -67,6 +79,19 @@ export const useAdvanceCourse = () => {
       })
       // 코스 status가 아이템에서 파생 → 메인 진행중/대기 카드도 갱신
       queryClient.invalidateQueries({ queryKey: QUERY_KEY.course.lists() })
+    },
+  })
+}
+
+export const useDeleteCourse = () => {
+  return useMutation({
+    mutationFn: deleteCourse,
+    onSuccess: (_, courseId) => {
+      queryClient.removeQueries({
+        queryKey: QUERY_KEY.course.detail(courseId),
+      })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.course.list() })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.my.page() })
     },
   })
 }

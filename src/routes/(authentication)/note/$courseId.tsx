@@ -69,17 +69,17 @@ const MOCK_SCHEDULES: MockSchedule[] = [
 
 const MOCK_STORIES = [
   {
-    id: 1,
+    spotId: 24,
     placeName: '첨성대',
     subtitle: '별을 읽던 신라의 탑',
   },
   {
-    id: 2,
+    spotId: 25,
     placeName: '대릉원',
     subtitle: '고분 속 숨겨진 이야기',
   },
   {
-    id: 3,
+    spotId: 26,
     placeName: '동궁과 월지',
     subtitle: '달빛이 비치는 연못',
   },
@@ -150,9 +150,15 @@ function RouteComponent() {
           <div className="flex flex-col gap-4 px-5">
             {MOCK_STORIES.map((story) => (
               <StoryCard
-                key={story.id}
+                key={story.spotId}
                 placeName={story.placeName}
                 subtitle={story.subtitle}
+                onClick={() =>
+                  navigate({
+                    to: '/storycards/$spotId',
+                    params: { spotId: String(story.spotId) },
+                  })
+                }
               />
             ))}
           </div>

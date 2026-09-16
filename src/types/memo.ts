@@ -1,4 +1,4 @@
-export interface Memo {
+export interface TourSpotMemo {
   memoId: number
   content: string
   imageUrl: string | null
@@ -8,11 +8,30 @@ export interface Memo {
 
 export interface TourSpotMemoResponse {
   spotId: number
-  memo: Memo | null
+  memo: TourSpotMemo | null
 }
 
-// content 필수(최대 1000자). imageUrl은 업로드 API 부재로 현재 미사용
+export type Memo = TourSpotMemo
+
+export interface MemoListItem {
+  memoId: number
+  spotId: number
+  spotName: string
+  spotImage: string | null
+  content: string
+  imageUrl: string | null
+  createdAt: string
+  updatedAt: string
+}
+
+export interface MemoListResponse {
+  content: MemoListItem[]
+  page: number
+  size: number
+  totalElements: number
+  totalPages: number
+}
+
 export interface TourSpotMemoRequest {
   content: string
-  imageUrl?: string
 }

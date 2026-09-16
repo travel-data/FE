@@ -44,6 +44,15 @@ export interface StampMissionClearResponse {
   clearedAt: string
 }
 
+export type SavedPlaceListItem = TourSpotListItem & {
+  imageUrl?: string | null
+}
+
+export interface SavedPlacesResponse {
+  items: SavedPlaceListItem[]
+  totalCount: number
+}
+
 export interface TourSpotDetail {
   spotId: number
   name: string

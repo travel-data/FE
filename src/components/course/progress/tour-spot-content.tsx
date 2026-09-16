@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 
 import { Spinner } from '@/components/ui/spinner'
 import StampLogo from '@/assets/icons/stamp-logo.svg?react'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 import { useClearStampMission } from '@/hooks/mutations/place'
 import { useTourSpotStoryCard } from '@/hooks/queries/story'
 import { distanceMeters, getCurrentPosition } from '@/lib/geo'
@@ -22,17 +22,20 @@ const MISSION_LABEL_KEY = {
 } as const satisfies Record<StampMissionType, string>
 
 interface TourSpotContentProps {
+  courseId: string
   spotId: number
   stampProgress: StampProgress | null
   location: { lat: number; lng: number }
 }
 
 function TourSpotContent({
+  courseId,
   spotId,
   stampProgress,
   location,
 }: TourSpotContentProps) {
   const { t } = useTranslation('place')
+  const navigate = useNavigate()
   const { mutate: clearMission, isPending } = useClearStampMission()
   const { data: storyCard } = useTourSpotStoryCard(spotId)
   const [qrOpen, setQrOpen] = useState(false)
@@ -67,6 +70,13 @@ function TourSpotContent({
     if (isPending || locating) return
     if (type === 'VISIT') handleVisit()
     else if (type === 'QR_SCAN') setQrOpen(true)
+    else if (type === 'STORY_CARD') {
+      navigate({
+        to: '/storycards/$spotId',
+        params: { spotId: String(spotId) },
+        search: { from: 'course-progress', courseId },
+      })
+    }
   }
 
   return (
@@ -81,7 +91,11 @@ function TourSpotContent({
               {t('detail.storycard_description')}
             </span>
           </div>
-          <Link to={'.'}>
+          <Link
+            to="/storycards/$spotId"
+            params={{ spotId: String(spotId) }}
+            search={{ from: 'course-progress', courseId }}
+          >
             <StoryCardPreview
               imageUrl={storyCard.imageUrl}
               title={storyCard.title}

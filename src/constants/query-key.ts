@@ -12,6 +12,7 @@ export const QUERY_KEY = {
   place: {
     tourSpots: (params: { category?: PlaceCategory; keyword?: string }) =>
       ['place', 'tourSpots', params] as const,
+    savedPlaces: () => ['place', 'savedPlaces'] as const,
     tourSpot: (spotId: number) => ['place', 'tourSpots', 'detail', spotId],
     nearbyPlace: (nearbyPlaceId: number) => [
       'place',
@@ -23,6 +24,9 @@ export const QUERY_KEY = {
   },
   memo: {
     tourSpot: (spotId: number) => ['memo', 'tourSpot', spotId] as const,
+    all: () => ['memo'] as const,
+    list: (size: number) => ['memo', 'list', { size }] as const,
+    detail: (spotId: number) => ['memo', 'detail', spotId] as const,
   },
   story: {
     tourSpot: (spotId: number) => ['story', 'tourSpot', spotId] as const,
@@ -47,5 +51,11 @@ export const QUERY_KEY = {
       destination: { latitude: number; longitude: number }
       transportType: string
     }) => ['route', 'calculate', params] as const,
+  },
+  storyCard: {
+    all: () => ['story-card'] as const,
+    detail: (spotId: number) => ['story-card', 'detail', spotId] as const,
+    savedAll: () => ['story-card', 'saved'] as const,
+    saved: (size: number) => ['story-card', 'saved', { size }] as const,
   },
 }

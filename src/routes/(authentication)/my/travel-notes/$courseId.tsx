@@ -1,118 +1,141 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { useState } from 'react'
+import CourseDateSelector from '@/components/note/course-date-selector'
 import CourseDetailHeader from '@/components/note/course-detail-header'
 import CourseDetailTabs from '@/components/note/course-detail-tabs'
-import CourseDateSelector from '@/components/note/course-date-selector'
 import CourseScheduleItem from '@/components/note/course-schedule-item'
 import StoryCard from '@/components/note/story-card'
+import { Spinner } from '@/components/ui/spinner'
+import { useGetCourseDetail } from '@/hooks/queries/course'
+import { useDeleteCourse } from '@/hooks/mutations/course'
+import { useStoryCardDetailsQueries } from '@/hooks/queries/story-card'
+import { useConfirmModalStore } from '@/stores/confirm-modal-store'
+import type { CourseDetailItem, TransportationType } from '@/types/course'
+import type { PlaceCategory } from '@/types/place'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useMemo, useState } from 'react'
 
 export const Route = createFileRoute(
   '/(authentication)/my/travel-notes/$courseId',
 )({
+  validateSearch: (search: Record<string, unknown>): { tab?: 'story' } => ({
+    tab: search.tab === 'story' ? 'story' : undefined,
+  }),
   component: RouteComponent,
 })
 
-const MOCK_COURSE_DETAIL = {
-  courseName: '신라 야경 코스',
-  dateRange: '26-06-09 ~ 26-06-09',
-  tags: ['#여행지', '#경주', '#신라'],
-  totalDays: 3,
+const CATEGORY_LABEL: Record<PlaceCategory, string> = {
+  TOUR_SPOT: '관광지',
+  RESTAURANT: '음식점',
+  ACCOMMODATION: '숙소',
 }
 
-type MockSchedule = {
-  id: number
-  placeId: number
-  time: string
-  placeName: string
-  category: string
-  memo?: string
-  transportation: string
-  imageUrl?: string
+const TRANSPORTATION_LABEL: Record<TransportationType, string> = {
+  WALK: '도보',
+  CAR: '자동차',
+  BIKE: '자전거',
 }
 
-const MOCK_SCHEDULES: MockSchedule[] = [
-  {
-    id: 1,
-    placeId: 101,
-    time: '10:30',
-    placeName: '첨성대',
-    category: '관광지',
-    memo: '신라시대 천문대로 유명한 곳입니다. 사진 찍기 좋아요!',
-    transportation: '승용차',
-  },
-  {
-    id: 2,
-    placeId: 102,
-    time: '12:00',
-    placeName: '황남빵 본점',
-    category: '음식점',
-    transportation: '도보',
-  },
-  {
-    id: 3,
-    placeId: 103,
-    time: '14:00',
-    placeName: '대릉원',
-    category: '관광지',
-    memo: '고분 투어 코스',
-    transportation: '대중교통',
-  },
-  {
-    id: 4,
-    placeId: 104,
-    time: '16:30',
-    placeName: '동궁과 월지',
-    category: '관광지',
-    memo: '야경이 정말 아름다운 곳입니다.',
-    transportation: '승용차',
-  },
-]
+function formatDate(date?: string) {
+  if (!date) return ''
+  return date.slice(2, 10).replace(/-/g, '.')
+}
 
-const MOCK_STORIES = [
-  {
-    id: 1,
-    placeName: '첨성대',
-    subtitle: '별을 읽던 신라의 탑',
-  },
-  {
-    id: 2,
-    placeName: '대릉원',
-    subtitle: '고분 속 숨겨진 이야기',
-  },
-  {
-    id: 3,
-    placeName: '동궁과 월지',
-    subtitle: '달빛이 비치는 연못',
-  },
-]
+function formatDateRange(createdAt?: string, updatedAt?: string) {
+  const start = formatDate(createdAt)
+  const end = formatDate(updatedAt) || start
+
+  if (!start) return '날짜 정보 없음'
+  return `${start} ~ ${end}`
+}
+
+function getTotalDays(items: CourseDetailItem[]) {
+  return Math.max(...items.map((item) => item.dayNumber), 1)
+}
 
 function RouteComponent() {
   const navigate = useNavigate()
   const { courseId } = Route.useParams()
-  const [activeTab, setActiveTab] = useState<'timeline' | 'story'>('timeline')
+  const { tab } = Route.useSearch()
+  const [activeTab, setActiveTab] = useState<'timeline' | 'story'>(
+    tab ?? 'timeline',
+  )
   const [selectedDay, setSelectedDay] = useState(1)
+  const { data: courseDetail, isPending } = useGetCourseDetail(courseId)
+  const deleteCourseMutation = useDeleteCourse()
+  const openConfirmModal = useConfirmModalStore((state) => state.open)
+
+  const storySpotIds = useMemo(
+    () =>
+      courseDetail?.items
+        .filter((item) => item.category === 'TOUR_SPOT' && item.spotId)
+        .map((item) => item.spotId as number) ?? [],
+    [courseDetail],
+  )
+  const storyCardQueries = useStoryCardDetailsQueries(storySpotIds, {
+    enabled: activeTab === 'story',
+  })
+  const storyCards = storyCardQueries.flatMap((query) =>
+    query.data ? [query.data] : [],
+  )
+  const areStoryCardsLoading = storyCardQueries.some((query) => query.isPending)
+
+  const schedules = useMemo(() => {
+    if (!courseDetail) return []
+
+    return courseDetail.items
+      .filter((item) => item.dayNumber === selectedDay)
+      .sort((a, b) => a.itemOrder - b.itemOrder)
+  }, [courseDetail, selectedDay])
 
   const handleBack = () => {
-    navigate({ to: '/my/travel-notes' })
+    navigate({ to: '/my/travel-notes', replace: true })
   }
 
   const handleDelete = () => {
-    // TODO: 삭제 모달
-  }
+    if (deleteCourseMutation.isPending) return
 
-  const handlePlaceClick = (placeId: number) => {
-    navigate({
-      to: '/my/travel-notes/$courseId/place/$placeId',
-      params: { courseId, placeId: String(placeId) },
+    openConfirmModal({
+      title: '여행 코스를 삭제할까요?',
+      description: '코스에 포함된 장소도 함께 삭제되며 복구할 수 없습니다.',
+      actionLabel: '삭제',
+      onAction: () => {
+        deleteCourseMutation.mutate(courseId, {
+          onSuccess: handleBack,
+          onError: () =>
+            openConfirmModal({
+              title: '여행 코스를 삭제하지 못했습니다.',
+              description: '잠시 후 다시 시도해 주세요.',
+              actionLabel: '확인',
+              onAction: () => undefined,
+            }),
+        })
+      },
     })
   }
+
+  const handlePlaceClick = (item: CourseDetailItem) => {
+    navigate({
+      to: '/my/travel-notes/$courseId/place/$placeId',
+      params: {
+        courseId,
+        placeId: String(item.spotId ?? item.nearbyPlaceId ?? item.itemId),
+      },
+      search: { category: item.category },
+    })
+  }
+
+  if (isPending || !courseDetail) return <Spinner className="m-auto mt-20" />
+
+  const totalDays = getTotalDays(courseDetail.items)
 
   return (
     <div className="relative flex h-svh flex-col">
       <CourseDetailHeader
-        courseName={MOCK_COURSE_DETAIL.courseName}
-        dateRange={MOCK_COURSE_DETAIL.dateRange}
-        tags={MOCK_COURSE_DETAIL.tags}
+        courseName={courseDetail.title}
+        dateRange={formatDateRange(
+          courseDetail.createdAt,
+          courseDetail.updatedAt,
+        )}
+        tags={['#여행지', '#경주', '#코스']}
         onBack={handleBack}
         onDelete={handleDelete}
       />
@@ -124,38 +147,70 @@ function RouteComponent() {
           <>
             <CourseDateSelector
               selectedDay={selectedDay}
-              totalDays={MOCK_COURSE_DETAIL.totalDays}
+              totalDays={totalDays}
               onDayChange={setSelectedDay}
             />
             <div className="relative flex flex-col">
-              {MOCK_SCHEDULES.map((schedule, index) => (
-                <CourseScheduleItem
-                  key={schedule.id}
-                  placeId={schedule.placeId}
-                  time={schedule.time}
-                  placeName={schedule.placeName}
-                  category={schedule.category}
-                  memo={schedule.memo}
-                  transportation={schedule.transportation}
-                  imageUrl={schedule.imageUrl}
-                  isFirst={index === 0}
-                  isLast={index === MOCK_SCHEDULES.length - 1}
-                  onClick={() => handlePlaceClick(schedule.placeId)}
-                />
-              ))}
+              {schedules.length === 0 ? (
+                <div className="flex min-h-40 items-center justify-center px-5">
+                  <p className="text-body1 text-text-default">
+                    등록된 장소가 없습니다
+                  </p>
+                </div>
+              ) : (
+                schedules.map((schedule, index) => (
+                  <CourseScheduleItem
+                    key={schedule.itemId}
+                    placeId={
+                      schedule.spotId ??
+                      schedule.nearbyPlaceId ??
+                      schedule.itemId
+                    }
+                    time={`${index + 1}`}
+                    placeName={schedule.name}
+                    category={CATEGORY_LABEL[schedule.category]}
+                    memo={schedule.overview ?? undefined}
+                    transportation={
+                      schedule.transportType
+                        ? TRANSPORTATION_LABEL[schedule.transportType]
+                        : '이동수단 정보 없음'
+                    }
+                    imageUrl={schedule.img ?? undefined}
+                    isFirst={index === 0}
+                    isLast={index === schedules.length - 1}
+                    onClick={() => handlePlaceClick(schedule)}
+                  />
+                ))
+              )}
             </div>
           </>
         )}
 
         {activeTab === 'story' && (
           <div className="flex flex-col gap-4 px-5">
-            {MOCK_STORIES.map((story) => (
-              <StoryCard
-                key={story.id}
-                placeName={story.placeName}
-                subtitle={story.subtitle}
-              />
-            ))}
+            {areStoryCardsLoading ? (
+              <Spinner className="mx-auto mt-12" />
+            ) : storyCards.length === 0 ? (
+              <p className="py-12 text-center text-body1 text-text-subdued">
+                이 코스에서 볼 수 있는 스토리카드가 없습니다.
+              </p>
+            ) : (
+              storyCards.map((storyCard) => (
+                <StoryCard
+                  key={storyCard.storyId}
+                  imageUrl={storyCard.imageUrl}
+                  placeName={storyCard.tourSpotName}
+                  subtitle={storyCard.subTitle || storyCard.title}
+                  onClick={() =>
+                    navigate({
+                      to: '/storycards/$spotId',
+                      params: { spotId: String(storyCard.spotId) },
+                      search: { from: 'travel-notes', courseId },
+                    })
+                  }
+                />
+              ))
+            )}
           </div>
         )}
       </main>

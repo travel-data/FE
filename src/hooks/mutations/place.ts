@@ -28,9 +28,11 @@ export const useTogglePlaceSave = () => {
     onError: (_err, _vars, ctx) => {
       if (ctx?.prev) queryClient.setQueryData(ctx.key, ctx.prev)
     },
-    // 성공/실패 무관하게 서버 확정값으로 재동기화
+    // 성공/실패 무관하게 서버 확정값으로 재동기화 (저장 목록/마이페이지도 갱신)
     onSettled: (_data, _err, { placeId, category }) => {
       queryClient.invalidateQueries({ queryKey: detailKey(placeId, category) })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.place.savedPlaces() })
+      queryClient.invalidateQueries({ queryKey: QUERY_KEY.my.page() })
     },
   })
 }

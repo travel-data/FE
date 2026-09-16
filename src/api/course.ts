@@ -2,6 +2,8 @@ import { apiClient } from '@/lib/api-client'
 import {
   CourseDetail,
   CourseListDetail,
+  CourseListItem,
+  CourseListResponse,
   CourseRequest,
   CourseStatus,
   CreateCourseResponse,
@@ -24,6 +26,39 @@ export const getCourseDetail = async (courseId: string) => {
   )
 
   return res.data.data
+}
+
+type CourseListApiData =
+  | CourseListResponse
+  | CourseListItem[]
+  | { courses: CourseListItem[]; totalCount?: number }
+  | { tourCourses: CourseListItem[]; totalCount?: number }
+
+export const getCourseList = async (): Promise<CourseListResponse> => {
+  const res = await apiClient.get<CommonResponse<CourseListApiData>>(
+    '/api/v1/tour-courses',
+  )
+  const data = res.data.data
+
+  if (Array.isArray(data)) {
+    return { items: data, totalCount: data.length }
+  }
+
+  if ('courses' in data) {
+    return {
+      items: data.courses,
+      totalCount: data.totalCount ?? data.courses.length,
+    }
+  }
+
+  if ('tourCourses' in data) {
+    return {
+      items: data.tourCourses,
+      totalCount: data.totalCount ?? data.tourCourses.length,
+    }
+  }
+
+  return data
 }
 
 export const updateCourseDetail = async ({
@@ -126,4 +161,10 @@ export const getMycourses = async ({
   >('/api/v1/tour-courses', { params: { size, page } })
 
   return res.data.data
+}
+
+export const deleteCourse = async (courseId: string): Promise<void> => {
+  await apiClient.delete<CommonResponse<null>>(
+    `/api/v1/tour-courses/${courseId}`,
+  )
 }

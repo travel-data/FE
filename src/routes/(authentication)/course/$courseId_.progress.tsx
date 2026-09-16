@@ -211,6 +211,7 @@ function RouteComponent() {
 
           {tourSpotData && (
             <TourSpotContent
+              courseId={courseId}
               spotId={tourSpotData.spotId}
               stampProgress={tourSpotData.stampProgress}
               location={{ lat: tourSpotData.mapY, lng: tourSpotData.mapX }}

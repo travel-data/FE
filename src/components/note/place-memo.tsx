@@ -62,10 +62,11 @@ function PlaceMemo({
             {memo.images && memo.images.length > 0 && (
               <div className="flex flex-col gap-2">
                 {memo.images.map((image, index) => (
-                  <div
+                  <img
                     key={`${image}-${index}`}
-                    className="h-[200px] w-full rounded-[8px] border border-dashed border-gray-300 bg-white"
-                    aria-label={`메모 이미지 영역 ${index + 1}`}
+                    src={image}
+                    alt={`메모 이미지 ${index + 1}`}
+                    className="max-h-[420px] w-full rounded-[8px] object-cover"
                   />
                 ))}
               </div>
