@@ -1,31 +1,13 @@
-const PRODUCTION_API_BASE_URL = 'https://oiso.duckdns.org'
-const LOCAL_API_BASE_URL = 'http://localhost:8080'
-const LOCAL_RECOMMENDATION_API_BASE_URL = 'http://localhost:8000'
 const configuredApiBaseUrl = import.meta.env.VITE_API_BASE_URL as
   | string
   | undefined
 const configuredRecommendationApiBaseUrl = import.meta.env
   .VITE_RECOMMENDATION_API_BASE_URL as string | undefined
-const configuredAppOrigin = import.meta.env.VITE_APP_ORIGIN as
-  | string
-  | undefined
-const isLocalApiBaseUrl =
-  configuredApiBaseUrl?.includes('localhost') ||
-  configuredApiBaseUrl?.includes('127.0.0.1')
 
-export const API_BASE_URL =
-  import.meta.env.PROD && isLocalApiBaseUrl
-    ? PRODUCTION_API_BASE_URL
-    : (configuredApiBaseUrl ??
-      (import.meta.env.PROD ? PRODUCTION_API_BASE_URL : LOCAL_API_BASE_URL))
+export const API_BASE_URL = import.meta.env.PROD
+  ? ''
+  : (configuredApiBaseUrl ?? '')
 
-export const RECOMMENDATION_API_BASE_URL = (
-  configuredRecommendationApiBaseUrl ??
-  (import.meta.env.PROD
-    ? PRODUCTION_API_BASE_URL
-    : LOCAL_RECOMMENDATION_API_BASE_URL)
-).replace(/\/+$/, '')
-
-export const APP_ORIGIN = (
-  configuredAppOrigin ?? window.location.origin
-).replace(/\/+$/, '')
+export const RECOMMENDATION_API_BASE_URL = import.meta.env.PROD
+  ? ''
+  : (configuredRecommendationApiBaseUrl ?? '').replace(/\/+$/, '')

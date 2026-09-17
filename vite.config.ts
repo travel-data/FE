@@ -21,6 +21,18 @@ export default defineConfig({
   },
   server: {
     proxy: {
+      '/api': {
+        target: 'https://oiso.duckdns.org',
+        changeOrigin: true,
+      },
+      '/oauth2': {
+        target: 'https://oiso.duckdns.org',
+        changeOrigin: true,
+      },
+      '/login/oauth2': {
+        target: 'https://oiso.duckdns.org',
+        changeOrigin: true,
+      },
       '/tour-image-proxy': {
         target: 'https://tong.visitkorea.or.kr',
         changeOrigin: true,
