@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import CalendarIcon from '@/assets/icons/calendar-icon.svg?react'
 
 interface NoteCourseCardProps {
   imageUrl?: string
@@ -25,10 +26,10 @@ function NoteCourseCard({
     <button
       type="button"
       onClick={onClick}
-      className="w-full rounded-[12px] bg-primary-50 p-4"
+      className="w-full rounded-lg bg-gray-100 p-4 border border-border-1"
     >
       <div className="flex gap-3">
-        <div className="h-18 w-18 shrink-0 overflow-hidden rounded-[8px] bg-white">
+        <div className="h-18 w-18 shrink-0 overflow-hidden rounded-sm bg-white">
           {imageUrl && (
             <img
               src={imageUrl}
@@ -39,11 +40,13 @@ function NoteCourseCard({
           )}
         </div>
 
-        <div className="flex flex-1 flex-col items-start gap-1">
-          <h3 className="text-body1 font-medium text-text-heading">
-            {courseName}
-          </h3>
-          <p className="text-label text-gray-600">{dateRange}</p>
+        <div className="flex flex-1 flex-col items-start justify-center">
+          <h3 className="text-body2 text-text-default">{courseName}</h3>
+          <p className="text-label text-text-subdued flex items-center gap-1">
+            <CalendarIcon className="size-3 " />
+
+            {dateRange}
+          </p>
           {distance && duration ? (
             <p className="text-label text-gray-600">
               {distance} · {duration}

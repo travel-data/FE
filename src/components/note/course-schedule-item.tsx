@@ -1,74 +1,71 @@
 import { useTranslation } from 'react-i18next'
+import type { TransportationType } from '@/types/course'
 
 interface CourseScheduleItemProps {
-  placeId: number
-  time: string
+  index: number
   placeName: string
-  category: string
-  memo?: string
-  transportation: string
+  address: string
+  description?: string
   imageUrl?: string
-  isFirst?: boolean
+  distanceToNext?: string | null
+  transportToNext?: TransportationType | null
   isLast?: boolean
   onClick?: () => void
 }
 
+// 코스 상세(CourseListItem)와 동일한 타임라인 항목 UI. 클릭 시 장소 상세 페이지로 이동.
 function CourseScheduleItem({
-  time,
+  index,
   placeName,
-  category,
-  memo,
-  transportation,
+  address,
+  description,
   imageUrl,
-  isLast,
+  distanceToNext,
+  transportToNext,
+  isLast = false,
   onClick,
 }: CourseScheduleItemProps) {
-  const { t } = useTranslation('my')
+  const { t } = useTranslation('course')
 
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="relative grid w-full grid-cols-[auto_minmax(0,1fr)_72px] gap-3 overflow-visible px-5 py-4 text-left"
-    >
-      {!isLast && (
-        <div className="absolute left-[27px] top-8 z-0 h-full w-0.5 bg-primary-400" />
-      )}
-
-      <div className="relative flex shrink-0 items-start gap-1 pt-2">
-        <div className="relative z-10 size-4 shrink-0 rounded-full bg-primary-400" />
-        <span className="text-caption text-primary-400">{time}</span>
-      </div>
-
-      <div className="flex min-w-0 flex-col gap-2 overflow-hidden py-2">
-        <div className="flex min-w-0 items-center gap-2">
-          <h3 className="min-w-0 truncate text-title3 font-medium text-text-heading">
-            {placeName}
-          </h3>
-          <span className="shrink-0 rounded-[40px] bg-brand-primary px-3 py-1 text-caption text-primary-50">
-            {category}
-          </span>
+    <div className="flex gap-3">
+      <div className="flex flex-col items-center">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-brand-primary text-[13px] font-bold text-white">
+          {index + 1}
         </div>
-
-        <p className="min-w-0 truncate text-caption text-text-heading">
-          {memo || t('travel_note.no_memo')}
-        </p>
-
-        <span className="min-w-0 truncate text-caption text-text-subdued">
-          {transportation}
-        </span>
+        {!isLast && <div className="w-px flex-1 bg-primary-200" />}
       </div>
 
-      <div className="mt-2 size-18 shrink-0 justify-self-end overflow-hidden rounded-[8px] bg-gray-100">
-        {imageUrl && (
-          <img
-            src={imageUrl}
-            alt={placeName}
-            className="h-full w-full object-cover"
-          />
+      <div className={`flex-1 ${!isLast ? 'pb-3' : ''}`}>
+        <div onClick={onClick} className="flex items-start gap-4">
+          <div className="flex-1">
+            <p className="text-body1 font-bold text-text-heading">{placeName}</p>
+            <p className="text-label text-text-default font-semibold">
+              {address}
+            </p>
+            <p className="text-label text-text-subdued mt-1 line-clamp-2 text-ellipsis">
+              {description}
+            </p>
+          </div>
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              className="size-21.5 shrink-0 rounded-md object-cover"
+            />
+          ) : (
+            <div className="size-21.5 shrink-0 rounded-md bg-gray-200" />
+          )}
+        </div>
+        {!isLast && transportToNext && (
+          <p className="text-label text-brand-primary mt-3">
+            {distanceToNext && `${distanceToNext} · `}
+            {t('label.transportation', {
+              transportation: t(`transportation.${transportToNext}`),
+            })}
+          </p>
         )}
       </div>
-    </button>
+    </div>
   )
 }
 

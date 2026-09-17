@@ -14,6 +14,7 @@ function BackButton({ fallback = '/' }: BackButtonProps) {
   const handleClick = () => {
     if (fallback) {
       navigate({ to: fallback })
+      return
     }
 
     if (router.history.canGoBack()) {

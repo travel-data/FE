@@ -8,13 +8,13 @@ import {
   useLocation,
   useNavigate,
 } from '@tanstack/react-router'
-import { ChevronLeft } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 import {
   formatCourseDateRange,
   formatCourseDistance,
   formatCourseDuration,
 } from '@/lib/format-course'
+import BackButton from '@/components/button/back-button'
 
 export const Route = createFileRoute('/(authentication)/my/travel-notes')({
   component: RouteComponent,
@@ -31,10 +31,6 @@ function RouteComponent() {
     return <Outlet />
   }
 
-  const handleBack = () => {
-    navigate({ to: '/my', replace: true })
-  }
-
   const handleCourseClick = (courseId: number) => {
     navigate({
       to: '/my/travel-notes/$courseId',
@@ -43,19 +39,10 @@ function RouteComponent() {
   }
 
   return (
-    <div className="relative flex h-svh flex-col bg-white">
+    <div className="relative flex h-svh flex-col ">
       <TopBar
         title={t('travel_note.my_title')}
-        leftSlot={
-          <button
-            type="button"
-            aria-label="뒤로가기"
-            onClick={handleBack}
-            className="flex size-8 items-center justify-center rounded-full text-text-heading"
-          >
-            <ChevronLeft className="size-6" />
-          </button>
-        }
+        leftSlot={<BackButton fallback="/my" />}
       />
 
       <main className="flex flex-1 flex-col overflow-y-auto px-5 pb-24">

@@ -3,12 +3,19 @@ interface StoryCardProps {
   placeName: string
   subtitle: string
   onClick?: () => void
+  storyTitle: string
 }
 
-function StoryCard({ imageUrl, placeName, subtitle, onClick }: StoryCardProps) {
+function StoryCard({
+  imageUrl,
+  placeName,
+  subtitle,
+  onClick,
+  storyTitle,
+}: StoryCardProps) {
   const content = (
     <>
-      <div className="h-25 w-[77px] shrink-0 overflow-hidden rounded-[8px] bg-gray-100">
+      <div className="h-25 w-20 shrink-0 overflow-hidden rounded-sm border border-border-1 bg-gray-100">
         {imageUrl && (
           <img
             src={imageUrl}
@@ -18,11 +25,10 @@ function StoryCard({ imageUrl, placeName, subtitle, onClick }: StoryCardProps) {
         )}
       </div>
 
-      <div className="flex flex-col gap-2">
-        <h3 className="text-title2 font-bold text-text-heading">
-          {placeName}
-        </h3>
-        <p className="text-body1 text-text-default">{subtitle}</p>
+      <div className="flex flex-col">
+        <p className="text-label  text-text-default">{placeName}</p>
+        <h3 className="text-body1 font-bold text-text-heading">{storyTitle}</h3>
+        <p className="text-body2 text-text-subdued">{subtitle}</p>
       </div>
     </>
   )
@@ -32,18 +38,14 @@ function StoryCard({ imageUrl, placeName, subtitle, onClick }: StoryCardProps) {
       <button
         type="button"
         onClick={onClick}
-        className="flex w-full gap-6 px-2 py-4 text-left"
+        className="flex w-full gap-4  text-left items-start"
       >
         {content}
       </button>
     )
   }
 
-  return (
-    <div className="flex gap-6 px-2 py-4">
-      {content}
-    </div>
-  )
+  return <div className="flex gap-4  items-start">{content}</div>
 }
 
 export default StoryCard

@@ -111,7 +111,6 @@ function RouteComponent() {
       <CourseDetailHeader
         courseName={MOCK_COURSE_DETAIL.courseName}
         dateRange={MOCK_COURSE_DETAIL.dateRange}
-        tags={MOCK_COURSE_DETAIL.tags}
         onBack={handleBack}
         onDelete={handleDelete}
       />
@@ -126,18 +125,15 @@ function RouteComponent() {
               totalDays={MOCK_COURSE_DETAIL.totalDays}
               onDayChange={setSelectedDay}
             />
-            <div className="relative flex flex-col">
+            <div className="relative flex flex-col px-5 ">
               {MOCK_SCHEDULES.map((schedule, index) => (
                 <CourseScheduleItem
                   key={schedule.id}
-                  placeId={schedule.placeId}
-                  time={schedule.time}
+                  index={index}
                   placeName={schedule.placeName}
-                  category={schedule.category}
-                  memo={schedule.memo}
-                  transportation={schedule.transportation}
+                  address={schedule.category}
+                  description={schedule.memo}
                   imageUrl={schedule.imageUrl}
-                  isFirst={index === 0}
                   isLast={index === MOCK_SCHEDULES.length - 1}
                   onClick={() => handlePlaceClick(schedule.placeId)}
                 />
@@ -150,6 +146,7 @@ function RouteComponent() {
           <div className="flex flex-col gap-4 px-5">
             {MOCK_STORIES.map((story) => (
               <StoryCard
+                storyTitle=""
                 key={story.spotId}
                 placeName={story.placeName}
                 subtitle={story.subtitle}

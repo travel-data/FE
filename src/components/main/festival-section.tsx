@@ -81,7 +81,7 @@ function FestivalListItem({
 
 function FestivalListItemSkeleton() {
   return (
-    <div className="flex flex-col gap-2 shrink w-[75%]">
+    <div className="flex flex-col gap-2 shrink w-full">
       <div className="rounded-lg bg-gray-300 animate-pulse w-73 h-47.5" />
 
       <div>

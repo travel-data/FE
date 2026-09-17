@@ -9,14 +9,11 @@ import { useDeleteCourse } from '@/hooks/mutations/course'
 import { useStoryCardDetailsQueries } from '@/hooks/queries/story-card'
 import { useConfirmModalStore } from '@/stores/confirm-modal-store'
 import type { CourseDetailItem } from '@/types/course'
-import {
-  formatCourseDateRange,
-  placeCategoryLabel,
-  transportationLabel,
-} from '@/lib/format-course'
+import { formatCourseDateRange } from '@/lib/format-course'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import LogoSymbol from '@/assets/icons/symbol.svg?react'
 
 export const Route = createFileRoute(
   '/(authentication)/my/travel-notes/$courseId',
@@ -104,23 +101,30 @@ function RouteComponent() {
     })
   }
 
-  if (isPending || !courseDetail) return <Spinner className="m-auto mt-20" />
+  if (isPending || !courseDetail)
+    return (
+      <div className="flex min-h-svh items-center justify-center">
+        <LogoSymbol
+          aria-label="OISO 로고"
+          className="animate-pulse translate-y-[clamp(-16px,calc(8svh-59.2px),16px)] transition-transform duration-300"
+          height={100}
+          role="img"
+          width={100}
+        />
+      </div>
+    )
 
   const totalDays = getTotalDays(courseDetail.items)
 
   return (
     <div className="relative flex h-svh flex-col">
       <CourseDetailHeader
+        backgroundImage={courseDetail.items[0]?.img || undefined}
         courseName={courseDetail.title}
         dateRange={formatCourseDateRange(
           courseDetail.createdAt,
           courseDetail.updatedAt,
         )}
-        tags={[
-          t('travel_note.tag_destination'),
-          t('travel_note.tag_gyeongju'),
-          t('travel_note.tag_course'),
-        ]}
         onBack={handleBack}
         onDelete={handleDelete}
       />
@@ -135,9 +139,9 @@ function RouteComponent() {
               totalDays={totalDays}
               onDayChange={setSelectedDay}
             />
-            <div className="relative flex flex-col">
+            <div className="relative flex flex-col px-5">
               {schedules.length === 0 ? (
-                <div className="flex min-h-40 items-center justify-center px-5">
+                <div className="flex min-h-40 items-center justify-center">
                   <p className="text-body1 text-text-default">
                     {t('travel_note.empty_places')}
                   </p>
@@ -146,22 +150,14 @@ function RouteComponent() {
                 schedules.map((schedule, index) => (
                   <CourseScheduleItem
                     key={schedule.itemId}
-                    placeId={
-                      schedule.spotId ??
-                      schedule.nearbyPlaceId ??
-                      schedule.itemId
-                    }
-                    time={`${index + 1}`}
+                    index={index}
                     placeName={schedule.name}
-                    category={placeCategoryLabel(schedule.category)}
-                    memo={schedule.overview ?? undefined}
-                    transportation={
-                      schedule.transportType
-                        ? transportationLabel(schedule.transportType)
-                        : t('travel_note.no_transportation')
-                    }
+                    address={schedule.address}
+                    description={schedule.overview ?? undefined}
                     imageUrl={schedule.img ?? undefined}
-                    isFirst={index === 0}
+                    transportToNext={
+                      schedules[index + 1]?.transportType ?? null
+                    }
                     isLast={index === schedules.length - 1}
                     onClick={() => handlePlaceClick(schedule)}
                   />
@@ -186,6 +182,7 @@ function RouteComponent() {
                   imageUrl={storyCard.imageUrl}
                   placeName={storyCard.tourSpotName}
                   subtitle={storyCard.subTitle || storyCard.title}
+                  storyTitle={storyCard.storyTitle}
                   onClick={() =>
                     navigate({
                       to: '/storycards/$spotId',

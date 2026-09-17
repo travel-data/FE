@@ -14,7 +14,7 @@
     "empty_storycards": "이 코스에서 볼 수 있는 스토리카드가 없습니다.",
     "tab_story": "스토리카드",
     "no_memo": "작성된 메모가 존재하지 않습니다.",
-    "place_count": "장소 {{count}}개",
+    "place_count": "{{count}}곳",
     "delete_title": "여행 코스를 삭제할까요?",
     "delete_description": "코스에 포함된 장소도 함께 삭제되며 복구할 수 없습니다.",
     "no_date": "날짜 정보 없음",
