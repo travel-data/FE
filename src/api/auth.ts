@@ -1,11 +1,7 @@
 import { apiClient } from '@/lib/api-client'
 
 export function startKakaoLogin() {
-  window.location.assign(
-    `/api/auth/kakao?redirectUri=${encodeURIComponent(
-      'https://oiso-fe.vercel.app/login-success',
-    )}`,
-  )
+  window.location.assign('/oauth2/authorization/kakao')
 }
 
 export async function logout() {
