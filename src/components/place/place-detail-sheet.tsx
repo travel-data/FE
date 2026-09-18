@@ -83,8 +83,7 @@ function TourSpotSheet({
         <div className="flex flex-col gap-0.5 items-start">
           <h2 className="text-title3 text-text-default">{data.name}</h2>
           <p className="flex items-center gap-0.5">
-            <MarkerIcon className="size-2.5" />
-            <span className="text-label text-text-subdued text-left">
+            <span className="text-label text-text-subdued text-left break-keep">
               {data.address}
             </span>
           </p>
@@ -150,8 +149,7 @@ function NearbyPlaceSheet({
         <div className="flex flex-col gap-0.5 items-start">
           <h2 className="text-title3 text-text-default">{data.name}</h2>
           <p className="flex items-center gap-0.5">
-            <MarkerIcon className="size-3" />
-            <span className="text-label text-text-subdued text-left">
+            <span className="text-label text-text-subdued text-left break-keep">
               {data.address}
             </span>
           </p>
