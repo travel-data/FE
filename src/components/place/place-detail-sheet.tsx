@@ -1,5 +1,4 @@
 import { Drawer, DrawerContent, DrawerFooter, DrawerHeader } from '../ui/drawer'
-import MarkerIcon from '@/assets/icons/maker-icon.svg?react'
 import PlaceBookmarkButton from './place-bookmark-button'
 import { Button } from '../ui/button'
 import DownloadIcon from '@/assets/icons/download-icon.svg?react'
