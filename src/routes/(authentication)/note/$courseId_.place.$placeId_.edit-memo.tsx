@@ -7,6 +7,12 @@ export const Route = createFileRoute(
   component: RouteComponent,
   validateSearch: (search: Record<string, unknown>) => ({
     from: (search.from as string) || undefined,
+    category:
+      search.category === 'RESTAURANT'
+        ? ('RESTAURANT' as const)
+        : search.category === 'ACCOMMODATION'
+          ? ('ACCOMMODATION' as const)
+          : ('TOUR_SPOT' as const),
   }),
 })
 
@@ -33,5 +39,11 @@ function RouteComponent() {
     })
   }
 
-  return <MemoEditor spotId={Number(placeId)} onBack={handleBack} />
+  return (
+    <MemoEditor
+      spotId={Number(placeId)}
+      category={search.category}
+      onBack={handleBack}
+    />
+  )
 }

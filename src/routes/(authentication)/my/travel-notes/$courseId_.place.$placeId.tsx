@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 import PlaceInfo from '@/components/note/place-info'
 import PlaceMemo from '@/components/note/place-memo'
-import { useTourSpotMemoQuery } from '@/hooks/queries/memo'
+import { usePlaceMemoQuery } from '@/hooks/queries/memo'
 import { useStoryCardDetailQuery } from '@/hooks/queries/story-card'
 import type { PlaceCategory } from '@/types/place'
 import { usePlaceDetail } from '@/hooks/queries/place'
@@ -30,9 +30,7 @@ function RouteComponent() {
     category,
   })
   const place = tourSpotData ?? nearbyData
-  const { data: memoData } = useTourSpotMemoQuery(numericPlaceId, {
-    enabled: category === 'TOUR_SPOT',
-  })
+  const { data: memoData } = usePlaceMemoQuery(numericPlaceId, category)
   const { data: storyCard } = useStoryCardDetailQuery(numericPlaceId, {
     enabled: category === 'TOUR_SPOT',
   })
@@ -90,23 +88,22 @@ function RouteComponent() {
 
             <div className="h-8" />
 
-            {category === 'TOUR_SPOT' ? (
-              <PlaceMemo
-                courseId={courseId}
-                placeId={placeId}
-                memo={
-                  memoData?.memo
-                    ? {
-                        content: memoData.memo.content,
-                        images: memoData.memo.imageUrl
-                          ? [memoData.memo.imageUrl]
-                          : [],
-                      }
-                    : undefined
-                }
-                editScope="my-travel-notes"
-              />
-            ) : null}
+            <PlaceMemo
+              courseId={courseId}
+              placeId={placeId}
+              category={category}
+              memo={
+                memoData?.memo
+                  ? {
+                      content: memoData.memo.content,
+                      images: memoData.memo.imageUrl
+                        ? [memoData.memo.imageUrl]
+                        : [],
+                    }
+                  : undefined
+              }
+              editScope="my-travel-notes"
+            />
           </>
         )}
       </main>

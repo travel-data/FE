@@ -1,33 +1,36 @@
 import {
-  useDeleteTourSpotMemo,
-  useSaveTourSpotMemo,
+  useDeletePlaceMemo,
+  useSavePlaceMemo,
 } from '@/hooks/mutations/memo'
-import { useTourSpotMemoQuery } from '@/hooks/queries/memo'
+import { usePlaceMemoQuery } from '@/hooks/queries/memo'
+import type { PlaceCategory } from '@/types/place'
 import { ChevronLeft } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 interface MemoEditorProps {
   spotId: number
+  category?: PlaceCategory
   onBack: () => void
 }
 
-function MemoEditor({ spotId, onBack }: MemoEditorProps) {
-  const initializedSpotIdRef = useRef<number | null>(null)
+function MemoEditor({ spotId, category = 'TOUR_SPOT', onBack }: MemoEditorProps) {
+  const initializedPlaceRef = useRef<string | null>(null)
   const [content, setContent] = useState('')
   const [validationMessage, setValidationMessage] = useState('')
   const isValidSpotId = Number.isSafeInteger(spotId) && spotId > 0
-  const memoQuery = useTourSpotMemoQuery(spotId, { enabled: isValidSpotId })
-  const saveMutation = useSaveTourSpotMemo()
-  const deleteMutation = useDeleteTourSpotMemo()
+  const memoQuery = usePlaceMemoQuery(spotId, category, { enabled: isValidSpotId })
+  const saveMutation = useSavePlaceMemo()
+  const deleteMutation = useDeletePlaceMemo()
   const isMutating = saveMutation.isPending || deleteMutation.isPending
   const persistedMemo = memoQuery.data?.memo
 
   useEffect(() => {
-    if (!memoQuery.isSuccess || initializedSpotIdRef.current === spotId) return
+    const placeKey = `${category}:${spotId}`
+    if (!memoQuery.isSuccess || initializedPlaceRef.current === placeKey) return
 
     setContent(memoQuery.data.memo?.content ?? '')
-    initializedSpotIdRef.current = spotId
-  }, [memoQuery.data, memoQuery.isSuccess, spotId])
+    initializedPlaceRef.current = placeKey
+  }, [memoQuery.data, memoQuery.isSuccess, spotId, category])
 
   const handleComplete = () => {
     if (!content.trim()) {
@@ -38,15 +41,16 @@ function MemoEditor({ spotId, onBack }: MemoEditorProps) {
     setValidationMessage('')
     saveMutation.mutate(
       {
-        spotId,
-        body: { content: content.trim() },
+        placeId: spotId,
+        category,
+        body: { content: content.trim(), imageUrl: persistedMemo?.imageUrl ?? null },
       },
       { onSuccess: onBack },
     )
   }
 
   const handleDelete = () => {
-    deleteMutation.mutate(spotId, { onSuccess: onBack })
+    deleteMutation.mutate({ placeId: spotId, category }, { onSuccess: onBack })
   }
 
   if (!isValidSpotId) {

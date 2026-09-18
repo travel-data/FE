@@ -248,9 +248,13 @@ function RouteComponent() {
                         to: '/note/$courseId/place/$placeId/edit-memo',
                         params: {
                           courseId: 'memo',
-                          placeId: String(memo.spotId),
+                          placeId: String(
+                            memo.category === 'TOUR_SPOT'
+                              ? memo.spotId
+                              : memo.nearbyPlaceId,
+                          ),
                         },
-                        search: { from: 'mypage' },
+                        search: { from: 'mypage', category: memo.category },
                       })
                     }
                     className="rounded-[12px] bg-primary-50 p-3 text-left"

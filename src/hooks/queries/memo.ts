@@ -1,6 +1,7 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
 import { QUERY_KEY } from '@/constants/query-key'
-import { getMemoList, getTourSpotMemo } from '@/api/memo'
+import { getMemoList, getNearbyPlaceMemo, getTourSpotMemo } from '@/api/memo'
+import type { PlaceCategory } from '@/types/place'
 
 const MEMO_PAGE_SIZE = 20
 
@@ -17,6 +18,27 @@ export function useTourSpotMemoQuery(
 }
 
 export const useTourSpotMemo = useTourSpotMemoQuery
+
+export function usePlaceMemoQuery(
+  placeId: number,
+  category: PlaceCategory,
+  { enabled = true }: { enabled?: boolean } = {},
+) {
+  const isTourSpot = category === 'TOUR_SPOT'
+  return useQuery({
+    queryKey: isTourSpot
+      ? QUERY_KEY.memo.detail(placeId)
+      : QUERY_KEY.memo.nearbyDetail(placeId),
+    queryFn: async () => {
+      const response = isTourSpot
+        ? await getTourSpotMemo(placeId)
+        : await getNearbyPlaceMemo(placeId)
+      return { memo: response.memo }
+    },
+    enabled: enabled && Number.isSafeInteger(placeId) && placeId > 0,
+    retry: false,
+  })
+}
 
 export function useMemoListInfiniteQuery() {
   return useInfiniteQuery({

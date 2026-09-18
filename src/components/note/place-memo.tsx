@@ -1,9 +1,11 @@
 import { useNavigate } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import type { PlaceCategory } from '@/types/place'
 
 interface PlaceMemoProps {
   courseId: string
   placeId: string
+  category?: PlaceCategory
   memo?: {
     content: string
     images?: string[]
@@ -14,6 +16,7 @@ interface PlaceMemoProps {
 function PlaceMemo({
   courseId,
   placeId,
+  category = 'TOUR_SPOT',
   memo,
   editScope = 'note',
 }: PlaceMemoProps) {
@@ -25,6 +28,7 @@ function PlaceMemo({
       navigate({
         to: '/my/travel-notes/$courseId/place/$placeId/edit-memo',
         params: { courseId, placeId },
+        search: { category },
       })
       return
     }
@@ -32,7 +36,7 @@ function PlaceMemo({
     navigate({
       to: '/note/$courseId/place/$placeId/edit-memo',
       params: { courseId, placeId },
-      search: { from: undefined },
+      search: { from: undefined, category },
     })
   }
 

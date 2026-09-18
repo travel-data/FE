@@ -27,6 +27,8 @@ export const QUERY_KEY = {
     all: () => ['memo'] as const,
     list: (size: number) => ['memo', 'list', { size }] as const,
     detail: (spotId: number) => ['memo', 'detail', spotId] as const,
+    nearbyDetail: (nearbyPlaceId: number) =>
+      ['memo', 'nearby-detail', nearbyPlaceId] as const,
   },
   story: {
     tourSpot: (spotId: number) => ['story', 'tourSpot', spotId] as const,

@@ -13,9 +13,8 @@ export interface TourSpotMemoResponse {
 
 export type Memo = TourSpotMemo
 
-export interface MemoListItem {
+interface MemoListItemBase {
   memoId: number
-  spotId: number
   spotName: string
   spotImage: string | null
   content: string
@@ -23,6 +22,16 @@ export interface MemoListItem {
   createdAt: string
   updatedAt: string
 }
+
+export type MemoListItem = MemoListItemBase &
+  (
+    | { category: 'TOUR_SPOT'; spotId: number; nearbyPlaceId: null }
+    | {
+        category: 'RESTAURANT' | 'ACCOMMODATION'
+        spotId: null
+        nearbyPlaceId: number
+      }
+  )
 
 export interface MemoListResponse {
   content: MemoListItem[]
@@ -34,4 +43,10 @@ export interface MemoListResponse {
 
 export interface TourSpotMemoRequest {
   content: string
+  imageUrl?: string | null
+}
+
+export interface NearbyPlaceMemoResponse {
+  nearbyPlaceId: number
+  memo: TourSpotMemo | null
 }

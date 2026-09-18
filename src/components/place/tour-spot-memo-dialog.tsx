@@ -47,7 +47,14 @@ function TourSpotMemoDialog({
   }, [isOpen, isPending, data])
 
   const handleSave = () => {
-    save({ spotId, content: content.trim() }, { onSuccess: onClose })
+    save(
+      {
+        spotId,
+        content: content.trim(),
+        imageUrl: data?.memo?.imageUrl ?? null,
+      },
+      { onSuccess: onClose },
+    )
   }
 
   const busy = isSaving
@@ -63,9 +70,7 @@ function TourSpotMemoDialog({
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value.slice(0, MAX_LENGTH))}
-            placeholder={
-              isPending ? t('memo.loading') : t('memo.placeholder')
-            }
+            placeholder={isPending ? t('memo.loading') : t('memo.placeholder')}
             disabled={isPending || busy}
             rows={6}
             className="w-full resize-none rounded-sm border border-gray-400 p-4 text-body2 text-text-default outline-none focus:border-brand-primary"

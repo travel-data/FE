@@ -4,6 +4,7 @@ import { useMemoListInfiniteQuery } from '@/hooks/queries/memo'
 import { createFileRoute, useNavigate, useRouter } from '@tanstack/react-router'
 import { ChevronLeft } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
+import { placeCategoryLabel } from '@/lib/format-course'
 
 export const Route = createFileRoute('/(authentication)/my/memos')({
   component: RouteComponent,
@@ -92,9 +93,13 @@ function RouteComponent() {
                     to: '/note/$courseId/place/$placeId/edit-memo',
                     params: {
                       courseId: 'memo',
-                      placeId: String(memo.spotId),
+                      placeId: String(
+                        memo.category === 'TOUR_SPOT'
+                          ? memo.spotId
+                          : memo.nearbyPlaceId,
+                      ),
                     },
-                    search: { from: 'mypage' },
+                    search: { from: 'mypage', category: memo.category },
                   })
                 }
                 className="rounded-[12px] bg-primary-50 px-3 py-4 text-left"
@@ -105,7 +110,7 @@ function RouteComponent() {
                       {memo.spotName}
                     </h2>
                     <span className="ml-2 shrink-0 rounded-[40px] bg-brand-primary px-3 py-1 text-caption text-primary-50">
-                      {t('place:type.attraction')}
+                      {placeCategoryLabel(memo.category)}
                     </span>
                   </div>
 
