@@ -4,6 +4,7 @@
     "description": "선택에 따라 추천 코스가 달라져요",
     "departure_label": "여행 출발지",
     "departure_placeholder": "숙소 이름이나 주소를 입력해주세요",
+    "travel_start_date_label": "여행 시작일",
     "duration_label": "여행 기간",
     "companion_type_label": "동행 유형",
     "preferred_theme_label": "선호하는 테마",

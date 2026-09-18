@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { startKakaoLogin } from '@/api/auth'
 import { useAuthCheck } from '@/hooks/use-auth-check'
 
-import GoogleIcon from '@/assets/icons/logo-google.svg?react'
 import KakaoIcon from '@/assets/icons/logo-kakao.svg?react'
 import LogoSymbol from '@/assets/icons/symbol.svg?react'
 
@@ -20,7 +19,6 @@ function RouteComponent() {
   useAuthCheck()
 
   const navigate = useNavigate()
-  const stay = () => navigate({ to: '/login' })
 
   const { setAuthRole } = useAuthStore()
 
@@ -57,15 +55,6 @@ function RouteComponent() {
 
         <section className="flex flex-col">
           <div className="flex flex-col gap-2.5">
-            <button
-              type="button"
-              onClick={stay}
-              className="flex h-14 w-full items-center justify-center gap-2.5 rounded-[12px] border-[0.5px] border-gray-300 bg-white text-body2 text-black active:bg-gray-100"
-            >
-              <GoogleIcon />
-              {t('button.google')}
-            </button>
-
             <button
               type="button"
               onClick={startKakaoLogin}

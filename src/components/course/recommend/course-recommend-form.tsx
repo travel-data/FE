@@ -24,7 +24,11 @@ interface CourseRecommendFormProps {
   onSubmit?: () => void
 }
 
-function CourseRecommendForm({ values, setValue, onSubmit }: CourseRecommendFormProps) {
+function CourseRecommendForm({
+  values,
+  setValue,
+  onSubmit,
+}: CourseRecommendFormProps) {
   const [searchLocationSheet, setSearchLocationSheet] = useState(false)
 
   const { t } = useTranslation('course')
@@ -52,6 +56,21 @@ function CourseRecommendForm({ values, setValue, onSubmit }: CourseRecommendForm
               ? values.departure.road_address_name
               : t('form.departure_placeholder')}
           </div>
+        </CourseRecommendFormField>
+
+        <CourseRecommendFormField
+          label={t('form.travel_start_date_label')}
+          required
+        >
+          <input
+            type="date"
+            value={values.travelStartDate}
+            onChange={(event) =>
+              setValue('travelStartDate', event.target.value)
+            }
+            className="w-full rounded-sm border border-border-1 p-3 text-label text-text-default"
+            required
+          />
         </CourseRecommendFormField>
 
         <CourseRecommendFormField label={t('form.duration_label')} required>

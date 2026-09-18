@@ -79,6 +79,7 @@ function RouteComponent() {
     recommendationMutation.mutate(
       {
         preference,
+        travelStartDate: values.travelStartDate,
         title: values.preferredTheme
           ? COURSE_TITLE_MAP[values.preferredTheme]
           : '나를 위한 추천 코스',

@@ -1,6 +1,7 @@
 import TopBar from '@/components/layout/top-bar'
 import NoteCourseCard from '@/components/note/note-course-card'
 import { Button } from '@/components/ui/button'
+import { Spinner } from '@/components/ui/spinner'
 import { useGetCourseList } from '@/hooks/queries/course'
 import {
   Outlet,
@@ -46,7 +47,11 @@ function RouteComponent() {
       />
 
       <main className="flex flex-1 flex-col overflow-y-auto px-5 pb-24">
-        {!isLoading && courses.length === 0 ? (
+        {isLoading ? (
+          <div className="flex flex-1 items-center justify-center">
+            <Spinner className="size-10 text-brand-primary" />
+          </div>
+        ) : courses.length === 0 ? (
           <div className="relative flex flex-1 items-center justify-center">
             <p className="text-body1 text-text-default">
               {t('travel_note.fallback')}

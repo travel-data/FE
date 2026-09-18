@@ -1,4 +1,5 @@
-import { createFileRoute, Navigate } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
+import { useEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 
 import { Button } from '@/components/ui/button'
@@ -16,6 +17,7 @@ export const Route = createFileRoute('/(authentication)/course/')({
 
 function RouteComponent() {
   const { t } = useTranslation(['home', 'course'])
+  const navigate = useNavigate()
   const { role } = useAuth()
   const requireAuth = useRequireAuth()
   const isUser = role === 'user'
@@ -27,21 +29,23 @@ function RouteComponent() {
   const { handleCtaClick, pendingModal } = usePendingCourseGuard({
     replace: true,
   })
+  const inProgressCourseId = isUser ? inProgressCourse?.tourCourseId : undefined
 
-  if (isUser && isPending)
+  useEffect(() => {
+    if (inProgressCourseId == null) return
+
+    void navigate({
+      to: '/course/$courseId/progress',
+      params: { courseId: String(inProgressCourseId) },
+      replace: true,
+    })
+  }, [inProgressCourseId, navigate])
+
+  if (isUser && (isPending || inProgressCourseId != null))
     return (
       <section className="flex flex-col h-svh items-center justify-center">
         <Spinner className="text-brand-primary size-10" />
       </section>
-    )
-
-  if (isUser && inProgressCourse)
-    return (
-      <Navigate
-        to="/course/$courseId/progress"
-        params={{ courseId: String(inProgressCourse.tourCourseId) }}
-        replace
-      />
     )
 
   return (

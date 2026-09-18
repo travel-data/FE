@@ -4,6 +4,7 @@
     "description": "Your choices shape the perfect course for you",
     "departure_label": "Departure",
     "departure_placeholder": "Enter your accommodation or starting point",
+    "travel_start_date_label": "Travel Start Date",
     "duration_label": "Duration",
     "companion_type_label": "Companion",
     "preferred_theme_label": "Preferred Theme",

@@ -1,4 +1,6 @@
 import { createCourse } from '@/api/course'
+import { getFestivals } from '@/api/festival'
+import { getSavedPlaces } from '@/api/place'
 import { saveUserPreferences } from '@/api/preference'
 import { RECOMMENDATION_API_BASE_URL } from '@/constants/api'
 import type { CourseItemPayload } from '@/types/course'
@@ -15,13 +17,84 @@ const recommendationClient = axios.create({
   timeout: 120_000,
 })
 
-export async function recommendCourse(preference: UserPreferenceRequest) {
+const TRAVEL_DAY_COUNT: Record<UserPreferenceRequest['travelTime'], number> = {
+  HALF_DAY: 1,
+  ONE_DAY: 1,
+  ONE_NIGHT_TWO_DAYS: 2,
+  TWO_NIGHTS_THREE_DAYS: 3,
+  THREE_NIGHTS_FOUR_DAYS: 4,
+}
+
+function parseApiDate(value: string) {
+  const match = value.match(/(\d{4})\D?(\d{1,2})\D?(\d{1,2})/)
+  if (!match) return null
+  const year = Number(match[1])
+  const month = Number(match[2])
+  const day = Number(match[3])
+  const parsed = new Date(Date.UTC(year, month - 1, day))
+  return parsed.getUTCFullYear() === year &&
+    parsed.getUTCMonth() === month - 1 &&
+    parsed.getUTCDate() === day
+    ? parsed
+    : null
+}
+
+function getActiveFestivalSpotIds(
+  festivals: Awaited<ReturnType<typeof getFestivals>>,
+  travelStartDate: string,
+  travelTime: UserPreferenceRequest['travelTime'],
+) {
+  const tripStart = parseApiDate(travelStartDate)
+  if (!tripStart) return []
+
+  const tripEnd = new Date(tripStart)
+  tripEnd.setUTCDate(tripEnd.getUTCDate() + TRAVEL_DAY_COUNT[travelTime] - 1)
+
+  return festivals
+    .filter((festival) => {
+      const festivalStart = parseApiDate(festival.eventStartDate)
+      const festivalEnd = parseApiDate(festival.eventEndDate)
+      return (
+        festivalStart !== null &&
+        festivalEnd !== null &&
+        festivalStart <= tripEnd &&
+        festivalEnd >= tripStart
+      )
+    })
+    .map((festival) => festival.spotId)
+}
+
+export async function recommendCourse(
+  preference: UserPreferenceRequest,
+  travelStartDate: string,
+) {
+  const [savedResult, festivalResult] = await Promise.allSettled([
+    getSavedPlaces(),
+    getFestivals(),
+  ])
+  const savedPlaces =
+    savedResult.status === 'fulfilled' ? savedResult.value.items : []
+  const festivals =
+    festivalResult.status === 'fulfilled' ? festivalResult.value : []
+
   const body: CourseRecommendationRequest = {
     travelTime: preference.travelTime,
     travelCompanion: preference.travelCompanion,
     preferredTravelTheme: preference.preferredTravelTheme,
     transportationMode: preference.transportationMode,
     withPet: false,
+    travelStartDate,
+    savedSpotIds: savedPlaces.flatMap((place) =>
+      place.category === 'TOUR_SPOT' ? [place.spotId] : [],
+    ),
+    savedNearbyPlaceIds: savedPlaces.flatMap((place) =>
+      place.category !== 'TOUR_SPOT' ? [place.nearbyPlaceId] : [],
+    ),
+    activeFestivalSpotIds: getActiveFestivalSpotIds(
+      festivals,
+      travelStartDate,
+      preference.travelTime,
+    ),
     latitude: preference.latitude,
     longitude: preference.longitude,
   }
@@ -58,13 +131,15 @@ function toCourseItems(
 
 export async function generateRecommendedCourse({
   preference,
+  travelStartDate,
   title,
 }: {
   preference: UserPreferenceRequest
+  travelStartDate: string
   title: string
 }) {
   await saveUserPreferences(preference)
-  const recommendation = await recommendCourse(preference)
+  const recommendation = await recommendCourse(preference, travelStartDate)
 
   if (recommendation.items.length === 0) {
     throw new Error('추천할 수 있는 장소가 없습니다.')

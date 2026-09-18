@@ -1,6 +1,7 @@
 import BottomNavBar from '@/components/layout/bottom-nav-bar'
 import TopBar from '@/components/layout/top-bar'
 import NoteCourseCard from '@/components/note/note-course-card'
+import { Spinner } from '@/components/ui/spinner'
 import { useGetCourseList } from '@/hooks/queries/course'
 import { useMemoListInfiniteQuery } from '@/hooks/queries/memo'
 import { useMyPageQuery } from '@/hooks/queries/my'
@@ -15,8 +16,7 @@ import {
   useNavigate,
 } from '@tanstack/react-router'
 import { ChevronRight, Settings } from 'lucide-react'
-import { useRef } from 'react'
-import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   formatCourseDateRange,
@@ -31,17 +31,11 @@ export const Route = createFileRoute('/(authentication)/my')({
 
 function RouteComponent() {
   const { t } = useTranslation(['my', 'common'])
-  const courseDragRef = useRef({
-    pointerId: null as number | null,
-    startX: 0,
-    scrollLeft: 0,
-    moved: false,
-  })
   const navigate = useNavigate()
   const location = useLocation()
   const openPlaceDetail = usePlaceDetailSheetStore((state) => state.open)
   const { data: myPage } = useMyPageQuery()
-  const { data: courseList } = useGetCourseList()
+  const { data: courseList, isLoading: areCoursesLoading } = useGetCourseList()
   const { data: savedPlaceList, isLoading: areSavedPlacesLoading } =
     useSavedPlacesQuery()
   const { data: savedStoryPages, isLoading: areSavedStoriesLoading } =
@@ -60,41 +54,6 @@ function RouteComponent() {
     0
   const memoCount =
     memoPages?.pages[0]?.totalElements ?? myPage?.memos.totalCount ?? 0
-
-  const handleCourseDragStart = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (event.pointerType !== 'mouse' || event.button !== 0) return
-
-    courseDragRef.current = {
-      pointerId: event.pointerId,
-      startX: event.clientX,
-      scrollLeft: event.currentTarget.scrollLeft,
-      moved: false,
-    }
-    event.currentTarget.setPointerCapture(event.pointerId)
-  }
-
-  const handleCourseDragMove = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = courseDragRef.current
-    if (drag.pointerId !== event.pointerId) return
-
-    const distance = event.clientX - drag.startX
-    if (Math.abs(distance) > 4) drag.moved = true
-    if (!drag.moved) return
-
-    event.preventDefault()
-    event.currentTarget.scrollLeft = drag.scrollLeft - distance
-  }
-
-  const handleCourseDragEnd = (event: ReactPointerEvent<HTMLDivElement>) => {
-    const drag = courseDragRef.current
-    if (drag.pointerId !== event.pointerId) return
-
-    event.currentTarget.releasePointerCapture(event.pointerId)
-    drag.pointerId = null
-    window.setTimeout(() => {
-      drag.moved = false
-    }, 0)
-  }
 
   if (location.pathname !== '/my') {
     return <Outlet />
@@ -139,60 +98,46 @@ function RouteComponent() {
             emptyText={t('travel_note.section_empty')}
             onClick={() => navigate({ to: '/my/travel-notes' })}
           >
-            {previewCourses.length > 0 ? (
-              <div
-                className="-mx-5 cursor-grab snap-x snap-mandatory overflow-x-auto overscroll-x-contain px-5 select-none active:cursor-grabbing scrollbar-none"
-                onPointerDown={handleCourseDragStart}
-                onPointerMove={handleCourseDragMove}
-                onPointerUp={handleCourseDragEnd}
-                onPointerCancel={(event) => {
-                  if (courseDragRef.current.pointerId !== event.pointerId)
-                    return
-                  courseDragRef.current.pointerId = null
-                  courseDragRef.current.moved = false
-                }}
-                onClickCapture={(event) => {
-                  if (!courseDragRef.current.moved) return
-                  event.preventDefault()
-                  event.stopPropagation()
-                }}
-              >
-                <div className="flex w-max min-w-full gap-3">
-                  {previewCourses.map((course) => (
-                    <div
-                      key={course.tourCourseId}
-                      className="w-[calc(100vw-40px)] max-w-[390px] shrink-0 snap-start"
-                    >
-                      <NoteCourseCard
-                        imageUrl={course.thumbnailImg}
-                        courseName={course.title}
-                        dateRange={formatCourseDateRange(
-                          course.createdAt,
-                          course.updatedAt,
-                        )}
-                        distance={
-                          course.totalDistanceMeter
-                            ? formatCourseDistance(course.totalDistanceMeter)
-                            : undefined
-                        }
-                        duration={
-                          course.totalDurationSecond
-                            ? formatCourseDuration(course.totalDurationSecond)
-                            : undefined
-                        }
-                        itemCount={course.itemCount}
-                        onClick={() =>
-                          navigate({
-                            to: '/my/travel-notes/$courseId',
-                            params: {
-                              courseId: String(course.tourCourseId),
-                            },
-                          })
-                        }
-                      />
-                    </div>
-                  ))}
-                </div>
+            {areCoursesLoading ? (
+              <div className="flex min-h-40 items-center justify-center">
+                <Spinner className="size-10 text-brand-primary" />
+              </div>
+            ) : previewCourses.length > 0 ? (
+              <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain">
+                {previewCourses.map((course) => (
+                  <div
+                    key={course.tourCourseId}
+                    className="w-full shrink-0 snap-start"
+                  >
+                    <NoteCourseCard
+                      imageUrl={course.thumbnailImg}
+                      courseName={course.title}
+                      dateRange={formatCourseDateRange(
+                        course.createdAt,
+                        course.updatedAt,
+                      )}
+                      distance={
+                        course.totalDistanceMeter
+                          ? formatCourseDistance(course.totalDistanceMeter)
+                          : undefined
+                      }
+                      duration={
+                        course.totalDurationSecond
+                          ? formatCourseDuration(course.totalDurationSecond)
+                          : undefined
+                      }
+                      itemCount={course.itemCount}
+                      onClick={() =>
+                        navigate({
+                          to: '/my/travel-notes/$courseId',
+                          params: {
+                            courseId: String(course.tourCourseId),
+                          },
+                        })
+                      }
+                    />
+                  </div>
+                ))}
               </div>
             ) : undefined}
           </SavedSection>

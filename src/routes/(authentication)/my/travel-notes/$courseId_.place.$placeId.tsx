@@ -60,7 +60,7 @@ function RouteComponent() {
       <main className="flex-1">
         {isPending ? (
           <div className="flex min-h-80 items-center justify-center">
-            <Spinner className="size-8 text-brand-primary" />
+            <Spinner className="size-10 text-brand-primary" />
           </div>
         ) : isError || !place ? (
           <div className="flex min-h-80 items-center justify-center px-5">

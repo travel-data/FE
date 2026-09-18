@@ -13,7 +13,6 @@ import { formatCourseDateRange } from '@/lib/format-course'
 import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import LogoSymbol from '@/assets/icons/symbol.svg?react'
 
 export const Route = createFileRoute(
   '/(authentication)/my/travel-notes/$courseId',
@@ -104,13 +103,7 @@ function RouteComponent() {
   if (isPending || !courseDetail)
     return (
       <div className="flex min-h-svh items-center justify-center">
-        <LogoSymbol
-          aria-label="OISO 로고"
-          className="animate-pulse translate-y-[clamp(-16px,calc(8svh-59.2px),16px)] transition-transform duration-300"
-          height={100}
-          role="img"
-          width={100}
-        />
+        <Spinner className="size-10 text-brand-primary" />
       </div>
     )
 
@@ -170,7 +163,9 @@ function RouteComponent() {
         {activeTab === 'story' && (
           <div className="flex flex-col gap-4 px-5">
             {areStoryCardsLoading ? (
-              <Spinner className="mx-auto mt-12" />
+              <div className="flex min-h-40 items-center justify-center">
+                <Spinner className="size-10 text-brand-primary" />
+              </div>
             ) : storyCards.length === 0 ? (
               <p className="py-12 text-center text-body1 text-text-subdued">
                 {t('travel_note.empty_storycards')}

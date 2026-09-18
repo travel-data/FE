@@ -14,14 +14,24 @@ export interface CourseDeparture {
 
 export interface CourseRecommendFormValues {
   departure: CourseDeparture | null
+  travelStartDate: string
   duration: DurationOption | null
   companionType: CompanionTypeOption | null
   preferredTheme: PreferredThemeOption | null
   transportation: TransportationOption | null
 }
 
+function getTodayString() {
+  const today = new Date()
+  const year = today.getFullYear()
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const day = String(today.getDate()).padStart(2, '0')
+  return `${year}-${month}-${day}`
+}
+
 const INITIAL_VALUES: CourseRecommendFormValues = {
   departure: null,
+  travelStartDate: getTodayString(),
   duration: null,
   companionType: null,
   preferredTheme: null,
@@ -40,7 +50,10 @@ function useCourseRecommendForm() {
   }
 
   const isValid =
-    !!values.duration && !!values.companionType && !!values.transportation
+    !!values.travelStartDate &&
+    !!values.duration &&
+    !!values.companionType &&
+    !!values.transportation
 
   return { values, setValue, isValid }
 }

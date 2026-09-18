@@ -12,6 +12,10 @@ export interface CourseRecommendationRequest {
   preferredTravelTheme: PreferredTravelTheme | null
   transportationMode: TransportationMode
   withPet: boolean
+  travelStartDate: string
+  savedSpotIds: number[]
+  savedNearbyPlaceIds: number[]
+  activeFestivalSpotIds: number[]
   latitude: number | null
   longitude: number | null
 }
