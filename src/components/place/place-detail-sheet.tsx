@@ -84,7 +84,7 @@ function TourSpotSheet({
           <h2 className="text-title3 text-text-default">{data.name}</h2>
           <p className="flex items-center gap-0.5">
             <MarkerIcon className="size-2.5" />
-            <span className="text-caption text-text-subdued">
+            <span className="text-label text-text-subdued text-left">
               {data.address}
             </span>
           </p>
@@ -125,7 +125,11 @@ function TourSpotSheet({
             </p>
           </div>
         )}
-        <p className="text-label text-text-subdued overflow-scroll">
+        <p
+          className={`text-label text-text-subdued ${
+            isDownloading ? '' : 'max-h-40 overflow-y-auto'
+          }`}
+        >
           {data.overview}
         </p>
       </div>
@@ -147,7 +151,9 @@ function NearbyPlaceSheet({
           <h2 className="text-title3 text-text-default">{data.name}</h2>
           <p className="flex items-center gap-0.5">
             <MarkerIcon className="size-3" />
-            <span className="text-label text-text-subdued">{data.address}</span>
+            <span className="text-label text-text-subdued text-left">
+              {data.address}
+            </span>
           </p>
         </div>
         {!readOnly && (

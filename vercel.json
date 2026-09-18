@@ -12,6 +12,10 @@
       "source": "/login/oauth2/:path*",
       "destination": "https://oiso.duckdns.org/login/oauth2/:path*"
     },
+    {
+      "source": "/tour-image-proxy/:path*",
+      "destination": "https://tong.visitkorea.or.kr/:path*"
+    },
     { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
