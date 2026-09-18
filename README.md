@@ -2,20 +2,26 @@
 
 ## Local Kakao login
 
-Run the BE with the `local` Spring profile on `http://localhost:8080` and the FE
-with `npm run dev` on `http://localhost:5173`. The Vite development proxy sends
-API and OAuth requests to the local BE; production Vercel rewrites are unchanged.
+Run `npm run dev` at `http://localhost:5173`. The Vite development proxy sends
+API and OAuth requests to the deployed BE by default; no local BE or DB is
+needed. Keep `VITE_API_BASE_URL` empty. Production Vercel rewrites are unchanged.
 
-Register `http://localhost:8080/login/oauth2/code/kakao` as a Kakao redirect
-URI for the local client. Set the local BE's Kakao credentials and database
-settings as described in its `.env.example`. Keep `VITE_API_BASE_URL` empty so
-requests go through the Vite proxy. If the local BE uses a different port, set
-`VITE_DEV_BACKEND_URL` to its origin in `.env.local`. Vite requires port 5173 so
-the configured success URL continues to match.
+In Kakao Developers, add this exact redirect URI to the **REST API key** used by
+the BE (keep the existing production URI too):
 
-The production BE cannot complete a login started from localhost: its Kakao
-callback returns to the deployed FE, which does not have localhost's session
-cookie.
+```text
+http://localhost:5173/login/oauth2/code/kakao-local
+```
+
+The FE uses the BE's separate `kakao-local` registration in development. The
+callback returns through Vite, so the OAuth session and auth cookies remain on
+localhost. Vite adapts the deployed BE's Secure/SameSite cookies for local HTTP
+only; production cookies are unchanged. Since API requests reach the deployed
+BE, local changes can affect production data.
+
+`VITE_DEV_BACKEND_URL` may be set in `.env.local` to use another BE, provided it
+has the `kakao-local` registration. Vite requires port 5173 so the callback
+address matches exactly.
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 

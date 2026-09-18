@@ -1,7 +1,11 @@
 import { apiClient } from '@/lib/api-client'
 
 export function startKakaoLogin() {
-  window.location.assign('/oauth2/authorization/kakao')
+  window.location.assign(
+    import.meta.env.DEV
+      ? '/oauth2/authorization/kakao-local'
+      : '/oauth2/authorization/kakao',
+  )
 }
 
 export async function logout() {

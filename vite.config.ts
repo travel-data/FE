@@ -4,9 +4,11 @@ import tailwindcss from '@tailwindcss/vite'
 import { fileURLToPath, URL } from 'node:url'
 import svgr from 'vite-plugin-svgr'
 import tanstackRouter from '@tanstack/router-plugin/vite'
+import { createBackendProxy } from './scripts/dev-backend-proxy'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_')
-  const backendTarget = env.VITE_DEV_BACKEND_URL || 'http://localhost:8080'
+  const backendTarget = env.VITE_DEV_BACKEND_URL || 'https://oiso.duckdns.org'
+  const backendProxy = createBackendProxy(backendTarget)
 
   return {
     plugins: [
@@ -26,18 +28,9 @@ export default defineConfig(({ mode }) => {
     server: {
       strictPort: true,
       proxy: {
-        '/api': {
-          target: backendTarget,
-          changeOrigin: true,
-        },
-        '/oauth2': {
-          target: backendTarget,
-          changeOrigin: true,
-        },
-        '/login/oauth2': {
-          target: backendTarget,
-          changeOrigin: true,
-        },
+        '/api': backendProxy,
+        '/oauth2': backendProxy,
+        '/login/oauth2': backendProxy,
         '/tour-image-proxy': {
           target: 'https://tong.visitkorea.or.kr',
           changeOrigin: true,
