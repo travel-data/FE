@@ -13,7 +13,7 @@ import CourseStopButton from '@/components/course/progress/course-stop-button'
 import { useCourseProgress } from '@/hooks/use-course-progress'
 import { usePlaceDetail } from '@/hooks/queries/place'
 import TourSpotContent from '@/components/course/progress/tour-spot-content'
-import TourSpotMemoDialog from '@/components/place/tour-spot-memo-dialog'
+import PlaceMemoDialog from '@/components/place/place-memo-dialog'
 import { Map, MapMarker, useKakaoLoader } from 'react-kakao-maps-sdk'
 import { Spinner } from '@/components/ui/spinner'
 import { cn } from '@/lib/utils'
@@ -132,18 +132,16 @@ function RouteComponent() {
               category={current.category}
               isBookmarked={tourSpotData?.like ?? false}
             />
-            {current.category === 'TOUR_SPOT' && (
-              <Button
-                onClick={() => setMemoOpen(true)}
-                variant="icon"
-                size="icon"
-              >
-                <Pencil
-                  className="text-text-subdued size-4
+            <Button
+              onClick={() => setMemoOpen(true)}
+              variant="icon"
+              size="icon"
+            >
+              <Pencil
+                className="text-text-subdued size-4
               "
-                />
-              </Button>
-            )}
+              />
+            </Button>
           </div>
         }
         className="absolute top-0 left-0 w-full"
@@ -272,9 +270,10 @@ function RouteComponent() {
         />
       )}
 
-      {current.category === 'TOUR_SPOT' && (
-        <TourSpotMemoDialog
-          spotId={current.spotId!}
+      {placeId && (
+        <PlaceMemoDialog
+          placeId={placeId}
+          category={current.category}
           isOpen={memoOpen}
           onClose={() => setMemoOpen(false)}
         />

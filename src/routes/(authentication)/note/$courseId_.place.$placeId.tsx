@@ -1,71 +1,17 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router'
-import { ChevronLeft } from 'lucide-react'
-import PlaceInfo from '@/components/note/place-info'
-import PlaceMemo from '@/components/note/place-memo'
-import { useTourSpotMemoQuery } from '@/hooks/queries/memo'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
   '/(authentication)/note/$courseId_/place/$placeId',
 )({
-  component: RouteComponent,
+  beforeLoad: ({ params }) => {
+    throw redirect({
+      to: '/my/travel-notes/$courseId/place/$placeId',
+      params: {
+        courseId: params.courseId,
+        placeId: params.placeId,
+      },
+      search: { category: 'TOUR_SPOT' },
+      replace: true,
+    })
+  },
 })
-
-const MOCK_PLACE_INFO = {
-  category: '관광지',
-  placeName: '첨성대',
-  address: '경상북도 경주시 인왕동 839-1',
-  description:
-    '신라시대 천문 관측대로, 동양에서 가장 오래된 천문대입니다. 높이 9.17m의 원통형 석조 건축물로 국보 제31호로 지정되어 있습니다.',
-  hasStoryCard: true,
-}
-
-function RouteComponent() {
-  const navigate = useNavigate()
-  const { courseId, placeId } = Route.useParams()
-  const { data: memoData } = useTourSpotMemoQuery(Number(placeId))
-
-  const handleBack = () => {
-    navigate({ to: '/note/$courseId', params: { courseId } })
-  }
-
-  return (
-    <div className="flex min-h-svh flex-col bg-white">
-      <header className="flex items-center px-5 py-3">
-        <button
-          type="button"
-          onClick={handleBack}
-          className="flex size-11 items-center justify-center rounded-full bg-white"
-        >
-          <ChevronLeft className="size-[18px]" />
-        </button>
-      </header>
-
-      <main className="flex-1">
-        <PlaceInfo
-          category={MOCK_PLACE_INFO.category}
-          placeName={MOCK_PLACE_INFO.placeName}
-          address={MOCK_PLACE_INFO.address}
-          description={MOCK_PLACE_INFO.description}
-          hasStoryCard={MOCK_PLACE_INFO.hasStoryCard}
-        />
-
-        <div className="h-8" />
-
-        <PlaceMemo
-          courseId={courseId}
-          placeId={placeId}
-          memo={
-            memoData?.memo
-              ? {
-                  content: memoData.memo.content,
-                  images: memoData.memo.imageUrl
-                    ? [memoData.memo.imageUrl]
-                    : [],
-                }
-              : undefined
-          }
-        />
-      </main>
-    </div>
-  )
-}
