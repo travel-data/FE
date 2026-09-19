@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/drawer'
 import { Button } from '@/components/ui/button'
 import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 
 interface ShareLinkDrawerProps {
   sheetTitle: string
@@ -25,10 +26,11 @@ interface CopyRowProps {
 }
 
 function CopyRow({ label, value }: CopyRowProps) {
-  const { t } = useTranslation('common')
+  const { t } = useTranslation(['common', 'course'])
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(value)
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(value)
+    toast.success(t('course:shared.alert_copy_completed'), { duration: 2000 })
   }
 
   return (
