@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import ImageFallback from '@/components/image-fallback'
 import { Map, MapMarker, useKakaoLoader } from 'react-kakao-maps-sdk'
 import { LocateFixed } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
@@ -62,7 +63,7 @@ function PlaceCard({
       {place.img ? (
         <img src={place.img} className="size-22.5 rounded-lg object-cover" />
       ) : (
-        <div className="size-22.5 shrink-0 rounded-lg bg-gray-200" />
+        <ImageFallback className="size-22.5 shrink-0 rounded-lg" />
       )}
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5">

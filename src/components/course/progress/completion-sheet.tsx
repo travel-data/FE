@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import ImageFallback from '@/components/image-fallback'
 import {
   Drawer,
   DrawerContent,
@@ -74,7 +75,7 @@ function CompletionSheet({
                   className="size-14 rounded-md object-cover"
                 />
               ) : (
-                <div className="size-14 rounded-md bg-gray-200" />
+                <ImageFallback className="size-14 rounded-md" />
               )}
               <div className="flex flex-col">
                 <p className="text-body1 font-semibold text-text-default">

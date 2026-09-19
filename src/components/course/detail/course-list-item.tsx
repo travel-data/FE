@@ -1,3 +1,4 @@
+import ImageFallback from '@/components/image-fallback'
 import { usePlaceDetailSheetStore } from '@/stores/place-detail-sheet-store'
 import { TransportationType } from '@/types/course'
 import { PlaceCategory } from '@/types/place'
@@ -60,7 +61,7 @@ function CourseListItem({
             </div>
             {img
               ? <img src={img} className="size-21.5 shrink-0 rounded-md object-cover" />
-              : <div className="size-21.5 shrink-0 rounded-md bg-gray-200" />
+              : <ImageFallback className="size-21.5 shrink-0 rounded-md" />
             }
           </div>
           {!isLast && transportToNext && (

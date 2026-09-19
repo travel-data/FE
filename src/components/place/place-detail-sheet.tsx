@@ -3,6 +3,7 @@ import PlaceBookmarkButton from './place-bookmark-button'
 import { Button } from '../ui/button'
 import DownloadIcon from '@/assets/icons/download-icon.svg?react'
 import PlaceDirectionsButton from './place-directions-button'
+import ImageFallback from '@/components/image-fallback'
 import { useTranslation } from 'react-i18next'
 import { PlaceCategory, TourSpotDetail, NearbyPlaceDetail } from '@/types/place'
 import { usePlaceDetail } from '@/hooks/queries/place'
@@ -117,11 +118,7 @@ function TourSpotSheet({
             alt={data.name}
           />
         ) : (
-          <div className="h-56.75 w-full flex items-center justify-center rounded-md bg-gray-200">
-            <p className="text-label text-text-subdued">
-              이미지가 존재하지 않습니다.
-            </p>
-          </div>
+          <ImageFallback className="h-56.75 w-full rounded-md" />
         )}
         <p
           className={`text-label text-text-subdued ${
@@ -172,11 +169,7 @@ function NearbyPlaceSheet({
             alt={data.name}
           />
         ) : (
-          <div className="h-56.75 w-full flex items-center justify-center rounded-md bg-gray-200">
-            <p className="text-label text-text-subdued">
-              이미지가 존재하지 않습니다.
-            </p>
-          </div>
+          <ImageFallback className="h-56.75 w-full rounded-md" />
         )}
         {data.overview && (
           <p className="text-label text-text-subdued max-h-40 overflow-scroll">

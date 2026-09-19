@@ -1,5 +1,6 @@
 import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
+import ImageFallback from '@/components/image-fallback'
 import type { CourseListDetail } from '@/types/course'
 
 function CourseItem({ course }: { course: CourseListDetail }) {
@@ -24,7 +25,7 @@ function CourseItem({ course }: { course: CourseListDetail }) {
             className="w-full h-30 rounded-lg object-cover"
           />
         ) : (
-          <div className="h-30 w-full rounded-lg bg-gray-200" />
+          <ImageFallback className="h-30 w-full rounded-lg" />
         )}
       </div>
       <div className="flex flex-col gap-0.5">

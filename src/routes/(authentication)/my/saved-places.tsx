@@ -3,6 +3,7 @@ import {
   deleteSavedTourSpot,
 } from '@/api/tour-spot'
 import TopBar from '@/components/layout/top-bar'
+import ImageFallback from '@/components/image-fallback'
 import { QUERY_KEY } from '@/constants/query-key'
 import { useSavedPlacesQuery } from '@/hooks/queries/place'
 import { usePlaceDetailSheetStore } from '@/stores/place-detail-sheet-store'
@@ -130,7 +131,9 @@ function RouteComponent() {
                   alt={place.name}
                   className="h-full w-full object-cover"
                 />
-              ) : null}
+              ) : (
+                <ImageFallback className="h-full w-full" />
+              )}
             </div>
 
             <button

@@ -1,6 +1,7 @@
 import { useGetCourseDetail } from '@/hooks/queries/course'
 import { useTranslation } from 'react-i18next'
 import { Button } from '../ui/button'
+import ImageFallback from '@/components/image-fallback'
 import { Spinner } from '../ui/spinner'
 import RightArrowIcon from '@/assets/icons/right-arrow-icon.svg?react'
 import MarkerIcon from '@/assets/icons/maker-icon.svg?react'
@@ -75,7 +76,7 @@ function CourseProgressCard({ courseId }: CourseProgressCardProps) {
             {currentPlace.img ? (
               <img src={currentPlace.img} className="size-15 rounded-md" />
             ) : (
-              <div className="size-15 bg-gray-200 rounded-md" />
+              <ImageFallback className="size-15 rounded-md" />
             )}
 
             <div className="flex flex-col">

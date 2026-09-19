@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next'
+import ImageFallback from '@/components/image-fallback'
 import type { TransportationType } from '@/types/course'
 
 interface CourseScheduleItemProps {
@@ -53,7 +54,7 @@ function CourseScheduleItem({
               className="size-21.5 shrink-0 rounded-md object-cover"
             />
           ) : (
-            <div className="size-21.5 shrink-0 rounded-md bg-gray-200" />
+            <ImageFallback className="size-21.5 shrink-0 rounded-md" />
           )}
         </div>
         {!isLast && transportToNext && (

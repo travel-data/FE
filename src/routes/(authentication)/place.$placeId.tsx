@@ -8,6 +8,7 @@ import { Spinner } from '@/components/ui/spinner'
 import PlaceBookmarkButton from '@/components/place/place-bookmark-button'
 import PlaceDirectionsButton from '@/components/place/place-directions-button'
 import MarkerIcon from '@/assets/icons/maker-icon.svg?react'
+import ImageFallback from '@/components/image-fallback'
 import { usePlaceDetail } from '@/hooks/queries/place'
 import { useGetCourseDetail } from '@/hooks/queries/course'
 import { useUpdateCourse, useAdvanceCourse } from '@/hooks/mutations/course'
@@ -131,7 +132,7 @@ function RouteComponent() {
               className="h-56 w-full object-cover rounded-lg"
             />
           ) : (
-            <div className="h-56 w-full bg-gray-200 rounded-lg" />
+            <ImageFallback className="h-56 w-full rounded-lg" />
           )}
         </div>
 

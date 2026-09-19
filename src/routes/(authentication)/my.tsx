@@ -1,6 +1,7 @@
 import BottomNavBar from '@/components/layout/bottom-nav-bar'
 import TopBar from '@/components/layout/top-bar'
 import NoteCourseCard from '@/components/note/note-course-card'
+import ImageFallback from '@/components/image-fallback'
 import { Spinner } from '@/components/ui/spinner'
 import { useGetCourseList } from '@/hooks/queries/course'
 import { useMemoListInfiniteQuery } from '@/hooks/queries/memo'
@@ -170,7 +171,9 @@ function RouteComponent() {
                           alt={place.name}
                           className="h-full w-full object-cover"
                         />
-                      ) : null}
+                      ) : (
+                        <ImageFallback className="h-full w-full" />
+                      )}
                     </div>
                     <div className="p-2">
                       <p className="truncate text-body2 font-medium text-text-heading">

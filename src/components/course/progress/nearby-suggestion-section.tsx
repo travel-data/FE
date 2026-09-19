@@ -1,6 +1,7 @@
 import { Link } from '@tanstack/react-router'
 import { useTranslation } from 'react-i18next'
 import { useNearbyPlaces } from '@/hooks/queries/place'
+import ImageFallback from '@/components/image-fallback'
 
 function SuggestionCardSkeleton() {
   return (
@@ -59,7 +60,7 @@ function NearbySuggestionSection({
                         className="aspect-square w-full rounded-2xl object-cover"
                       />
                     ) : (
-                      <div className="aspect-square w-full rounded-2xl bg-gray-200" />
+                      <ImageFallback className="aspect-square w-full rounded-2xl" />
                     )}
                   </div>
                   <p className="mt-2 text-body2 font-bold line-clamp-1">
