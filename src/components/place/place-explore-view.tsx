@@ -1,6 +1,5 @@
 import { useState, type ReactNode } from 'react'
 import { Map, MapMarker, useKakaoLoader } from 'react-kakao-maps-sdk'
-import { LocateFixed } from 'lucide-react'
 import { useTranslation } from 'react-i18next'
 
 import Marker from '@/assets/icons/maker-icon.svg?react'
@@ -9,7 +8,7 @@ import { useTourSpotsInfiniteQuery } from '@/hooks/queries/place'
 import type { PlaceCategory, TourSpotListItem } from '@/types/place'
 import { getPlaceId } from '@/types/place'
 import useDebounce from '@/hooks/use-debounce'
-import { getCurrentPosition, type LatLng } from '@/lib/geo'
+import type { LatLng } from '@/lib/geo'
 
 const CATEGORY_FILTERS: {
   key: PlaceCategory | 'all'
@@ -88,7 +87,6 @@ function PlaceCard({
 interface PlaceExploreViewProps {
   onSelectPlace: (place: TourSpotListItem) => void
   topLeftSlot?: ReactNode // 코스 추가 플로우의 BackButton 등. 없으면 검색창이 전체 폭
-  showCurrentLocation?: boolean // 현재 위치 버튼 노출 (nav 장소 탭)
   initialCategory?: PlaceCategory
   initialKeyword?: string
 }
@@ -96,7 +94,6 @@ interface PlaceExploreViewProps {
 function PlaceExploreView({
   onSelectPlace,
   topLeftSlot,
-  showCurrentLocation = false,
   initialCategory,
   initialKeyword = '',
 }: PlaceExploreViewProps) {
@@ -111,7 +108,6 @@ function PlaceExploreView({
   const debouncedKeyword = useDebounce(inputValue, 300)
 
   const [mapCenter, setMapCenter] = useState<LatLng>(GYEONGJU_CENTER)
-  const [userPos, setUserPos] = useState<LatLng | null>(null)
 
   const { data, isPending, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useTourSpotsInfiniteQuery({
@@ -132,16 +128,6 @@ function PlaceExploreView({
     }
   }
 
-  const moveToCurrentLocation = async () => {
-    try {
-      const pos = await getCurrentPosition()
-      setUserPos(pos)
-      setMapCenter(pos)
-    } catch {
-      // 위치 권한 거부/실패 시 조용히 무시 (지도는 기존 중심 유지)
-    }
-  }
-
   return (
     <section className="relative h-svh">
       <div className="relative h-80 bg-gray-200">
@@ -159,24 +145,12 @@ function PlaceExploreView({
                 onClick={() => onSelectPlace(place)}
               />
             ))}
-            {userPos && <MapMarker position={userPos} />}
           </Map>
         )}
         <div className="absolute left-0 w-full p-4 top-0 z-10 flex items-center gap-4">
           {topLeftSlot}
           <SearchInput value={inputValue} onChange={setInputValue} />
         </div>
-
-        {showCurrentLocation && (
-          <button
-            type="button"
-            onClick={moveToCurrentLocation}
-            aria-label={t('current_location')}
-            className="absolute right-4 top-60 z-20 flex size-11 items-center justify-center rounded-full bg-white shadow-[0_0_15px_rgba(0,0,0,0.1)]"
-          >
-            <LocateFixed className="size-5 text-brand-primary" />
-          </button>
-        )}
       </div>
 
       <div className="absolute inset-x-0 bottom-0 top-74 z-10 flex flex-col overflow-hidden rounded-t-[28px] bg-bg-main">

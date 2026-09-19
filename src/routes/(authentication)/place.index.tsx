@@ -17,7 +17,6 @@ function RouteComponent() {
   // 게스트는 저장/북마크 액션을 숨기기 위해 readOnly로 연다
   return (
     <PlaceExploreView
-      showCurrentLocation
       topLeftSlot={<BackButton />}
       onSelectPlace={(place) =>
         openPlaceDetail(getPlaceId(place), place.category, {

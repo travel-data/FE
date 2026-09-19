@@ -5,6 +5,7 @@ import type {
   TravelCompanion,
   TravelTime,
 } from './preference'
+import type { DepartureCategory } from '@/components/course/recommend/use-course-recommend-form'
 
 export interface CourseRecommendationRequest {
   travelTime: TravelTime
@@ -16,8 +17,8 @@ export interface CourseRecommendationRequest {
   savedSpotIds: number[]
   savedNearbyPlaceIds: number[]
   activeFestivalSpotIds: number[]
-  latitude: number | null
-  longitude: number | null
+  departureCategory: DepartureCategory | null
+  departurePlaceId: string | null
 }
 
 export interface CourseRecommendationItem {

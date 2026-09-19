@@ -214,7 +214,6 @@ function RouteComponent() {
               courseId={courseId}
               spotId={tourSpotData.spotId}
               stampProgress={tourSpotData.stampProgress}
-              location={{ lat: tourSpotData.mapY, lng: tourSpotData.mapX }}
             />
           )}
         </div>
@@ -248,7 +247,7 @@ function RouteComponent() {
           isOpen
           onClose={() => setSheet(null)}
           place={nextPlace}
-          origin={{ latitude: current.latitude, longitude: current.longitude }}
+          origin={current}
           onMove={handleMove}
           onSkip={handleSkip}
           disableSkip={!canSkip}

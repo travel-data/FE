@@ -7,7 +7,7 @@ import {
 
 export const calculateRoute = async (body: RouteCalculationRequest) => {
   const res = await apiClient.post<CommonResponse<RouteCalculationResponse>>(
-    '/api/v1/routes/calculate',
+    '/api/v1/routes/places/calculate',
     body,
   )
 

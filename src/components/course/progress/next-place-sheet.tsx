@@ -31,7 +31,7 @@ interface NextPlaceSheetProps {
   isOpen: boolean
   onClose: () => void
   place: CourseDetailItem
-  origin: { latitude: number; longitude: number }
+  origin: CourseDetailItem
   onMove: () => void
   onSkip: () => void
   disableSkip?: boolean
@@ -55,8 +55,8 @@ function NextPlaceSheet({
 }: NextPlaceSheetProps) {
   const transportType = TRANSPORT_TYPE_MAP[place.transportType ?? 'WALK']
   const { data: route, isPending: isRoutePending } = useRouteCalculation({
-    origin,
-    destination: { latitude: place.latitude, longitude: place.longitude },
+    origin: toPlaceReference(origin),
+    destination: toPlaceReference(place),
     transportType,
   })
 
@@ -139,6 +139,14 @@ function NextPlaceSheet({
       </DrawerContent>
     </Drawer>
   )
+}
+
+function toPlaceReference(place: CourseDetailItem) {
+  return {
+    category: place.category,
+    spotId: place.spotId,
+    nearbyPlaceId: place.nearbyPlaceId,
+  }
 }
 
 export default NextPlaceSheet

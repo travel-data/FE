@@ -6,10 +6,13 @@ import type {
   TransportationOption,
 } from './course-recommend-options'
 
+export type DepartureCategory = 'PRESET' | 'TOUR_SPOT' | 'ACCOMMODATION'
+
 export interface CourseDeparture {
-  x: string
-  y: string
-  road_address_name: string
+  category: DepartureCategory
+  placeId: string
+  name: string
+  address: string
 }
 
 export interface CourseRecommendFormValues {

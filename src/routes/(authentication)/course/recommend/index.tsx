@@ -61,8 +61,6 @@ function toPreferenceRequest(
       ? PREFERRED_THEME_MAP[values.preferredTheme]
       : null,
     transportationMode: TRANSPORTATION_MODE_MAP[values.transportation],
-    latitude: values.departure ? Number(values.departure.y) : null,
-    longitude: values.departure ? Number(values.departure.x) : null,
   }
 }
 
@@ -80,6 +78,7 @@ function RouteComponent() {
       {
         preference,
         travelStartDate: values.travelStartDate,
+        departure: values.departure,
         title: values.preferredTheme
           ? COURSE_TITLE_MAP[values.preferredTheme]
           : '나를 위한 추천 코스',

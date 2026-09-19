@@ -41,8 +41,6 @@
     "mission_qr": "Scan\nQR",
     "mission_story": "View\nStory",
     "acquired": "You earned a stamp!",
-    "visit_too_far": "You can only earn the visit stamp within 1km of the attraction",
-    "location_error": "Unable to get your current location",
     "clear_failed": "Failed to complete the stamp"
   },
   "qr": {
@@ -56,6 +54,5 @@
     "title": "Memo",
     "placeholder": "Enter a memo",
     "loading": "Loading memo..."
-  },
-  "current_location": "Current location"
+  }
 }

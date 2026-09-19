@@ -53,7 +53,7 @@ function CourseRecommendForm({
             }`}
           >
             {values.departure
-              ? values.departure.road_address_name
+              ? values.departure.name
               : t('form.departure_placeholder')}
           </div>
         </CourseRecommendFormField>

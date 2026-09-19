@@ -3,17 +3,13 @@ import { cn } from '@/lib/utils'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'sonner'
 
-import { Spinner } from '@/components/ui/spinner'
 import StampLogo from '@/assets/icons/stamp-logo.svg?react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useClearStampMission } from '@/hooks/mutations/place'
 import { useTourSpotStoryCard } from '@/hooks/queries/story'
-import { distanceMeters, getCurrentPosition } from '@/lib/geo'
 import type { StampMissionType, StampProgress } from '@/types/place'
 import QrScanDialog from './qr-scan-dialog'
 import StoryCardPreview from '@/components/story/story-card-preview'
-
-const VISIT_RADIUS_M = 1000
 
 const MISSION_LABEL_KEY = {
   VISIT: 'stamp.mission_visit',
@@ -25,22 +21,18 @@ interface TourSpotContentProps {
   courseId: string
   spotId: number
   stampProgress: StampProgress | null
-  location: { lat: number; lng: number }
 }
 
 function TourSpotContent({
   courseId,
   spotId,
   stampProgress,
-  location,
 }: TourSpotContentProps) {
   const { t } = useTranslation('place')
   const navigate = useNavigate()
   const { mutate: clearMission, isPending } = useClearStampMission()
   const { data: storyCard } = useTourSpotStoryCard(spotId)
   const [qrOpen, setQrOpen] = useState(false)
-  // 위치 조회(최대 10s) 동안 VISIT 재클릭을 막는 가드 (isPending은 clear 시작 후에야 true)
-  const [locating, setLocating] = useState(false)
 
   const clear = (missionType: StampMissionType) => {
     clearMission(
@@ -49,26 +41,9 @@ function TourSpotContent({
     )
   }
 
-  const handleVisit = async () => {
-    if (locating) return
-    setLocating(true)
-    try {
-      const me = await getCurrentPosition()
-      if (distanceMeters(me, location) <= VISIT_RADIUS_M) {
-        clear('VISIT')
-      } else {
-        toast.error(t('stamp.visit_too_far'))
-      }
-    } catch {
-      toast.error(t('stamp.location_error'))
-    } finally {
-      setLocating(false)
-    }
-  }
-
   const handleMissionClick = (type: StampMissionType) => {
-    if (isPending || locating) return
-    if (type === 'VISIT') handleVisit()
+    if (isPending) return
+    if (type === 'VISIT') clear('VISIT')
     else if (type === 'QR_SCAN') setQrOpen(true)
     else if (type === 'STORY_CARD') {
       navigate({
@@ -117,9 +92,7 @@ function TourSpotContent({
           <ul className="flex items-center gap-3 flex-nowrap overflow-x-scroll">
             {stampProgress.missions.map((mission) => {
               const isStoryCard = mission.type === 'STORY_CARD'
-              const isLocatingVisit = mission.type === 'VISIT' && locating
-              const disabled =
-                mission.cleared || isStoryCard || isPending || isLocatingVisit
+              const disabled = mission.cleared || isStoryCard || isPending
               return (
                 <li key={mission.type}>
                   <button
@@ -134,17 +107,13 @@ function TourSpotContent({
                       isStoryCard && !mission.cleared && 'opacity-40',
                     )}
                   >
-                    {isLocatingVisit ? (
-                      <Spinner className="text-brand-primary size-6" />
-                    ) : (
-                      <StampLogo
-                        className={cn(
-                          mission.cleared
-                            ? 'fill-brand-primary'
-                            : 'fill-gray-400',
-                        )}
-                      />
-                    )}
+                    <StampLogo
+                      className={cn(
+                        mission.cleared
+                          ? 'fill-brand-primary'
+                          : 'fill-gray-400',
+                      )}
+                    />
                     <span>{t(MISSION_LABEL_KEY[mission.type])}</span>
                   </button>
                 </li>

@@ -2,7 +2,7 @@ import { createCourse } from '@/api/course'
 import { getFestivals } from '@/api/festival'
 import { getSavedPlaces } from '@/api/place'
 import { saveUserPreferences } from '@/api/preference'
-import { RECOMMENDATION_API_BASE_URL } from '@/constants/api'
+import { apiClient } from '@/lib/api-client'
 import type { CourseItemPayload } from '@/types/course'
 import type { UserPreferenceRequest } from '@/types/preference'
 import type {
@@ -10,12 +10,7 @@ import type {
   CourseRecommendationRequest,
 } from '@/types/recommendation'
 import type { CommonResponse } from '@/types/response'
-import axios from 'axios'
-
-const recommendationClient = axios.create({
-  baseURL: RECOMMENDATION_API_BASE_URL,
-  timeout: 120_000,
-})
+import type { CourseDeparture } from '@/components/course/recommend/use-course-recommend-form'
 
 const TRAVEL_DAY_COUNT: Record<UserPreferenceRequest['travelTime'], number> = {
   HALF_DAY: 1,
@@ -67,6 +62,7 @@ function getActiveFestivalSpotIds(
 export async function recommendCourse(
   preference: UserPreferenceRequest,
   travelStartDate: string,
+  departure: CourseDeparture | null,
 ) {
   const [savedResult, festivalResult] = await Promise.allSettled([
     getSavedPlaces(),
@@ -95,13 +91,15 @@ export async function recommendCourse(
       travelStartDate,
       preference.travelTime,
     ),
-    latitude: preference.latitude,
-    longitude: preference.longitude,
+    departureCategory: departure?.category ?? null,
+    departurePlaceId: departure?.placeId ?? null,
   }
 
-  const res = await recommendationClient.post<
-    CommonResponse<CourseRecommendationData>
-  >('/api/v1/recommendations/courses', body)
+  const res = await apiClient.post<CommonResponse<CourseRecommendationData>>(
+    '/api/v1/recommendations/courses',
+    body,
+    { timeout: 120_000 },
+  )
 
   return res.data.data
 }
@@ -132,14 +130,20 @@ function toCourseItems(
 export async function generateRecommendedCourse({
   preference,
   travelStartDate,
+  departure,
   title,
 }: {
   preference: UserPreferenceRequest
   travelStartDate: string
+  departure: CourseDeparture | null
   title: string
 }) {
   await saveUserPreferences(preference)
-  const recommendation = await recommendCourse(preference, travelStartDate)
+  const recommendation = await recommendCourse(
+    preference,
+    travelStartDate,
+    departure,
+  )
 
   if (recommendation.items.length === 0) {
     throw new Error('추천할 수 있는 장소가 없습니다.')

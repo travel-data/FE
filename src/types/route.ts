@@ -6,9 +6,15 @@ export interface Coordinate {
   name?: string
 }
 
+export interface PlaceReference {
+  category: 'TOUR_SPOT' | 'RESTAURANT' | 'ACCOMMODATION'
+  spotId: number | null
+  nearbyPlaceId: number | null
+}
+
 export interface RouteCalculationRequest {
-  origin: Coordinate
-  destination: Coordinate
+  origin: PlaceReference
+  destination: PlaceReference
   transportType: RouteTransportType
 }
 

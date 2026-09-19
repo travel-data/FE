@@ -49,8 +49,16 @@ export const QUERY_KEY = {
   },
   route: {
     calculate: (params: {
-      origin: { latitude: number; longitude: number }
-      destination: { latitude: number; longitude: number }
+      origin: {
+        category: string
+        spotId: number | null
+        nearbyPlaceId: number | null
+      }
+      destination: {
+        category: string
+        spotId: number | null
+        nearbyPlaceId: number | null
+      }
       transportType: string
     }) => ['route', 'calculate', params] as const,
   },

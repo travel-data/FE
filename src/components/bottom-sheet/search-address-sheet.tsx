@@ -8,12 +8,29 @@ import {
 import { useTranslation } from 'react-i18next'
 import { Button } from '../ui/button'
 import MarkerIcon from '@/assets/icons/maker-icon.svg?react'
-import TargetIcon from '@/assets/icons/target-icon.svg?react'
 import { useEffect, useState } from 'react'
-import useSearchAddressQuery from '@/hooks/queries/use-search-address-query'
-import { getGeocordAddress } from '@/services/kakao/local'
 import type { CourseDeparture } from '@/components/course/recommend/use-course-recommend-form'
 import { useInView } from 'react-intersection-observer'
+import { useTourSpotsInfiniteQuery } from '@/hooks/queries/place'
+import { getPlaceId } from '@/types/place'
+
+const PRESET_DEPARTURES = [
+  {
+    placeId: 'GYEONGJU_STATION',
+    nameKey: 'form.departure_gyeongju_station',
+    addressKey: 'form.departure_gyeongju_station_address',
+  },
+  {
+    placeId: 'GYEONGJU_INTERCITY_BUS_TERMINAL',
+    nameKey: 'form.departure_intercity_terminal',
+    addressKey: 'form.departure_intercity_terminal_address',
+  },
+  {
+    placeId: 'GYEONGJU_EXPRESS_BUS_TERMINAL',
+    nameKey: 'form.departure_express_terminal',
+    addressKey: 'form.departure_express_terminal_address',
+  },
+] as const
 interface SearchAddressSheetProps {
   isOpen: boolean
   onClose: () => void
@@ -30,13 +47,21 @@ function SearchAddressSheet({
   const { ref, inView } = useInView()
 
   const { data, isPending, hasNextPage, fetchNextPage } =
-    useSearchAddressQuery(searchTerm)
+    useTourSpotsInfiniteQuery({ keyword: searchTerm || undefined })
 
   const { t } = useTranslation('course')
 
-  const searchResult = data?.pages
-    .flatMap((page) => page.documents)
-    .filter((document) => document.address_name.includes('경주'))
+  const normalizedSearchTerm = searchTerm.trim().toLocaleLowerCase()
+  const presetResults = PRESET_DEPARTURES.filter(({ nameKey, addressKey }) => {
+    if (!normalizedSearchTerm) return true
+    return `${t(nameKey)} ${t(addressKey)}`
+      .toLocaleLowerCase()
+      .includes(normalizedSearchTerm)
+  })
+  const searchResult =
+    data?.pages
+      .flatMap((page) => page.places)
+      .filter((place) => place.category !== 'RESTAURANT') ?? []
 
   useEffect(() => {
     if (inView) {
@@ -67,31 +92,48 @@ function SearchAddressSheet({
                 setSearchTerm(e.target.value)
               }}
             />
-            {!searchTerm && <CurrentLocationButton onLocate={setSearchTerm} />}
           </div>
 
           <div className="py-4">
             <p className="text-label text-text-subdued mb-2">
               {t('form.address_search_result')}
             </p>
-            {!isPending && searchResult && (
+            {!isPending && (
               <ul className="flex flex-col max-h-80 overflow-scroll">
-                {searchResult.map((result) => (
+                {presetResults.map((preset) => (
                   <li
-                    key={result.id}
+                    key={preset.placeId}
                     onClick={() =>
                       onSelect({
-                        x: result.x,
-                        y: result.y,
-                        road_address_name: result.road_address_name,
+                        category: 'PRESET',
+                        placeId: preset.placeId,
+                        name: t(preset.nameKey),
+                        address: t(preset.addressKey),
+                      })
+                    }
+                    className="py-3 flex flex-col border-b border-border-1 text-label cursor-pointer"
+                  >
+                    <span>{highlightText(t(preset.nameKey), searchTerm)}</span>
+                    <span className="text-text-subdued">
+                      {t(preset.addressKey)}
+                    </span>
+                  </li>
+                ))}
+                {searchResult.map((result) => (
+                  <li
+                    key={`${result.category}-${getPlaceId(result)}`}
+                    onClick={() =>
+                      onSelect({
+                        category: result.category,
+                        placeId: String(getPlaceId(result)),
+                        name: result.name,
+                        address: result.address,
                       })
                     }
                     className="py-3 flex flex-col border-b border-border-1 last:border-none text-label cursor-pointer"
                   >
-                    <span>{highlightText(result.place_name, searchTerm)}</span>
-                    <span className="text-text-subdued">
-                      {result.address_name}
-                    </span>
+                    <span>{highlightText(result.name, searchTerm)}</span>
+                    <span className="text-text-subdued">{result.address}</span>
                   </li>
                 ))}
                 {hasNextPage && <li ref={ref} className="min-h-4 w-full" />}
@@ -107,41 +149,6 @@ function SearchAddressSheet({
 }
 
 export default SearchAddressSheet
-
-function CurrentLocationButton({
-  onLocate,
-}: {
-  onLocate: (addressName: string) => void
-}) {
-  const handleClick = () => {
-    navigator.geolocation.getCurrentPosition(async (position) => {
-      const { latitude, longitude } = position.coords
-
-      const { documents } = await getGeocordAddress({
-        longitude: String(longitude),
-        latitude: String(latitude),
-      })
-
-      const document = documents[0]
-
-      if (!document) return
-
-      onLocate(
-        document.road_address?.address_name ?? document.address.address_name,
-      )
-    })
-  }
-
-  return (
-    <button
-      type="button"
-      onClick={handleClick}
-      className="absolute right-4 top-1/2 -translate-y-1/2"
-    >
-      <TargetIcon />
-    </button>
-  )
-}
 
 function highlightText(text: string, searchTerm: string) {
   const index = text.indexOf(searchTerm)
