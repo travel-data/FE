@@ -60,7 +60,7 @@ export function toPlaceItem({
       }
 }
 
-export type CourseStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'
+export type CourseStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELED'
 
 export type CourseItemPayload = {
   itemId?: number | null

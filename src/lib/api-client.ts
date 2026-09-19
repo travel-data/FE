@@ -4,6 +4,7 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from 'axios'
 import { API_BASE_URL } from '@/constants/api'
+import i18n from '@/lib/i18n'
 
 type RetriableRequestConfig = InternalAxiosRequestConfig & {
   _retry?: boolean
@@ -15,6 +16,11 @@ export const apiClient = axios.create({
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },
+})
+
+apiClient.interceptors.request.use((config) => {
+  config.headers.set('Content-Language', i18n.language)
+  return config
 })
 
 let refreshPromise: Promise<AxiosResponse<unknown>> | null = null
