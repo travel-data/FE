@@ -4,7 +4,6 @@
     "description": "선택에 따라 추천 코스가 달라져요",
     "departure_label": "여행 출발지",
     "departure_placeholder": "숙소 이름이나 주소를 입력해주세요",
-    "travel_start_date_label": "여행 시작일",
     "duration_label": "여행 기간",
     "companion_type_label": "동행 유형",
     "preferred_theme_label": "선호하는 테마",
@@ -95,7 +94,8 @@
     "edit_password_submit_button": "수정하기",
     "password_mismatch": "비밀번호가 일치하지 않습니다",
     "access_denied": "접근 권한이 없습니다",
-    "go_home": "홈으로 이동"
+    "go_home": "홈으로 이동",
+    "alert_copy_completed": "클립보드에 복사되었어요"
   },
   "edit": {
     "course_edit": "코스 수정",

@@ -4,7 +4,6 @@
     "description": "Your choices shape the perfect course for you",
     "departure_label": "Departure",
     "departure_placeholder": "Enter your accommodation or starting point",
-    "travel_start_date_label": "Travel Start Date",
     "duration_label": "Duration",
     "companion_type_label": "Companion",
     "preferred_theme_label": "Preferred Theme",
@@ -95,7 +94,8 @@
     "edit_password_submit_button": "Update",
     "password_mismatch": "The password does not match.",
     "access_denied": "You no longer have access to this course.",
-    "go_home": "Go to Home"
+    "go_home": "Go to Home",
+    "alert_copy_completed": "Copied to clipboard"
   },
   "edit": {
     "course_edit": "Edit Course",
