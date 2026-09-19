@@ -18,7 +18,7 @@ function CourseStopButton({ courseId }: CourseStopButtonProps) {
 
   const handleStop = () => {
     mutate(
-      { courseId, status: 'COMPLETED' },
+      { courseId, status: 'CANCELED' },
       { onSuccess: () => navigate({ to: '/', replace: true }) },
     )
   }
