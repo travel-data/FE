@@ -18,8 +18,7 @@ export const Route = createFileRoute('/(authentication)/storycards/$spotId')({
       search.from === 'travel-notes' || search.from === 'course-progress'
         ? search.from
         : undefined,
-    courseId:
-      typeof search.courseId === 'string' ? search.courseId : undefined,
+    courseId: typeof search.courseId === 'string' ? search.courseId : undefined,
   }),
   component: RouteComponent,
 })
@@ -138,7 +137,7 @@ function RouteComponent() {
       didYouKnow={storyCard.didYouKnow}
       tip={
         storyCard.tip
-          ? { title: '알아두면 좋아요!', content: storyCard.tip }
+          ? { title: t('storycard.tip'), content: storyCard.tip }
           : undefined
       }
       saved={storyCard.saved}

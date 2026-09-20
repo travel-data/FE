@@ -1,4 +1,5 @@
 import { STORAGE_KEYS } from '@/constants/storage-key'
+import { queryClient } from '@/lib/query-client'
 import i18n from 'i18next'
 import { initReactI18next } from 'react-i18next'
 
@@ -51,8 +52,9 @@ i18n.use(initReactI18next).init({
 })
 
 i18n.on('languageChanged', (lang) => {
-  console.log(lang)
   localStorage.setItem(STORAGE_KEYS.LANGUAGE, lang)
+  // 언어가 바뀌면 Accept-Language가 달라지므로 서버 데이터를 새 언어로 다시 받는다.
+  queryClient.invalidateQueries()
 })
 
 export default i18n
