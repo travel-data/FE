@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { API_BASE_URL } from '@/constants/api'
+import i18n from './i18n'
 
 // 공유 코스 조회 전용 인스턴스.
 // 비로그인 접근이 전제라 쿠키 인증(withCredentials)과 401 refresh 리다이렉트 로직을
@@ -9,4 +10,9 @@ export const sharedCourseClient = axios.create({
   headers: {
     'X-Requested-With': 'XMLHttpRequest',
   },
+})
+
+sharedCourseClient.interceptors.request.use((config) => {
+  config.headers.set('Accept-Language', i18n.language)
+  return config
 })

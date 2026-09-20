@@ -19,7 +19,7 @@ export const apiClient = axios.create({
 })
 
 apiClient.interceptors.request.use((config) => {
-  config.headers.set('Content-Language', i18n.language)
+  config.headers.set('Accept-Language', i18n.language)
   return config
 })
 
